@@ -1,3 +1,9 @@
+provider "google" {
+  project     = "postgretrial"
+  region      = "us-central1"
+  zone        = "us-central1-c"
+}
+
 data "google_compute_image" "image-terra-io" {
   provider = google-beta
   family  = "centos-7"
