@@ -39,11 +39,11 @@ resource "google_compute_instance" "terra-ora1" {
 
   metadata_startup_script = <<EOF
 sleep 10
-yum install -y wget
+yum -y install wget
 sleep 3
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
-yum install -y  --nogpgcheck  oracle-database-preinstall-19c openssl
+yum -y --nogpgcheck install  oracle-database-preinstall-19c openssl
 EOF
 
 }
