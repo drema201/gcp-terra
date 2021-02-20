@@ -38,13 +38,13 @@ resource "google_compute_instance" "terra-ora1" {
   }    
     
   metadata_startup_script = <<EOF    
-sleep 10    
-yum -y install wget    
-sleep 3    
-cd /etc/yum.repos.d/    
-wget http://yum.oracle.com/public-yum-ol7.repo    
-yum -y --nogpgcheck install  oracle-database-preinstall-19c openssl    
-EOF    
+sleep 10
+yum -y install wget
+sleep 3
+cd /etc/yum.repos.d/
+wget http://yum.oracle.com/public-yum-ol7.repo
+yum -y --nogpgcheck install  oracle-database-preinstall-19c openssl
+EOF
     
 }    
     
