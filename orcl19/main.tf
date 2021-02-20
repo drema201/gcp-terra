@@ -37,7 +37,7 @@ resource "google_compute_instance" "terra-ora1" {
     
   }    
     
-  metadata_startup_script = <<EOF    
+  metadata_startup_script = <<EOF
 sleep 10
 yum -y install wget
 sleep 3
