@@ -32,5 +32,10 @@ resource "google_compute_instance" "terra-ora1" {
   network_interface {
     network = "default"
   }
+
+  metadata_startup_script = <<EOF
+yum install -y oracle-database-preinstall-19c openssl
+EOF
+
 }
 
