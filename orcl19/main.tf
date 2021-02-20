@@ -48,3 +48,11 @@ EOF
     
 }    
     
+
+resource "google_storage_bucket" "for-ora" {
+  name          = "postgretrial-orcl"
+  location      = "US"
+
+  uniform_bucket_level_access = true
+
+}
