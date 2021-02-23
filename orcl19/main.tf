@@ -15,7 +15,7 @@ data "google_compute_image" "image-terra-ora" {
     
 resource "google_compute_instance" "terra-ora1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-1"    
+  name           = "terra-inst-ora1"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
@@ -108,6 +108,24 @@ su -l oracle -c "echo '$ORACLE_PDB=
   )
 )' >> $ORACLE_HOME/network/admin/tnsnames.ora"
 
+# Start LISTENER
+su -l oracle -c "lsnrctl start"
+
+echo 'INSTALLER: Listener created'
+
+# Create database
+
+# Auto generate ORACLE PWD if not passed on
+export ORACLE_PWD=${ORACLE_PWD:-"`openssl rand -base64 8`1"}
+
+cp /tmp/dbca.rsp.tmpl /tmp/dbca.rsp
+sed -i -e "s|###ORACLE_SID###|$ORACLE_SID|g" /tmp/dbca.rsp && \
+sed -i -e "s|###ORACLE_PDB###|$ORACLE_PDB|g" /tmp/dbca.rsp && \
+sed -i -e "s|###ORACLE_CHARACTERSET###|$ORACLE_CHARACTERSET|g" /tmp/dbca.rsp && \
+sed -i -e "s|###ORACLE_PWD###|$ORACLE_PWD|g" /tmp/dbca.rsp
+
+# Create DB
+su -l oracle -c "dbca -silent -createDatabase -responseFile /tmp/dbca.rsp"
 
 EOF
     
