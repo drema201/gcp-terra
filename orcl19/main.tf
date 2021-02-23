@@ -116,7 +116,7 @@ echo 'INSTALLER: Listener created'
 # Create database
 
 # Auto generate ORACLE PWD if not passed on
-export ORACLE_PWD=${ORACLE_PWD:-"`openssl rand -base64 8`1"}
+export ORACLE_PWD=$${ORACLE_PWD:-"`openssl rand -base64 8`1"}
 
 cp /tmp/dbca.rsp.tmpl /tmp/dbca.rsp
 sed -i -e "s|###ORACLE_SID###|$ORACLE_SID|g" /tmp/dbca.rsp && \
