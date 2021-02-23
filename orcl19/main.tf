@@ -59,12 +59,12 @@ export "ORACLE_SID"="ORCLCDB"
 export "ORACLE_PDB"="ORCLPDB1"
 export "ORACLE_CHARACTERSET"="AL32UTF8"
 export "ORACLE_EDITION"="EE"
-unzip /tmp/LINUX.X64_193000_db_home.zip -d $$ORACLE_HOME/
+unzip /tmp/LINUX.X64_193000_db_home.zip -d $ORACLE_HOME/
 cp /tmp/db_install.rsp.tmpl /tmp/db_install.rsp
-sed -i -e "s|###ORACLE_BASE###|$$ORACLE_BASE|g" /tmp/db_install.rsp && \
-sed -i -e "s|###ORACLE_HOME###|$$ORACLE_HOME|g" /tmp/db_install.rsp && \
-sed -i -e "s|###ORACLE_EDITION###|$$ORACLE_EDITION|g" /tmp  /db_install.rsp && \
-chown oracle:oinstall -R $$ORACLE_BASE
+sed -i -e "s|###ORACLE_BASE###|$ORACLE_BASE|g" /tmp/db_install.rsp && \
+sed -i -e "s|###ORACLE_HOME###|$ORACLE_HOME|g" /tmp/db_install.rsp && \
+sed -i -e "s|###ORACLE_EDITION###|$ORACLE_EDITION|g" /tmp  /db_install.rsp && \
+chown oracle:oinstall -R $ORACLE_BASE
 EOF
     
 }    
