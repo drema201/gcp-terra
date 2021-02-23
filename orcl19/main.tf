@@ -15,7 +15,7 @@ data "google_compute_image" "image-terra-ora" {
     
 resource "google_compute_instance" "terra-ora1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-01"    
+  name           = "terra-inst-ora-1"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
@@ -73,7 +73,7 @@ echo 'INSTALLER: Permissions updated'
 cp /tmp/db_install.rsp.tmpl /tmp/db_install.rsp
 sed -i -e "s|###ORACLE_BASE###|$ORACLE_BASE|g" /tmp/db_install.rsp && \
 sed -i -e "s|###ORACLE_HOME###|$ORACLE_HOME|g" /tmp/db_install.rsp && \
-sed -i -e "s|###ORACLE_EDITION###|$ORACLE_EDITION|g" /tmp  /db_install.rsp && \
+sed -i -e "s|###ORACLE_EDITION###|$ORACLE_EDITION|g" /tmp/db_install.rsp && \
 chown oracle:oinstall -R $ORACLE_BASE
 su -l oracle -c "yes | $ORACLE_HOME/runInstaller -silent -ignorePrereqFailure -waitforcompletion -responseFile /tmp/db_install.rsp"
 $ORACLE_BASE/oraInventory/orainstRoot.sh
