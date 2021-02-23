@@ -15,7 +15,7 @@ data "google_compute_image" "image-terra-ora" {
     
 resource "google_compute_instance" "terra-ora1" {    
   provider = google-beta    
-  name           = "terra-inst-ora1"    
+  name           = "terra-inst-ora-01"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
@@ -126,6 +126,26 @@ sed -i -e "s|###ORACLE_PWD###|$ORACLE_PWD|g" /tmp/dbca.rsp
 
 # Create DB
 su -l oracle -c "dbca -silent -createDatabase -responseFile /tmp/dbca.rsp"
+
+echo 'INSTALLER: Database created'
+
+sed '$s/N/Y/' /etc/oratab | sudo tee /etc/oratab > /dev/null
+echo 'INSTALLER: Oratab configured'
+
+# configure systemd to start oracle instance on startup
+sudo cp /tmp/oracle-rdbms.service /etc/systemd/system/
+sudo sed -i -e "s|###ORACLE_HOME###|$ORACLE_HOME|g" /etc/systemd/system/oracle-rdbms.service
+sudo systemctl daemon-reload
+sudo systemctl enable oracle-rdbms
+sudo systemctl start oracle-rdbms
+echo "INSTALLER: Created and enabled oracle-rdbms systemd's service"
+
+sudo cp /tmp/setPassword.sh /home/oracle/ && \
+sudo chmod a+rx /home/oracle/setPassword.sh
+
+echo "INSTALLER: setPassword.sh file setup";
+
+
 
 EOF
     
