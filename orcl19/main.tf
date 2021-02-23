@@ -15,7 +15,7 @@ data "google_compute_image" "image-terra-ora" {
     
 resource "google_compute_instance" "terra-ora1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-1"    
+  name           = "terra-inst-ora1"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
@@ -53,6 +53,18 @@ mkdir -p /u02/oradata
 chown -R oracle:oinstall /u01 /u02
 chmod -R 775 /u01 /u02
 gsutil cp  gs://postgretrial-orcl/* /tmp
+export "ORACLE_BASE"="/opt/oracle"
+export "ORACLE_HOME"="/opt/oracle/product/19c/dbhome_1"
+export "ORACLE_SID"="ORCLCDB"
+export "ORACLE_PDB"="ORCLPDB1"
+export "ORACLE_CHARACTERSET"="AL32UTF8"
+export "ORACLE_EDITION"="EE"
+unzip /tmp/LINUX.X64_193000_db_home.zip -d $$ORACLE_HOME/
+cp /tmp/db_install.rsp.tmpl /tmp/db_install.rsp
+sed -i -e "s|###ORACLE_BASE###|$$ORACLE_BASE|g" /tmp/db_install.rsp && \
+sed -i -e "s|###ORACLE_HOME###|$$ORACLE_HOME|g" /tmp/db_install.rsp && \
+sed -i -e "s|###ORACLE_EDITION###|$$ORACLE_EDITION|g" /tmp  /db_install.rsp && \
+chown oracle:oinstall -R $$ORACLE_BASE
 EOF
     
 }    
