@@ -15,7 +15,7 @@ data "google_compute_image" "image-terra-ora" {
     
 resource "google_compute_instance" "terra-ora1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-01"    
+  name           = "terra-inst-ora01"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
@@ -52,6 +52,7 @@ mkdir -p /u01/app/oracle/product/19.0.0/dbhome_1
 mkdir -p /u02/oradata
 chown -R oracle:oinstall /u01 /u02
 chmod -R 775 /u01 /u02
+gsutil cp  gs://postgretrial-orcl/ /tmp
 EOF
     
 }    
