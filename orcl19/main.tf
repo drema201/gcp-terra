@@ -144,8 +144,9 @@ sudo cp /tmp/setPassword.sh /home/oracle/ && \
 sudo chmod a+rx /home/oracle/setPassword.sh
 
 echo "INSTALLER: setPassword.sh file setup";
+/home/oracle/setPassword.sh
 
-
+echo "ORACLE PASSWORD FOR SYS, SYSTEM AND PDBADMIN: $ORACLE_PWD";
 
 EOF
     
