@@ -13,7 +13,7 @@ data "google_compute_image" "image-terra-ora" {
   project = "centos-cloud"    
 }    
     
-resource "google_compute_instance" "terra-ora1" {    
+resource "google_compute_instance" "terra-ora-01" {    
   provider = google-beta    
   name           = "terra-inst-ora1"    
   machine_type   = "e2-standard-2"    
@@ -53,8 +53,8 @@ mkdir -p /u02/oradata
 chown -R oracle:oinstall /u01 /u02
 chmod -R 775 /u01 /u02
 gsutil cp  gs://postgretrial-orcl/* /tmp
-export "ORACLE_BASE"="/opt/oracle"
-export "ORACLE_HOME"="/opt/oracle/product/19c/dbhome_1"
+export "ORACLE_BASE"="/u01/app/oracle"
+export "ORACLE_HOME"="/u01/app/oracle/product/19.0.0/dbhome_1"
 export "ORACLE_SID"="ORCLCDB"
 export "ORACLE_PDB"="ORCLPDB1"
 export "ORACLE_CHARACTERSET"="AL32UTF8"
