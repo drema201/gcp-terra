@@ -13,7 +13,7 @@ data "google_compute_image" "image-terra-ora" {
   project = "centos-cloud"    
 }    
     
-resource "google_compute_instance" "terra-ora-01" {    
+resource "google_compute_instance" "terra-ora1" {    
   provider = google-beta    
   name           = "terra-inst-ora-1"    
   machine_type   = "e2-standard-2"    
@@ -59,6 +59,14 @@ export "ORACLE_SID"="ORCLCDB"
 export "ORACLE_PDB"="ORCLPDB1"
 export "ORACLE_CHARACTERSET"="AL32UTF8"
 export "ORACLE_EDITION"="EE"
+
+echo "export ORACLE_BASE=$ORACLE_BASE" >> /home/oracle/.bashrc && \
+echo "export ORACLE_HOME=$ORACLE_HOME" >> /home/oracle/.bashrc && \
+echo "export ORACLE_SID=$ORACLE_SID" >> /home/oracle/.bashrc   && \
+echo "export PATH=\$PATH:\$ORACLE_HOME/bin" >> /home/oracle/.bashrc
+
+echo 'INSTALLER: Environment variables set'
+
 unzip /tmp/LINUX.X64_193000_db_home.zip -d $ORACLE_HOME/
 cp /tmp/db_install.rsp.tmpl /tmp/db_install.rsp
 sed -i -e "s|###ORACLE_BASE###|$ORACLE_BASE|g" /tmp/db_install.rsp && \
@@ -68,6 +76,37 @@ chown oracle:oinstall -R $ORACLE_BASE
 su -l oracle -c "yes | $ORACLE_HOME/runInstaller -silent -ignorePrereqFailure -waitforcompletion -responseFile /tmp/db_install.rsp"
 $ORACLE_BASE/oraInventory/orainstRoot.sh
 $ORACLE_HOME/root.sh
+
+echo 'INSTALLER: Oracle software installed'
+
+# create sqlnet.ora, listener.ora and tnsnames.ora
+su -l oracle -c "mkdir -p $ORACLE_HOME/network/admin"
+su -l oracle -c "echo 'NAME.DIRECTORY_PATH= (TNSNAMES, EZCONNECT, HOSTNAME)' > $ORACLE_HOME/network/admin/sqlnet.ora"
+
+# Listener.ora
+su -l oracle -c "echo 'LISTENER = 
+(DESCRIPTION_LIST = 
+  (DESCRIPTION = 
+    (ADDRESS = (PROTOCOL = IPC)(KEY = EXTPROC1)) 
+    (ADDRESS = (PROTOCOL = TCP)(HOST = 0.0.0.0)(PORT = 1521)) 
+  ) 
+) 
+
+DEDICATED_THROUGH_BROKER_LISTENER=ON
+DIAG_ADR_ENABLED = off
+' > $ORACLE_HOME/network/admin/listener.ora"
+
+su -l oracle -c "echo '$ORACLE_SID=localhost:1521/$ORACLE_SID' > $ORACLE_HOME/network/admin/tnsnames.ora"
+su -l oracle -c "echo '$ORACLE_PDB= 
+(DESCRIPTION = 
+  (ADDRESS = (PROTOCOL = TCP)(HOST = 0.0.0.0)(PORT = 1521))
+  (CONNECT_DATA =
+    (SERVER = DEDICATED)
+    (SERVICE_NAME = $ORACLE_PDB)
+  )
+)' >> $ORACLE_HOME/network/admin/tnsnames.ora"
+
+
 EOF
     
 }    
