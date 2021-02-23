@@ -15,7 +15,7 @@ data "google_compute_image" "image-terra-ora" {
     
 resource "google_compute_instance" "terra-ora1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-1"    
+  name           = "terra-inst-ora-01"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
@@ -68,6 +68,8 @@ echo "export PATH=\$PATH:\$ORACLE_HOME/bin" >> /home/oracle/.bashrc
 echo 'INSTALLER: Environment variables set'
 
 unzip /tmp/LINUX.X64_193000_db_home.zip -d $ORACLE_HOME/
+chown oracle:oinstall -R $ORACLE_BASE
+echo 'INSTALLER: Permissions updated'
 cp /tmp/db_install.rsp.tmpl /tmp/db_install.rsp
 sed -i -e "s|###ORACLE_BASE###|$ORACLE_BASE|g" /tmp/db_install.rsp && \
 sed -i -e "s|###ORACLE_HOME###|$ORACLE_HOME|g" /tmp/db_install.rsp && \
