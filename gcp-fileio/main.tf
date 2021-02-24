@@ -34,7 +34,7 @@ resource "google_compute_instance" "terra-io1" {
   }
 
   metadata_startup_script = <<EOF
-yum -y install wget
+yum -y install git
 EOF
 
 }
