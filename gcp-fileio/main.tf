@@ -34,7 +34,7 @@ resource "google_compute_instance" "terra-io1" {
   }
 
   metadata_startup_script = <<EOF
-yum install -y oracle-database-preinstall-19c openssl
+yum -y install wget
 EOF
 
 }
