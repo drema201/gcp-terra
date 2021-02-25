@@ -29,8 +29,12 @@ resource "google_compute_instance" "terra-io1" {
       image = data.google_compute_image.image-terra-io.self_link
     }
   }
+  
   network_interface {
     network = "default"
+    access_config { 
+     //Even empty section does matter
+    }
   }
 
   metadata_startup_script = <<EOF
