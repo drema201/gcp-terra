@@ -3,6 +3,32 @@ provider "google" {
   region      = "us-central1"    
   zone        = "us-central1-b"    
 }    
+
+variable "VAR_ORA_BASE" {
+description ="Base directory for Oracle software"
+type=string
+default="/u01/app/oracle"
+}
+
+variable "VAR_ORA_HOME" {
+description ="Home directory for Oracle database"
+type=string
+default="/u01/app/oracle/product/19.0.0/dbhome_1"
+}
+
+variable "VAR_ORA_SID" {
+description ="Oracle database SID"
+type=string
+default="ORCLCDB"
+}
+
+variable "VAR_ORA_PDB" {
+description ="Oracle database PDB"
+type=string
+default="ORCLPDB"
+}
+
+
     
 data "google_compute_default_service_account" "default" {    
 }    
@@ -13,7 +39,7 @@ data "google_compute_image" "image-terra-ora" {
   project = "centos-cloud"    
 }    
     
-resource "google_compute_instance" "terra-ora1" {    
+resource "google_compute_instance" "terra-ora-1" {    
   provider = google-beta    
   name           = "terra-inst-ora-01"    
   machine_type   = "e2-standard-2"    
@@ -53,8 +79,17 @@ mkdir -p /u02/oradata
 chown -R oracle:oinstall /u01 /u02
 chmod -R 775 /u01 /u02
 gsutil cp  gs://postgretrial-orcl/* /tmp
-export "ORACLE_BASE"="/u01/app/oracle"
-export "ORACLE_HOME"="/u01/app/oracle/product/19.0.0/dbhome_1"
+
+echo "responseFileVersion=/oracle/assistants/rspfmt_dbca_response_schema_v19.0.0" >> /tmp/db.rsp
+echo "gdbName=${var.VAR_ORA_SID}" >> /tmp/db.rsp
+echo "sid=${var.VAR_ORA_SID}" >> /tmp/db.rsp
+echo "databaseConfigType=SI" >> /tmp/db.rsp
+echo "createAsContainerDatabase=true" >> /tmp/db.rsp
+echo "numberOfPDBs=1" >> /tmp/db.rsp
+
+
+export "ORACLE_BASE"="${var.VAR_ORA_BASE}"
+export "ORACLE_HOME"="${var.VAR_ORA_HOME}"
 export "ORACLE_SID"="ORCLCDB"
 export "ORACLE_PDB"="ORCLPDB1"
 export "ORACLE_CHARACTERSET"="AL32UTF8"
