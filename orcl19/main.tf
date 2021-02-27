@@ -34,6 +34,13 @@ type=string
 default="AL32UTF8"
 }
 
+variable "VAR_ORA_SGA" {
+description ="Oracle instance SGA"
+type=number
+default=2000
+}
+
+
 variable "VAR_ORA_BUCKET" {
 description ="Storage bucket where I keep Oracle database binaries"
 type=string
@@ -177,7 +184,7 @@ echo "storageType=FS" >> /tmp/db.rsp
 echo "characterSet=${var.VAR_ORA_CHARSET}" >> /tmp/db.rsp
 echo "nationalCharacterSet=AL16UTF16" >> /tmp/db.rsp
 echo "automaticMemoryManagement=FALSE" >> /tmp/db.rsp
-echo "totalMemory=1536" >> /tmp/db.rsp
+echo "totalMemory=${var.VAR_ORA_SGA}" >> /tmp/db.rsp
 echo "# Some init.ora parameters - disable auditing to save space, enable FS optimizations" >> /tmp/db.rsp
 echo "initParams=audit_trail=none,audit_sys_operations=false,filesystemio_options=setall,commit_logging=batch,commit_wait=nowait" >> /tmp/db.rsp
 
