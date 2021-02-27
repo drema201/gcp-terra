@@ -132,6 +132,7 @@ echo "oracle.install.db.BACKUPDBA_GROUP=dba" >> /tmp/inst.rsp
 echo "oracle.install.db.DGDBA_GROUP=dba" >> /tmp/inst.rsp
 echo "oracle.install.db.KMDBA_GROUP=dba" >> /tmp/inst.rsp
 echo "oracle.install.db.OSRACDBA_GROUP=dba" >> /tmp/inst.rsp
+echo "oracle.install.db.config.starterdb.fileSystemStorage.dataLocation=/u02/oradata" >> /tmp/inst.rsp
 echo "SECURITY_UPDATES_VIA_MYORACLESUPPORT=false" >> /tmp/inst.rsp
 echo "DECLINE_SECURITY_UPDATES=true" >> /tmp/inst.rsp
 echo "oracle.installer.autoupdates.option=SKIP_UPDATES" >> /tmp/inst.rsp
@@ -205,6 +206,7 @@ echo "characterSet=${var.VAR_ORA_CHARSET}" >> /tmp/db.rsp
 echo "nationalCharacterSet=AL16UTF16" >> /tmp/db.rsp
 echo "automaticMemoryManagement=FALSE" >> /tmp/db.rsp
 echo "totalMemory=${var.VAR_ORA_SGA}" >> /tmp/db.rsp
+echo "datafileDestination=/u02/oradata" >> /tmp/db.rsp
 echo "# Some init.ora parameters - disable auditing to save space, enable FS optimizations" >> /tmp/db.rsp
 echo "initParams=audit_trail=none,audit_sys_operations=false,filesystemio_options=setall,commit_logging=batch,commit_wait=nowait" >> /tmp/db.rsp
 
