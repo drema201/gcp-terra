@@ -196,7 +196,7 @@ sed -i -e "s|###ORACLE_CHARACTERSET###|$ORACLE_CHARACTERSET|g" /tmp/dbca.rsp && 
 sed -i -e "s|###ORACLE_PWD###|$ORACLE_PWD|g" /tmp/dbca.rsp
 
 # Create DB
-su -l oracle -c "dbca -silent -createDatabase -responseFile /tmp/dbca.rsp"
+su -l oracle -c "dbca -silent -createDatabase -responseFile /tmp/db.rsp"
 
 echo 'INSTALLER: Database created'
 
