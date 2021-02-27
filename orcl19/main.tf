@@ -117,6 +117,26 @@ echo 'INSTALLER: Environment variables set'
 unzip /tmp/LINUX.X64_193000_db_home.zip -d $ORACLE_HOME/
 chown oracle:oinstall -R $ORACLE_BASE
 echo 'INSTALLER: Permissions updated'
+
+#Prepare install rsp
+echo "oracle.install.responseFileVersion=/oracle/install/rspfmt_dbinstall_response_schema_v19.0.0" >> /tmp/inst.rsp
+echo "oracle.install.option=INSTALL_DB_SWONLY" >> /tmp/inst.rsp
+echo "UNIX_GROUP_NAME=dba" >> /tmp/inst.rsp
+echo "INVENTORY_LOCATION=${var.VAR_ORA_BASE}/oraInventory" >> /tmp/inst.rsp
+echo "SELECTED_LANGUAGES=en" >> /tmp/inst.rsp
+echo "ORACLE_BASE=${var.VAR_ORA_BASE}" >> /tmp/inst.rsp
+echo "ORACLE_HOME=${var.VAR_ORA_HOME}" >> /tmp/inst.rsp
+echo "oracle.install.db.InstallEdition=$ORACLE_EDITION" >> /tmp/inst.rsp
+echo "oracle.install.db.DBA_GROUP=dba" >> /tmp/inst.rsp
+echo "oracle.install.db.BACKUPDBA_GROUP=dba" >> /tmp/inst.rsp
+echo "oracle.install.db.DGDBA_GROUP=dba" >> /tmp/inst.rsp
+echo "oracle.install.db.KMDBA_GROUP=dba" >> /tmp/inst.rsp
+echo "oracle.install.db.OSRACDBA_GROUP=dba" >> /tmp/inst.rsp
+echo "SECURITY_UPDATES_VIA_MYORACLESUPPORT=false" >> /tmp/inst.rsp
+echo "DECLINE_SECURITY_UPDATES=true" >> /tmp/inst.rsp
+echo "oracle.installer.autoupdates.option=SKIP_UPDATES" >> /tmp/inst.rsp
+
+
 cp /tmp/db_install.rsp.tmpl /tmp/db_install.rsp
 sed -i -e "s|###ORACLE_BASE###|$ORACLE_BASE|g" /tmp/db_install.rsp && \
 sed -i -e "s|###ORACLE_HOME###|$ORACLE_HOME|g" /tmp/db_install.rsp && \
