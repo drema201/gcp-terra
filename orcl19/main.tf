@@ -28,6 +28,17 @@ type=string
 default="ORCLPDB"
 }
 
+variable "VAR_ORA_CHARSET" {
+description ="Oracle database charset"
+type=string
+default="AL32UTF8"
+}
+
+variable "VAR_ORA_BUCKET" {
+description ="Storage bucket where I keep Oracle database binaries"
+type=string
+default="postgretrial-orcl"
+}
 
     
 data "google_compute_default_service_account" "default" {    
@@ -78,21 +89,15 @@ mkdir -p /u01/app/oracle/product/19.0.0/dbhome_1
 mkdir -p /u02/oradata
 chown -R oracle:oinstall /u01 /u02
 chmod -R 775 /u01 /u02
-gsutil cp  gs://postgretrial-orcl/* /tmp
 
-echo "responseFileVersion=/oracle/assistants/rspfmt_dbca_response_schema_v19.0.0" >> /tmp/db.rsp
-echo "gdbName=${var.VAR_ORA_SID}" >> /tmp/db.rsp
-echo "sid=${var.VAR_ORA_SID}" >> /tmp/db.rsp
-echo "databaseConfigType=SI" >> /tmp/db.rsp
-echo "createAsContainerDatabase=true" >> /tmp/db.rsp
-echo "numberOfPDBs=1" >> /tmp/db.rsp
-
+##copy binaries zip
+gsutil cp  gs://${var.VAR_ORA_BUCKET}/* /tmp
 
 export "ORACLE_BASE"="${var.VAR_ORA_BASE}"
 export "ORACLE_HOME"="${var.VAR_ORA_HOME}"
-export "ORACLE_SID"="ORCLCDB"
-export "ORACLE_PDB"="ORCLPDB1"
-export "ORACLE_CHARACTERSET"="AL32UTF8"
+export "ORACLE_SID"="${var.VAR_ORA_SID}"
+export "ORACLE_PDB"="${var.VAR_ORA_PDB}"
+export "ORACLE_CHARACTERSET"="${var.VAR_ORA_CHARSET}"
 export "ORACLE_EDITION"="EE"
 
 echo "export ORACLE_BASE=$ORACLE_BASE" >> /home/oracle/.bashrc && \
@@ -152,6 +157,30 @@ echo 'INSTALLER: Listener created'
 
 # Auto generate ORACLE PWD if not passed on
 export ORACLE_PWD=$${ORACLE_PWD:-"`openssl rand -base64 8`1"}
+
+#Generate database(DBCA) response file
+echo "responseFileVersion=/oracle/assistants/rspfmt_dbca_response_schema_v19.0.0" >> /tmp/db.rsp
+echo "gdbName=${var.VAR_ORA_SID}" >> /tmp/db.rsp
+echo "sid=${var.VAR_ORA_SID}" >> /tmp/db.rsp
+echo "databaseConfigType=SI" >> /tmp/db.rsp
+echo "createAsContainerDatabase=true" >> /tmp/db.rsp
+echo "numberOfPDBs=1" >> /tmp/db.rsp
+echo "pdbName=${var.VAR_ORA_PDB}" >> /tmp/db.rsp
+echo "pdbAdminPassword=$ORACLE_PWD" >> /tmp/db.rsp
+echo "templateName=General_Purpose.dbc" >> /tmp/db.rsp
+echo "sysPassword=$ORACLE_PWD" >> /tmp/db.rsp
+echo "systemPassword=$ORACLE_PWD" >> /tmp/db.rsp
+echo "emConfiguration=DBEXPRESS" >> /tmp/db.rsp
+echo "emExpressPort=5500" >> /tmp/db.rsp
+echo "dbsnmpPassword=$ORACLE_PWD" >> /tmp/db.rsp
+echo "storageType=FS" >> /tmp/db.rsp
+echo "characterSet=${var.VAR_ORA_CHARSET}" >> /tmp/db.rsp
+echo "nationalCharacterSet=AL16UTF16" >> /tmp/db.rsp
+echo "automaticMemoryManagement=FALSE" >> /tmp/db.rsp
+echo "totalMemory=1536" >> /tmp/db.rsp
+echo "# Some init.ora parameters - disable auditing to save space, enable FS optimizations" >> /tmp/db.rsp
+echo "initParams=audit_trail=none,audit_sys_operations=false,filesystemio_options=setall,commit_logging=batch,commit_wait=nowait" >> /tmp/db.rsp
+
 
 cp /tmp/dbca.rsp.tmpl /tmp/dbca.rsp
 sed -i -e "s|###ORACLE_SID###|$ORACLE_SID|g" /tmp/dbca.rsp && \
