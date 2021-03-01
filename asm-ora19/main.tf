@@ -58,7 +58,7 @@ resource "google_compute_instance" "terra-asm-1" {
     initialize_params {    
       image = data.google_compute_image.image-terra-ora.self_link    
     }    
-  }    
+
   network_interface {    
     network = "default"    
     access_config {    
