@@ -85,10 +85,26 @@ resource "google_compute_instance" "terra-asm-1" {
   }
 
   metadata_startup_script = <<EOF
-sleep 10
 parted -s /dev/sdb mklabel gpt
 parted -s /dev/sdb mkpart primary ext4 1M 1025M
 parted -s /dev/sdb resizepart 1 100%
+mkfs -t ext4 /dev/sdb1
+
+parted -s /dev/sdc mklabel gpt
+parted -s /dev/sdc mkpart primary ext4 1M 1025M
+parted -s /dev/sdc resizepart 1 100%
+mkfs -t ext4 /dev/sdc1
+
+parted -s /dev/sdd mklabel gpt
+parted -s /dev/sdd mkpart primary ext4 1M 1025M
+parted -s /dev/sdd resizepart 1 100%
+mkfs -t ext4 /dev/sdd1
+
+parted -s /dev/sde mklabel gpt
+parted -s /dev/sde mkpart primary ext4 1M 1025M
+parted -s /dev/sde resizepart 1 100%
+mkfs -t ext4 /dev/sde1
+
 yum -y install wget
 EOF
 }
