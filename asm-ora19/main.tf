@@ -57,13 +57,15 @@ resource "google_compute_instance" "terra-asm-1" {
   boot_disk {    
     initialize_params {    
       image = data.google_compute_image.image-terra-ora.self_link    
-    }    
+      }    
+    }
 
   network_interface {    
     network = "default"    
     access_config {    
    //network_tier = "PREMIUM"    
-    }    
+    }
+   }    
 
   attached_disk {
         source      = google_compute_disk.disk-b.self_link
