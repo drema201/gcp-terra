@@ -100,10 +100,6 @@ parted -s /dev/sdd mkpart primary ext4 1M 1025M
 parted -s /dev/sdd resizepart 1 100%
 mkfs -t ext4 /dev/sdd1
 
-parted -s /dev/sde mklabel gpt
-parted -s /dev/sde mkpart primary ext4 1M 1025M
-parted -s /dev/sde resizepart 1 100%
-mkfs -t ext4 /dev/sde1
 
 yum -y install wget
 EOF
