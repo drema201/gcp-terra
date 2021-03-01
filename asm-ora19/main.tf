@@ -86,7 +86,7 @@ resource "google_compute_instance" "terra-asm-1" {
 
   metadata_startup_script = <<EOF
 sleep 10
-parted -s /dev/sdb gpt
+parted -s /dev/sdb mklabel gpt
 parted -s /dev/sdb mkpart primary ext4 1M 1025M
 parted -s /dev/sdb resizepart 1 100%
 yum -y install wget
