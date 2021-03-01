@@ -43,9 +43,9 @@ resource "google_compute_disk" "disk-e" {
 
 
 
-resource "google_compute_instance" "terra-ora-1" {    
+resource "google_compute_instance" "terra-asm-1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-01"    
+  name           = "terra-inst-asm-01"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
