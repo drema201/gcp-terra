@@ -106,7 +106,7 @@ echo "UUID=`blkid /dev/sdb1 -o value | head -n 1` /mnt/diskb ext4 defaults 0 0" 
 mkdir -p /mnt/diskc
 echo "UUID=`blkid /dev/sdc1 -o value | head -n 1` /mnt/diskc ext4 defaults 0 0" >>/etc/fstab
 
-mkdir -p /mnt/diskb
+mkdir -p /mnt/diskd
 echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" >>/etc/fstab
 
 mount -a
