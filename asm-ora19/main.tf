@@ -100,6 +100,8 @@ parted -s /dev/sdd mkpart primary ext4 1M 1025M
 parted -s /dev/sdd resizepart 1 100%
 mkfs -t ext4 /dev/sdd1
 
+mkdir -p /mnt/diskb
+echo "UUID=`blkid /dev/sdb1 -o value | head -n 1` /mnt/diskb ext4 defaults 0 0" >>/etc/fstab
 
 yum -y install wget
 EOF
