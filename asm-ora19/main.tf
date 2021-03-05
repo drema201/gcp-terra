@@ -41,6 +41,14 @@ resource "google_compute_disk" "disk-e" {
     size    = "25"
 }
 
+data "google_compute_instance" "data-asm-1" {
+  name = "terra-inst-asm-01"
+  zone = "us-central1-b"
+}
+
+output "my-inst-1" {
+  value = data.google_compute_instance.data-asm-1
+}
 
 
 resource "google_compute_instance" "terra-asm-1" {    
