@@ -46,7 +46,7 @@ data "google_compute_instance" "data-asm-1" {
 }
 
 output "my-inst-1" {
-  value = data.google_compute_instance.data-asm-1.network_interface
+  value = data.google_compute_instance.data-asm-1.network_interface.0.network_ip 
 }
 
 
@@ -120,6 +120,9 @@ mkdir -p /mnt/diskd
 echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" >>/etc/fstab
 
 mount -a
+
+echo "IP PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
+echo google_compute_instance.terra-asm-1.self_link.network_interface.0.network_ip 
 
 yum -y install wget
 cd /etc/yum.repos.d/
