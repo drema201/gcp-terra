@@ -42,12 +42,11 @@ resource "google_compute_disk" "disk-e" {
 }
 
 data "google_compute_instance" "data-asm-1" {
-  name = "terra-inst-asm-01"
-  zone = "us-central1-b"
+  self_link = google_compute_instance.terra-asm-1.self_link
 }
 
 output "my-inst-1" {
-  value = data.google_compute_instance.data-asm-1
+  value = data.google_compute_instance.data-asm-1.network_interface
 }
 
 
