@@ -115,5 +115,12 @@ echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" 
 mount -a
 
 yum -y install wget
+cd /etc/yum.repos.d/
+wget http://yum.oracle.com/public-yum-ol7.repo
+yum -y --nogpgcheck install  oracle-database-preinstall-19c openssl
+yum -y --nogpgcheck install  deltarpm expect tree unzip zip 
+yum -y --nogpgcheck install  oracleasm-support
+yum -y --nogpgcheck install  bc binutils compat-libcap1 compat-libstdc++-33 fontconfig-devel glibc glibc-devel ksh libaio libaio-devel libX11 libXau libXi libXtst libgcc librdmacm-devel libstdc++  libstdc++-devel libxcb make nfs-utils net-tools python python-configshell python-rtslib python-six smartmontools sysstat targetcli unixODBC chrony
+
 EOF
 }
