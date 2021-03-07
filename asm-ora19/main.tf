@@ -128,7 +128,7 @@ resource "google_compute_instance" "terra-asm-1" {
   network_interface {    
     #network = "default"    
     subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
-    network_ip = google_compute_address.privnetwork.address
+    network_ip = google_compute_address.addr1.address
     access_config {    
      nat_ip = google_compute_address.pubnetwork.address
    //network_tier = "PREMIUM"    
@@ -138,7 +138,7 @@ resource "google_compute_instance" "terra-asm-1" {
   network_interface {    
     #network = "default"    
     subnetwork = google_compute_subnetwork.priv_asm_subnet2.self_link
-    network_ip = google_compute_address.privnetwork2.address
+    network_ip = google_compute_address.addr2.address
    }    
 
   attached_disk {
