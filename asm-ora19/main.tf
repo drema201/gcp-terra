@@ -48,7 +48,7 @@ resource "google_compute_address" "privnetwork" {
 }
 
 resource "google_compute_address" "privnetwork2" {
-  name         = "my-internal-address"
+  name         = "my-internal-address2"
   subnetwork   = google_compute_subnetwork.priv_asm_subnet2.id
   address_type = "INTERNAL"
   region       = "us-central1"
