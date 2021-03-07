@@ -9,6 +9,26 @@ resource "google_compute_address" "pubnetwork" {
   address_type = "EXTERNAL"
 }
 
+##################################################
+resource "google_compute_network" "priv_asm_net" {
+  name = "my-asm-priv-network"
+}
+
+resource "google_compute_subnetwork" "priv_asm_subnet" {
+  name          = "my-asm-priv-subnet"
+  region        = "us-central1"
+  network       = google_compute_network.priv_asm_net.id
+}
+
+resource "google_compute_address" "privnetwork" {
+  name         = "my-internal-address"
+  subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
+}
+
+## end network
+
 data "google_compute_default_service_account" "default" {    
 }    
     
@@ -73,7 +93,9 @@ resource "google_compute_instance" "terra-asm-1" {
     }
 
   network_interface {    
-    network = "default"    
+    #network = "default"    
+    subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
+    network_ip = google_compute_address.privnetwork.address
     access_config {    
      nat_ip = google_compute_address.pubnetwork.address
    //network_tier = "PREMIUM"    
