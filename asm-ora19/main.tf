@@ -15,6 +15,11 @@ resource "google_compute_network" "priv_asm_net" {
   auto_create_subnetworks = false
 }
 
+resource "google_compute_network" "priv_asm_net2" {
+  name = "my-asm-priv-network2"
+  auto_create_subnetworks = false
+}
+
 resource "google_compute_firewall" "priv-asm-firewall" {
   name    = "priv-asm-firewall"
   network = google_compute_network.priv_asm_net.name
@@ -36,18 +41,18 @@ resource "google_compute_subnetwork" "priv_asm_subnet2" {
   name          = "my-asm-priv-subnet2"
   region        = "us-central1"
   ip_cidr_range = "192.168.2.0/24"
-  network       = google_compute_network.priv_asm_net.id
+  network       = google_compute_network.priv_asm_net2.id
 }
 
 
-resource "google_compute_address" "privnetwork" {
+resource "google_compute_address" "addr1" {
   name         = "my-internal-address"
   subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
 
-resource "google_compute_address" "privnetwork2" {
+resource "google_compute_address" "addr2" {
   name         = "my-internal-address2"
   subnetwork   = google_compute_subnetwork.priv_asm_subnet2.id
   address_type = "INTERNAL"
