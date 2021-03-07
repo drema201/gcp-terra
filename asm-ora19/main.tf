@@ -12,7 +12,7 @@ resource "google_compute_address" "pubnetwork" {
 ##################################################
 resource "google_compute_network" "priv_asm_net" {
   name = "my-asm-priv-network"
-  region = "us-central1"
+  auto_create_subnetworks = false
 }
 
 resource "google_compute_firewall" "priv-asm-firewall" {
@@ -28,14 +28,14 @@ resource "google_compute_firewall" "priv-asm-firewall" {
 resource "google_compute_subnetwork" "priv_asm_subnet" {
   name          = "my-asm-priv-subnet"
   region        = "us-central1"
-  ip_cidr_range = "10.0.0.0/16"
+  ip_cidr_range = "10.128.0.0/9"
   network       = google_compute_network.priv_asm_net.id
 }
 
 resource "google_compute_subnetwork" "priv_asm_subnet2" {
   name          = "my-asm-priv-subnet2"
   region        = "us-central1"
-  ip_cidr_range = "10.0.0.0/16"
+  ip_cidr_range = "10.127.0.0/9"
   network       = google_compute_network.priv_asm_net.id
 }
 
