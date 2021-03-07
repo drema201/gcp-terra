@@ -12,6 +12,7 @@ resource "google_compute_address" "pubnetwork" {
 ##################################################
 resource "google_compute_network" "priv_asm_net" {
   name = "my-asm-priv-network"
+  region = "us-central1"
 }
 
 resource "google_compute_firewall" "priv-asm-firewall" {
@@ -31,12 +32,28 @@ resource "google_compute_subnetwork" "priv_asm_subnet" {
   network       = google_compute_network.priv_asm_net.id
 }
 
+resource "google_compute_subnetwork" "priv_asm_subnet2" {
+  name          = "my-asm-priv-subnet2"
+  region        = "us-central1"
+  ip_cidr_range = "10.0.0.0/16"
+  network       = google_compute_network.priv_asm_net.id
+}
+
+
 resource "google_compute_address" "privnetwork" {
   name         = "my-internal-address"
   subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
+
+resource "google_compute_address" "privnetwork2" {
+  name         = "my-internal-address"
+  subnetwork   = google_compute_subnetwork.priv_asm_subnet2.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
+}
+
 
 ## end network
 
@@ -111,6 +128,12 @@ resource "google_compute_instance" "terra-asm-1" {
      nat_ip = google_compute_address.pubnetwork.address
    //network_tier = "PREMIUM"    
     }
+   }    
+
+  network_interface {    
+    #network = "default"    
+    subnetwork = google_compute_subnetwork.priv_asm_subnet2.self_link
+    network_ip = google_compute_address.privnetwork2.address
    }    
 
   attached_disk {
