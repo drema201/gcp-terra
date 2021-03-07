@@ -189,7 +189,8 @@ echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" 
 mount -a
 
 echo "IP PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
-
+echo "addr1=${google_compute_address.addr1.address}"
+echo "addr2=${google_compute_address.addr2.address}"
 yum -y install wget
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
