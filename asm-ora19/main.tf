@@ -4,6 +4,11 @@ provider "google" {
   zone        = "us-central1-b"    
 }    
 
+resource "google_compute_address" "pubnetwork" {
+  name = "public-ipv4-address"
+  address_type = "EXTERNAL"
+}
+
 data "google_compute_default_service_account" "default" {    
 }    
     
@@ -70,6 +75,7 @@ resource "google_compute_instance" "terra-asm-1" {
   network_interface {    
     network = "default"    
     access_config {    
+     nat_ip = google_compute_address.pubnetwork.address
    //network_tier = "PREMIUM"    
     }
    }    
