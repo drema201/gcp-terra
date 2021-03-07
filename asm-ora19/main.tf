@@ -14,6 +14,16 @@ resource "google_compute_network" "priv_asm_net" {
   name = "my-asm-priv-network"
 }
 
+resource "google_compute_firewall" "priv-asm-firewall" {
+  name    = "priv-asm-firewall"
+  network = google_compute_network.priv_asm_net.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+}
+
 resource "google_compute_subnetwork" "priv_asm_subnet" {
   name          = "my-asm-priv-subnet"
   region        = "us-central1"
