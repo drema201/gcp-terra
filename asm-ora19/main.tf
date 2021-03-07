@@ -17,6 +17,7 @@ resource "google_compute_network" "priv_asm_net" {
 resource "google_compute_subnetwork" "priv_asm_subnet" {
   name          = "my-asm-priv-subnet"
   region        = "us-central1"
+  ip_cidr_range = "10.0.0.0/16"
   network       = google_compute_network.priv_asm_net.id
 }
 
