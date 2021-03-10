@@ -285,11 +285,11 @@ export DB_HOME=/u01/app/oracle/product/19.3.0.0/dbhome_1
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Create GI_HOME and DB_HOME directories"
 echo "-----------------------------------------------------------------"
-mkdir -p $${GI_HOME}
-mkdir -p $${DB_HOME}
+mkdir -p /u01/app/19.3.0.0/grid
+mkdir -p /u01/app/oracle/product/19.3.0.0/dbhome_1
 chown -R grid:oinstall /u01
-chown -R grid:oinstall $${GRID_BASE}
-chown -R oracle:oinstall $${DB_BASE}
+chown -R grid:oinstall /u01/app/grid
+chown -R oracle:oinstall /u01/app/oracle
 chmod -R ug+rw /u01
 
 
