@@ -229,6 +229,7 @@ yum -y --nogpgcheck install  bc binutils compat-libcap1 compat-libstdc++-33 font
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Setup oracle and grid user"
 echo "-----------------------------------------------------------------"
+userdel -fr oracle
 groupdel oinstall
 groupdel dba
 groupdel backupdba
