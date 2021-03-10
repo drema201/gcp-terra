@@ -110,7 +110,7 @@ output "my-inst-1" {
 
 resource "google_compute_instance" "terra-asm-1" {    
   provider = google-beta    
-  name           = "terra-inst-asm-01"    
+  name           = "terra-inst-asm01"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false    
@@ -288,8 +288,8 @@ echo "-----------------------------------------------------------------"
 mkdir -p $${GI_HOME}
 mkdir -p $${DB_HOME}
 chown -R grid:oinstall /u01
-chown -R grid:oinstall ${GRID_BASE}
-chown -R oracle:oinstall ${DB_BASE}
+chown -R grid:oinstall $${GRID_BASE}
+chown -R oracle:oinstall $${DB_BASE}
 chmod -R ug+rw /u01
 
 
