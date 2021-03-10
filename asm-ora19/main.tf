@@ -160,10 +160,19 @@ resource "google_compute_instance" "terra-asm-1" {
 
   metadata_startup_script = <<EOF
 echo "partitioning /sdb"
-parted -s /dev/sdb mklabel gpt
-parted -s /dev/sdb mkpart primary ext4 1Mib 1025Mib
-parted -s /dev/sdb resizepart 1 100%
-mkfs -t ext4 /dev/sdb1
+#parted -s /dev/sdb mklabel gpt
+#parted -s /dev/sdb mkpart primary ext4 1Mib 1025Mib
+#parted -s /dev/sdb resizepart 1 100%
+parted /dev/sdb --script -- mklabel gpt mkpart primary 4096s 80%
+parted /dev/sdb --script -- mkpart primary 80% 100%
+
+echo "KERNEL==\"sdb\",  SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1\"    OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+echo "KERNEL==\"sdb1\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_p1\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+echo "KERNEL==\"sdb2\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_p2\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+#mkfs -t ext4 /dev/sdb1
+/sbin/partprobe /dev/sdb1
+/sbin/partprobe /dev/sdb2
+
 
 echo "partitioning /sdc"
 parted -s /dev/sdc mklabel gpt
@@ -187,6 +196,14 @@ mkdir -p /mnt/diskd
 echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" >>/etc/fstab
 
 mount -a
+
+sleep 10
+/sbin/udevadm control --reload-rules
+sleep 10
+/sbin/partprobe /dev/sdb1
+/sbin/partprobe /dev/sdb2
+/sbin/udevadm control --reload-rules
+
 
 echo "IP PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
 echo "addr1=${google_compute_address.addr1.address}"
