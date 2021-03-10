@@ -249,7 +249,7 @@ useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdi
 useradd grid   -d /home/grid   -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g 1001 -G 1002,1003,1004,1005,1006
 
 echo "-----------------------------------------------------------------"
-echo -e "${INFO}`date +%F' '%T`: Set oracle and grid limits"
+echo -e "`date +%F' '%T`: Set oracle and grid limits"
 echo "-----------------------------------------------------------------"
 cat << EOL >> /etc/security/limits.conf
 # Grid user
