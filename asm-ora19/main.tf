@@ -4,72 +4,14 @@ provider "google" {
   zone        = "us-central1-b"    
 }    
 
-resource "google_compute_address" "pubnetwork" {
-  name = "public-ipv4-address"
-  address_type = "EXTERNAL"
+data "google_compute_default_service_account" "default" {
 }
 
-##################################################
-resource "google_compute_network" "priv_asm_net" {
-  name = "my-asm-priv-network"
-  auto_create_subnetworks = false
+data "google_compute_image" "image-terra-ora" {
+  provider = google-beta
+  family  = "centos-7"
+  project = "centos-cloud"
 }
-
-resource "google_compute_network" "priv_asm_net2" {
-  name = "my-asm-priv-network2"
-  auto_create_subnetworks = false
-}
-
-resource "google_compute_firewall" "priv-asm-firewall" {
-  name    = "priv-asm-firewall"
-  network = google_compute_network.priv_asm_net.name
-
-  allow {
-    protocol = "tcp"
-    ports    = ["22"]
-  }
-}
-
-resource "google_compute_subnetwork" "priv_asm_subnet" {
-  name          = "my-asm-priv-subnet"
-  region        = "us-central1"
-  ip_cidr_range = "10.4.0.0/14"
-  network       = google_compute_network.priv_asm_net.id
-}
-
-resource "google_compute_subnetwork" "priv_asm_subnet2" {
-  name          = "my-asm-priv-subnet2"
-  region        = "us-central1"
-  ip_cidr_range = "192.168.2.0/24"
-  network       = google_compute_network.priv_asm_net2.id
-}
-
-
-resource "google_compute_address" "addr1" {
-  name         = "my-internal-address"
-  subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
-  address_type = "INTERNAL"
-  region       = "us-central1"
-}
-
-resource "google_compute_address" "addr2" {
-  name         = "my-internal-address2"
-  subnetwork   = google_compute_subnetwork.priv_asm_subnet2.id
-  address_type = "INTERNAL"
-  region       = "us-central1"
-}
-
-
-## end network
-
-data "google_compute_default_service_account" "default" {    
-}    
-    
-data "google_compute_image" "image-terra-ora" {    
-  provider = google-beta    
-  family  = "centos-7"    
-  project = "centos-cloud"    
-}    
 
 resource "google_compute_disk" "disk-b" {
     name    = "disk-b1-data"
@@ -104,42 +46,33 @@ data "google_compute_instance" "data-asm-1" {
 }
 
 output "my-inst-1" {
-  value = data.google_compute_instance.data-asm-1.network_interface.0.network_ip 
+  value = data.google_compute_instance.data-asm-1.network_interface.0.network_ip
 }
 
 
-resource "google_compute_instance" "terra-asm-1" {    
-  provider = google-beta    
-  name           = "terra-inst-asm-01"    
-  machine_type   = "e2-standard-2"    
-  zone           = "us-central1-b"    
-  can_ip_forward = false    
-  service_account {    
-     email = data.google_compute_default_service_account.default.email    
-     scopes = ["cloud-platform"]    
-     }    
-    
-  boot_disk {    
-    initialize_params {    
-      image = data.google_compute_image.image-terra-ora.self_link    
-      }    
+resource "google_compute_instance" "terra-asm-1" {
+  provider = google-beta
+  name           = "terra-inst-asm-01"
+  machine_type   = "e2-standard-2"
+  zone           = "us-central1-b"
+  can_ip_forward = false
+  service_account {
+     email = data.google_compute_default_service_account.default.email
+     scopes = ["cloud-platform"]
+     }
+
+  boot_disk {
+    initialize_params {
+      image = data.google_compute_image.image-terra-ora.self_link
+      }
     }
 
-  network_interface {    
-    #network = "default"    
-    subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
-    network_ip = google_compute_address.addr1.address
-    access_config {    
-     nat_ip = google_compute_address.pubnetwork.address
-   //network_tier = "PREMIUM"    
+  network_interface {
+    network = "default"
+    access_config {
+   //network_tier = "PREMIUM"
     }
-   }    
-
-  network_interface {    
-    #network = "default"    
-    subnetwork = google_compute_subnetwork.priv_asm_subnet2.self_link
-    network_ip = google_compute_address.addr2.address
-   }    
+   }
 
   attached_disk {
         source      = google_compute_disk.disk-b.self_link
@@ -189,6 +122,7 @@ echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" 
 mount -a
 
 echo "IP PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
+echo ${google_compute_instance.terra-asm-1.self_link.network_interface.0.network_ip}
 
 yum -y install wget
 cd /etc/yum.repos.d/
