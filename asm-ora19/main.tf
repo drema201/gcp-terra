@@ -288,7 +288,7 @@ echo "-----------------------------------------------------------------"
 mkdir -p /u01/app/19.3.0.0/grid
 mkdir -p /u01/app/oracle/product/19.3.0.0/dbhome_1
 chown -R grid:oinstall /u01
-chown -R grid:oinstall /u01/app/grid
+chown -R grid:oinstall /u01/app/19.3.0.0/grid
 chown -R oracle:oinstall /u01/app/oracle
 chmod -R ug+rw /u01
 
