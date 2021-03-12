@@ -236,16 +236,16 @@ groupdel backupdba
 groupdel dgdba
 groupdel kmdba
 groupdel racdba
-groupadd -g oinstall
-groupadd -g dbaoper
-groupadd -g dba
-groupadd -g asmadmin
-groupadd -g asmoper
-groupadd -g asmdba
-groupadd -g backupdba
-groupadd -g dgdba
-groupadd -g kmdba
-groupadd -g racdba
+groupadd oinstall
+groupadd dbaoper
+groupadd dba
+groupadd asmadmin
+groupadd asmoper
+groupadd asmdba
+groupadd backupdba
+groupadd dgdba
+groupadd kmdba
+groupadd racdba
 useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba,asmdba,backupdba,dgdba,kmdba,racdba
 useradd grid   -d /home/grid   -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba,asmadmin,asmoper,asmdba
 
