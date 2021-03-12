@@ -236,18 +236,18 @@ groupdel backupdba
 groupdel dgdba
 groupdel kmdba
 groupdel racdba
-groupadd -g 1001 oinstall
-groupadd -g 1002 dbaoper
-groupadd -g 1003 dba
-groupadd -g 1004 asmadmin
-groupadd -g 1005 asmoper
-groupadd -g 1006 asmdba
-groupadd -g 1007 backupdba
-groupadd -g 1008 dgdba
-groupadd -g 1009 kmdba
-groupadd -g 1010 racdba
-useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g 1001 -G 1002,1003,1006,1007,1008,1009,1010
-useradd grid   -d /home/grid   -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g 1001 -G 1002,1003,1004,1005,1006
+groupadd -g oinstall
+groupadd -g dbaoper
+groupadd -g dba
+groupadd -g asmadmin
+groupadd -g asmoper
+groupadd -g asmdba
+groupadd -g backupdba
+groupadd -g dgdba
+groupadd -g kmdba
+groupadd -g racdba
+useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba,asmdba,backupdba,dgdba,kmdba,racdba
+useradd grid   -d /home/grid   -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba,asmadmin,asmoper,asmdba
 
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Set oracle and grid limits"
