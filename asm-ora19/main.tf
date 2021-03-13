@@ -299,12 +299,12 @@ gsutil cp gs://postgretrial-oracle/LINUX.X64_193000_grid_home.zip  /tmp
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Unzip grid software"
 echo "-----------------------------------------------------------------"
-cd ${GI_HOME}
+cd $${GI_HOME}
 unzip -oq /tmp/LINUX.X64_193000_grid_home.zip
 chown -R grid:oinstall ${GI_HOME}
 
 # Install cvuqdisk package
-yum install -y ${GI_HOME}/cv/rpm/cvuqdisk*.rpm
+yum install -y $${GI_HOME}/cv/rpm/cvuqdisk*.rpm
 
 
 EOF
