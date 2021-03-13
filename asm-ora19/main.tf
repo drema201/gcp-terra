@@ -341,7 +341,6 @@ yum --nogpgcheck install kmod-oracleasm
 /usr/sbin/oracleasm listdisks
 
 cat > /tmp/gi_installation.sh << EOL
-##. /vagrant_config/setup.env
 $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \
     -responseFile $${GI_HOME}/install/response/gridsetup.rsp \
     INVENTORY_LOCATION=/u01/app/oraInventory \
