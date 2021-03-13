@@ -211,6 +211,8 @@ echo "-----------------------------------------------------------------"
 parted /dev/sde --script -- mklabel gpt mkpart primary linux-swap 4096s 4096Mib
 /sbin/partprobe /dev/sde1
 mkswap -v1 -L swap /dev/sde1
+swapon /dev/sde1
+sync
 
 mount -a
 
