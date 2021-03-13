@@ -205,6 +205,12 @@ mkfs -t ext4 /dev/sdd1
 mkdir -p /mnt/diskd
 echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" >>/etc/fstab
 
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Make swap"
+echo "-----------------------------------------------------------------"
+parted /dev/sde --script -- mklabel gpt mkpart primary linux-swap 4096s 4096Mib
+mkswap -v1 -L swap /dev/sde1
+
 mount -a
 
 sleep 10
