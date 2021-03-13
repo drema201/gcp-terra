@@ -303,7 +303,7 @@ export ORACLE_SID=+ASM
 EOL
 
     cat >> /home/oracle/.bash_profile << EOL
-export ORACLE_HOME=${DB_HOME}
+export ORACLE_HOME=$${DB_HOME}
 export PATH=\$ORACLE_HOME/bin:$${PATH}
 export ORACLE_SID=$${DB_NAME}_1
 EOL
