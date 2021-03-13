@@ -292,7 +292,25 @@ chown -R grid:oinstall /u01/app/19.3.0.0/grid
 chown -R oracle:oinstall /u01/app/oracle
 chmod -R ug+rw /u01
 
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Setup profiles"
+echo "-----------------------------------------------------------------"
+
+  cat >> /home/grid/.bash_profile << EOL
+export ORACLE_HOME=$${GI_HOME}
+export PATH=\$ORACLE_HOME/bin:$${PATH}
+export ORACLE_SID=+ASM
+EOL
+
+    cat >> /home/oracle/.bash_profile << EOL
+export ORACLE_HOME=${DB_HOME}
+export PATH=\$ORACLE_HOME/bin:$${PATH}
+export ORACLE_SID=$${DB_NAME}_1
+EOL
+
+echo "-----------------------------------------------------------------"
 echo "copy grid software binaries"
+echo "-----------------------------------------------------------------"
 gsutil cp gs://postgretrial-orcl/LINUX.X64_193000_grid_home.zip  /tmp
 
 # unzip grid software
