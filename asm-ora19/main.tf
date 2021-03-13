@@ -399,5 +399,11 @@ EOL
 
 chown -R grid:oinstall /tmp/gi_installation.sh
 
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Install GI software"
+echo "-----------------------------------------------------------------"
+su - grid /tmp/gi_installation.sh
+$${GI_HOME}/perl/bin/perl -I $${GI_HOME}/perl/lib -I $${GI_HOME}/crs/install $${GI_HOME}/crs/install/roothas.pl
+
 EOF
 }
