@@ -292,6 +292,19 @@ chown -R grid:oinstall /u01/app/19.3.0.0/grid
 chown -R oracle:oinstall /u01/app/oracle
 chmod -R ug+rw /u01
 
+echo "copy grid software binaries"
+gsutil cp gs://postgretrial-oracle/LINUX.X64_193000_grid_home.zip  /tmp
+
+# unzip grid software
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Unzip grid software"
+echo "-----------------------------------------------------------------"
+cd ${GI_HOME}
+unzip -oq /tmp/LINUX.X64_193000_grid_home.zip
+chown -R grid:oinstall ${GI_HOME}
+
+# Install cvuqdisk package
+yum install -y ${GI_HOME}/cv/rpm/cvuqdisk*.rpm
 
 
 EOF
