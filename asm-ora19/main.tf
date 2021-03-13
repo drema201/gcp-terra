@@ -293,7 +293,7 @@ chown -R oracle:oinstall /u01/app/oracle
 chmod -R ug+rw /u01
 
 echo "copy grid software binaries"
-gsutil cp gs://postgretrial-oracle/LINUX.X64_193000_grid_home.zip  /tmp
+gsutil cp gs://postgretrial-orcl/LINUX.X64_193000_grid_home.zip  /tmp
 
 # unzip grid software
 echo "-----------------------------------------------------------------"
