@@ -337,11 +337,11 @@ yum -y --nogpgcheck install kmod-oracleasm
 /usr/sbin/oracleasm configure -u grid -g asmadmin -e -b -s y
 /usr/sbin/oracleasm init
 
-/usr/sbin/oracleasm createdisk ORCL_DISK1_P1 /dev/sdb1
-/usr/sbin/oracleasm createdisk ORCL_DISK1_P2 /dev/sdb2
+/usr/sbin/oracleasm createdisk ORCL_DISK1_P1 /dev/sdc1
+/usr/sbin/oracleasm createdisk ORCL_DISK1_P2 /dev/sdc2
 
-/usr/sbin/oracleasm createdisk ORCL_DISK2_P1 /dev/sdc1
-/usr/sbin/oracleasm createdisk ORCL_DISK2_P2 /dev/sdc2
+/usr/sbin/oracleasm createdisk ORCL_DISK2_P1 /dev/sdd1
+/usr/sbin/oracleasm createdisk ORCL_DISK2_P2 /dev/sdd2
 
 
 /usr/sbin/oracleasm scandisks
