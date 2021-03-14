@@ -161,8 +161,8 @@ resource "google_compute_instance" "terra-asm-1" {
   metadata_startup_script = <<EOF
 echo "partitioning /sdb"
 parted -s /dev/sdb mklabel gpt
-parted -s /dev/sdb mkpart primary ext4 4096s 12Mib
-parted -s /dev/sdb mkpart primary linux-swap 12Mib 100%
+parted -s /dev/sdb mkpart primary ext4 4096s 60%
+parted -s /dev/sdb mkpart primary linux-swap 60% 100%
 mkfs -t ext4 /dev/sdb1
 
 echo "-----------------------------------------------------------------"
