@@ -160,74 +160,70 @@ resource "google_compute_instance" "terra-asm-1" {
 
   metadata_startup_script = <<EOF
 echo "partitioning /sdb"
-#parted -s /dev/sdb mklabel gpt
-#parted -s /dev/sdb mkpart primary ext4 1Mib 1025Mib
-#parted -s /dev/sdb resizepart 1 100%
-parted /dev/sdb --script -- mklabel gpt mkpart primary 4096s 80%
-parted /dev/sdb --script -- mkpart primary 80% 100%
+parted -s /dev/sdb mklabel gpt
+parted -s /dev/sdb mkpart primary ext4 4096s 12Mib
+parted -s /dev/sdb mkpart primary linux-swap 12Mib 100%
+mkfs -t ext4 /dev/sdb1
 
-echo "KERNEL==\"sdb\",  SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1\"    OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
-echo "KERNEL==\"sdb1\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_P1\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
-echo "KERNEL==\"sdb2\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_P2\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
-#mkfs -t ext4 /dev/sdb1
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Make swap"
+echo "-----------------------------------------------------------------"
+sync
+sleep 5
 /sbin/partprobe /dev/sdb1
 /sbin/partprobe /dev/sdb2
+mkswap -v1 -L swap /dev/sde2
+swapon /dev/sde2
+sync
+
+mkdir -p /u01
+echo "UUID=`blkid /dev/sdb1 -o value | head -n 1` /u01 ext4 defaults 0 0" >>/etc/fstab
 
 
 echo "partitioning /sdc"
-#parted -s /dev/sdc mklabel gpt
-#parted -s /dev/sdc mkpart primary ext4 1Mib 1025Mib
-#parted -s /dev/sdc resizepart 1 100%
 parted /dev/sdc --script -- mklabel gpt mkpart primary 4096s 80%
 parted /dev/sdc --script -- mkpart primary 80% 100%
 
-echo "KERNEL==\"sdc\",  SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK2\"    OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
-echo "KERNEL==\"sdc1\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK2_P1\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
-echo "KERNEL==\"sdc2\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK2_P2\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
-#mkfs -t ext4 /dev/sdc1
+echo "KERNEL==\"sdc\",  SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1\"    OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+echo "KERNEL==\"sdc1\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_P1\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+echo "KERNEL==\"sdc2\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_P2\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+
 /sbin/partprobe /dev/sdc1
 /sbin/partprobe /dev/sdc2
 
 
 echo "partitioning /sdd"
-parted -s /dev/sdd mklabel gpt
-parted -s /dev/sdd mkpart primary ext4 1Mib 1025Mib
-parted -s /dev/sdd resizepart 1 100%
-mkfs -t ext4 /dev/sdd1
+parted /dev/sdd --script -- mklabel gpt mkpart primary 4096s 80%
+parted /dev/sdd --script -- mkpart primary 80% 100%
 
-#mkdir -p /mnt/diskb
-#echo "UUID=`blkid /dev/sdb1 -o value | head -n 1` /mnt/diskb ext4 defaults 0 0" >>/etc/fstab
-#echo "UUID=`blkid /dev/sdb2 -o value | head -n 1` /mnt/diskb ext4 defaults 0 0" >>/etc/fstab
+echo "KERNEL==\"sdd\",  SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK2\"    OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+echo "KERNEL==\"sdd1\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK2_P1\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
+echo "KERNEL==\"sdd2\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK2_P2\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
 
-#mkdir -p /mnt/diskc
-#echo "UUID=`blkid /dev/sdc1 -o value | head -n 1` /mnt/diskc ext4 defaults 0 0" >>/etc/fstab
-
-mkdir -p /mnt/diskd
-echo "UUID=`blkid /dev/sdd1 -o value | head -n 1` /mnt/diskd ext4 defaults 0 0" >>/etc/fstab
-
-echo "-----------------------------------------------------------------"
-echo -e "`date +%F' '%T`: Make swap"
-echo "-----------------------------------------------------------------"
-parted /dev/sde --script -- mklabel gpt mkpart primary linux-swap 4096s 4096Mib
-sleep 5
-/sbin/partprobe /dev/sde1
-mkswap -v1 -L swap /dev/sde1
-swapon /dev/sde1
-sync
 
 mount -a
 
 sleep 10
 /sbin/udevadm control --reload-rules
 sleep 10
-/sbin/partprobe /dev/sdb1
-/sbin/partprobe /dev/sdb2
+/sbin/partprobe /dev/sdc1
+/sbin/partprobe /dev/sdc2
+
+/sbin/partprobe /dev/sdd1
+/sbin/partprobe /dev/sdd2
+
 /sbin/udevadm control --reload-rules
 
-
-echo "IP PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP"
+echo "-----------------------------------------------------------------"
+echo "IPs for this instance is:"
+echo "-----------------------------------------------------------------"
 echo "addr1=${google_compute_address.addr1.address}"
 echo "addr2=${google_compute_address.addr2.address}"
+
+echo "-----------------------------------------------------------------"
+echo "YUM section
+echo "-----------------------------------------------------------------"
+
 yum -y install wget
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
