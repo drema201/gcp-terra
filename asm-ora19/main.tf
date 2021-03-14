@@ -172,8 +172,8 @@ sync
 sleep 5
 /sbin/partprobe /dev/sdb1
 /sbin/partprobe /dev/sdb2
-mkswap -v1 -L swap /dev/sde2
-swapon /dev/sde2
+mkswap -v1 -L swap /dev/sdb2
+swapon /dev/sdb2
 sync
 
 mkdir -p /u01
@@ -221,7 +221,7 @@ echo "addr1=${google_compute_address.addr1.address}"
 echo "addr2=${google_compute_address.addr2.address}"
 
 echo "-----------------------------------------------------------------"
-echo "YUM section
+echo "            YUM section "
 echo "-----------------------------------------------------------------"
 
 yum -y install wget
