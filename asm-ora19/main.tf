@@ -188,8 +188,6 @@ echo "KERNEL==\"sdc\",  SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1\"    OWNER:=
 echo "KERNEL==\"sdc1\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_P1\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
 echo "KERNEL==\"sdc2\", SUBSYSTEM==\"block\", SYMLINK+=\"ORCL_DISK1_P2\" OWNER:=\"grid\", GROUP:=\"asmadmin\", MODE:=\"660\"" >> /etc/udev/rules.d/70-persistent-disk.rules
 
-/sbin/partprobe /dev/sdc1
-/sbin/partprobe /dev/sdc2
 
 
 echo "partitioning /sdd"
@@ -208,7 +206,6 @@ sleep 10
 sleep 10
 /sbin/partprobe /dev/sdc1
 /sbin/partprobe /dev/sdc2
-
 /sbin/partprobe /dev/sdd1
 /sbin/partprobe /dev/sdd2
 
