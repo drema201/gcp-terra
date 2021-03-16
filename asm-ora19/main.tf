@@ -386,8 +386,15 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Install GI software"
 echo "-----------------------------------------------------------------"
 su - grid /tmp/gi_installation.sh
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: After Install GI software root script"
+echo "-----------------------------------------------------------------"
 /u01/app/oraInventory/orainstRoot.sh
 
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: roothas.pl script"
+echo "-----------------------------------------------------------------"
 $${GI_HOME}/perl/bin/perl -I $${GI_HOME}/perl/lib -I $${GI_HOME}/crs/install $${GI_HOME}/crs/install/roothas.pl
 
 echo "-----------------------------------------------------------------"
