@@ -397,7 +397,7 @@ $${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
     INVENTORY_LOCATION=/u01/app/oraInventory \\
     SELECTED_LANGUAGES=en,en_GB \\
     oracle.install.option=HA_CONFIG \\
-    ORACLE_BASE=${GRID_BASE} \\
+    ORACLE_BASE=$${GRID_BASE} \\
     oracle.install.asm.OSDBA=asmdba \\
     oracle.install.asm.OSOPER=asmoper \\
     oracle.install.asm.OSASM=asmadmin \\
