@@ -386,6 +386,8 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Install GI software"
 echo "-----------------------------------------------------------------"
 su - grid /tmp/gi_installation.sh
+/u01/app/oraInventory/orainstRoot.sh
+
 $${GI_HOME}/perl/bin/perl -I $${GI_HOME}/perl/lib -I $${GI_HOME}/crs/install $${GI_HOME}/crs/install/roothas.pl
 
 echo "-----------------------------------------------------------------"
