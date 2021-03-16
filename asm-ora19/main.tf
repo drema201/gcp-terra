@@ -392,8 +392,8 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Configure GI software"
 echo "-----------------------------------------------------------------"
 cat > /tmp/gi_config.sh << EOL
-${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
-    -responseFile ${GI_HOME}/install/response/gridsetup.rsp \\
+$${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
+    -responseFile $${GI_HOME}/install/response/gridsetup.rsp \\
     INVENTORY_LOCATION=/u01/app/oraInventory \\
     SELECTED_LANGUAGES=en,en_GB \\
     oracle.install.option=HA_CONFIG \\
