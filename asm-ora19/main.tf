@@ -75,7 +75,7 @@ resource "google_compute_disk" "disk-b" {
     name    = "disk-b1-data"
     type    = "pd-balanced"
     zone    = "us-central1-b"
-    size    = "25"
+    size    = "32"
 }
 
 resource "google_compute_disk" "disk-c" {
