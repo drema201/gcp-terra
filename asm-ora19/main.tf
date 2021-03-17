@@ -458,7 +458,7 @@ EOL
 
 chown -R grid:oinstall /tmp/reco.sql
 
-su - grid -c '$${GI_HOME}/bin/sqlplus @/tmp/reco.sql'
+su - grid -c "$${GI_HOME}/bin/sqlplus / as sysasm @/tmp/reco.sql"
 
 EOF
 }
