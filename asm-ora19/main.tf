@@ -453,11 +453,12 @@ CREATE DISKGROUP RECO NORMAL REDUNDANCY
    'sector_size'='512',
    'AU_SIZE'='4M',
    'content.type'='recovery';
+exit
 EOL
 
 chown -R grid:oinstall /tmp/reco.sql
 
-su - grid $${GI_HOME}/bin/sqlplus @/tmp/reco.sql
+su - grid -c '$${GI_HOME}/bin/sqlplus @/tmp/reco.sql'
 
 EOF
 }
