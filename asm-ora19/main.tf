@@ -444,8 +444,7 @@ su - grid -c 'sh /tmp/gi_config.sh'
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Make RECO DG using ASMLib"
 echo "-----------------------------------------------------------------"
-cat > /tmp/reco.sh << EOL
-$${GI_HOME}/bin/sqlplus / as sysasm << EOC
+cat > /tmp/reco.sql << EOL
 CREATE DISKGROUP RECO NORMAL REDUNDANCY
  DISK '/dev/oracleasm/disks/ORCL_DISK1_P2' NAME ORCL_DISK1_P2 DISK '/dev/oracleasm/disks/ORCL_DISK2_P2' NAME ORCL_DISK2_P2
  ATTRIBUTE
@@ -454,13 +453,11 @@ CREATE DISKGROUP RECO NORMAL REDUNDANCY
    'sector_size'='512',
    'AU_SIZE'='4M',
    'content.type'='recovery';
-EOC
 EOL
 
-chown -R grid:oinstall /tmp/reco.sh
-chmod u+x /tmp/reco.sh
+chown -R grid:oinstall /tmp/reco.sql
 
-su - grid /tmp/reco.sh
+su - grid $${GI_HOME}/bin/sqlplus @/tmp/reco.sql
 
 EOF
 }
