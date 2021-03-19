@@ -474,5 +474,29 @@ chown -R oracle:oinstall $${DB_HOME}
 
 cat /tmp/
 
+cat > /tmp/ora-inst.sh <<EOL
+$${DB_HOME}/runInstaller -ignorePrereq -waitforcompletion -silent \\
+        -responseFile $${DB_HOME}/install/response/db_install.rsp \\
+        oracle.install.option=INSTALL_DB_SWONLY \\
+        ORACLE_HOSTNAME=$${ORACLE_HOSTNAME} \\
+        UNIX_GROUP_NAME=oinstall \\
+        INVENTORY_LOCATION=/u01/app/oraInventory \\
+        SELECTED_LANGUAGES=en,en_GB \\
+        ORACLE_HOME=$${DB_HOME} \\
+        ORACLE_BASE=$${DB_BASE} \\
+        oracle.install.db.InstallEdition=EE \\
+        oracle.install.db.OSDBA_GROUP=dba \\
+        oracle.install.db.OSBACKUPDBA_GROUP=dba \\
+        oracle.install.db.OSDGDBA_GROUP=dba \\
+        oracle.install.db.OSKMDBA_GROUP=dba \\
+        oracle.install.db.OSRACDBA_GROUP=dba \\
+        oracle.install.db.isRACOneInstall=true \\
+        oracle.install.db.rac.serverpoolCardinality=0 \\
+        oracle.install.db.config.starterdb.type=GENERAL_PURPOSE \\
+        oracle.install.db.ConfigureAsContainerDB=true \\
+        SECURITY_UPDATES_VIA_MYORACLESUPPORT=false \\
+        DECLINE_SECURITY_UPDATES=true
+EOL
+
 EOF
 }
