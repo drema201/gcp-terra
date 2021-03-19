@@ -460,5 +460,19 @@ chown -R grid:oinstall /tmp/reco.sql
 
 su - grid -c "$${GI_HOME}/bin/sqlplus / as sysasm @/tmp/reco.sql"
 
+echo "-----------------------------------------------------------------"
+echo "copy oracle database software binaries"
+echo "-----------------------------------------------------------------"
+gsutil cp gs://postgretrial-orcl/LINUX.X64_193000_db_home.zip  /tmp
+
+echo "-----------------------------------------------------------------"
+echo -e "${INFO}`date +%F' '%T`: Unzip RDBMS software"
+echo "-----------------------------------------------------------------"
+cd $${DB_HOME}
+unzip -oq /tmp/LINUX.X64_193000_db_home.zip
+chown -R oracle:oinstall $${DB_HOME}
+
+cat /tmp/
+
 EOF
 }
