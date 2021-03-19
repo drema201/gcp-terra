@@ -472,7 +472,9 @@ cd $${DB_HOME}
 unzip -oq /tmp/LINUX.X64_193000_db_home.zip
 chown -R oracle:oinstall $${DB_HOME}
 
-cat /tmp/
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Prepare and install RDBMS software"
+echo "-----------------------------------------------------------------"
 
 cat > /tmp/ora-inst.sh <<EOL
 $${DB_HOME}/runInstaller -ignorePrereq -waitforcompletion -silent \\
@@ -497,6 +499,49 @@ $${DB_HOME}/runInstaller -ignorePrereq -waitforcompletion -silent \\
         SECURITY_UPDATES_VIA_MYORACLESUPPORT=false \\
         DECLINE_SECURITY_UPDATES=true
 EOL
+chown  grid:oinstall /tmp/ora-inst.sh
+su - oracle -c 'sh /tmp/ora-inst.sh'
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Run root.sh"
+echo "-----------------------------------------------------------------"
+
+$${ORACLE_HOME}/root.sh
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Prepare and install RDBMS software"
+echo "-----------------------------------------------------------------"
+
+export DB_NAME = ORCL
+
+cat > /tmp/ora-createdb.sh <<EOL
+${DB_HOME}/bin/dbca -silent -createDatabase \\
+  -templateName General_Purpose.dbc \\
+  -initParams db_recovery_file_dest_size=2G \\
+  -responseFile NO_VALUE \\
+  -gdbname $${DB_NAME} \\
+  -characterSet AL32UTF8 \\
+  -sysPassword welcome1 \\
+  -systemPassword welcome1 \\
+  -createAsContainerDatabase true \\
+  -numberOfPDBs 1 \\
+  -pdbName PDB1 \\
+  -pdbAdminPassword welcome1 \\
+  -databaseType MULTIPURPOSE \\
+  -automaticMemoryManagement false \\
+  -totalMemory 2048 \\
+  -redoLogFileSize 50 \\
+  -emConfiguration NONE \\
+  -ignorePreReqs \\
+  -databaseConfigType RACONE \\
+  -RACOneNodeServiceName $${DB_NAME}_srv \\
+  -storageType ASM \\
+  -diskGroupName +DATA \\
+  -recoveryGroupName +RECO \\
+  -asmsnmpPassword welcome1
+EOL
+
+chown  grid:oinstall /tmp/ora-createdb.sh
 
 EOF
 }
