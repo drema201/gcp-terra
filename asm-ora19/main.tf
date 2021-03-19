@@ -466,7 +466,7 @@ echo "-----------------------------------------------------------------"
 gsutil cp gs://postgretrial-orcl/LINUX.X64_193000_db_home.zip  /tmp
 
 echo "-----------------------------------------------------------------"
-echo -e "${INFO}`date +%F' '%T`: Unzip RDBMS software"
+echo -e "`date +%F' '%T`: Unzip RDBMS software"
 echo "-----------------------------------------------------------------"
 cd $${DB_HOME}
 unzip -oq /tmp/LINUX.X64_193000_db_home.zip
