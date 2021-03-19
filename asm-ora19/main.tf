@@ -515,7 +515,7 @@ echo "-----------------------------------------------------------------"
 export DB_NAME = ORCL
 
 cat > /tmp/ora-createdb.sh <<EOL
-${DB_HOME}/bin/dbca -silent -createDatabase \\
+$${DB_HOME}/bin/dbca -silent -createDatabase \\
   -templateName General_Purpose.dbc \\
   -initParams db_recovery_file_dest_size=2G \\
   -responseFile NO_VALUE \\
