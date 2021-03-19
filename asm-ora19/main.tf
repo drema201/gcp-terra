@@ -512,7 +512,7 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Prepare and install RDBMS software"
 echo "-----------------------------------------------------------------"
 
-export DB_NAME = ORCL
+export DB_NAME=ORCL
 
 cat > /tmp/ora-createdb.sh <<EOL
 $${DB_HOME}/bin/dbca -silent -createDatabase \\
