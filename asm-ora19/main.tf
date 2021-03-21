@@ -506,7 +506,7 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Run root.sh"
 echo "-----------------------------------------------------------------"
 
-$${ORACLE_HOME}/root.sh
+$${DB_HOME}/root.sh
 
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Prepare and install RDBMS software"
@@ -543,5 +543,6 @@ EOL
 
 chown  grid:oinstall /tmp/ora-createdb.sh
 
+su - oracle -c 'sh /tmp/ora-createdb.sh'
 EOF
 }
