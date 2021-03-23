@@ -230,6 +230,15 @@ yum -y --nogpgcheck install  oracleasm-support
 yum -y --nogpgcheck install  bc binutils compat-libcap1 compat-libstdc++-33 fontconfig-devel glibc glibc-devel ksh libaio libaio-devel libX11 libXau libXi libXtst libgcc librdmacm-devel libstdc++  libstdc++-devel libxcb make nfs-utils net-tools python python-configshell python-rtslib python-six smartmontools sysstat targetcli unixODBC chrony
 
 yum -y --nogpgcheck install gcc-c++
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Setup chronyd service"
+echo "-----------------------------------------------------------------"
+systemctl enable chronyd
+systemctl restart chronyd
+chronyc -a makestep
+
+
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Setup oracle and grid user"
 echo "-----------------------------------------------------------------"
@@ -252,6 +261,7 @@ groupadd kmdba
 groupadd racdba
 useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba,asmdba,backupdba,dgdba,kmdba,racdba
 useradd grid   -d /home/grid   -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba,asmadmin,asmoper,asmdba
+usermod -a -G dba grid
 
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Set oracle and grid limits"
