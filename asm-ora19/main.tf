@@ -49,7 +49,7 @@ type=string
 default="terra-inst-asm-01-priv"
 }
 
-variable "NODE1_PRIVNAME" {
+variable "NODE2_PRIVNAME" {
 description ="1st node name"
 type=string
 default="terra-inst-asm-02-priv"
