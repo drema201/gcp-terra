@@ -466,7 +466,7 @@ $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \\
     oracle.install.crs.config.clusterName=ol7-rac-c \\
     oracle_install_crs_ConfigureMgmtDB=false \\
     oracle.install.crs.config.clusterNodes=${var.NODE1_NAME}.${var.DOMAIN}:${var.NODE1_VIPNAME}.${var.DOMAIN}:HUB,${var.NODE2_NAME}.${var.DOMAIN}:${var.NODE2_VIPNAME}.${var.DOMAIN}:HUB \\
-    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:${google_compute_subnetwork.priv_asm_subnet.ip_cidr_range}:1,${var.NET_DEVICE2}:${google_compute_subnetwork.pub_asm_subnet.ip_cidr_range}:5\\
+    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:${google_compute_subnetwork.priv_asm_subnet.ip_cidr_range}:1,${var.NET_DEVICE2}:${google_compute_subnetwork.priv_asm_subnet2.ip_cidr_range}:5\\
 
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
@@ -529,7 +529,7 @@ $${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle_install_crs_ConfigureMgmtDB=false \\
     oracle.install.crs.config.clusterNodes=${var.NODE1_NAME}.${var.DOMAIN}:${var.NODE1_VIPNAME}.${var.DOMAIN}:HUB,${var.NODE2_NAME}.${var.DOMAIN}:${var.NODE2_VIPNAME}.${var.DOMAIN}:HUB \\
-    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:${google_compute_subnetwork.priv_asm_subnet.ip_cidr_range}:1,${var.NET_DEVICE2}:${google_compute_subnetwork.pub_asm_subnet.ip_cidr_range}:5 \\
+    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:${google_compute_subnetwork.priv_asm_subnet.ip_cidr_range}:1,${var.NET_DEVICE2}:${google_compute_subnetwork.priv_asm_subnet2.ip_cidr_range}:5 \\
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
     oracle.install.asm.configureGIMRDataDG=false \\
