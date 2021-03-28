@@ -1,3 +1,25 @@
+variable "PREFIX" {
+description ="prefix"
+type=string
+default="ol7-rac"
+}
+
+variable "CLUSTER_NAME" {
+type=string
+default="ol7-rac-c"
+}
+
+variable "SCAN_NAME" {
+type=string
+default="ol7-rac-scan"
+}
+
+variable "SCAN_PORT" {
+type=number
+default=1521
+}
+
+
 variable "DOMAIN" {
 description ="DNS doman name"
 type=string
@@ -436,8 +458,8 @@ $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \\
     oracle.install.asm.OSOPER=asmoper \\
     oracle.install.asm.OSASM=asmadmin \\
     oracle.install.crs.config.scanType=LOCAL_SCAN \\
-    oracle.install.crs.config.gpnp.scanName=${SCAN_NAME} \\
-    oracle.install.crs.config.gpnp.scanPort=${SCAN_PORT} \\
+    oracle.install.crs.config.gpnp.scanName=${var.SCAN_NAME} \\
+    oracle.install.crs.config.gpnp.scanPort=${var.SCAN_PORT} \\
 
     oracle.install.crs.config.ClusterConfiguration=STANDALONE \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
@@ -500,9 +522,9 @@ $${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
     oracle.install.asm.OSOPER=asmoper \\
     oracle.install.asm.OSASM=asmadmin \\
     oracle.install.crs.config.scanType=LOCAL_SCAN \\
-    oracle.install.crs.config.gpnp.scanName=${SCAN_NAME} \\
-    oracle.install.crs.config.gpnp.scanPort=${SCAN_PORT} \\
-    oracle.install.crs.config.clusterName=${CLUSTER_NAME} \\
+    oracle.install.crs.config.gpnp.scanName=${var.SCAN_NAME} \\
+    oracle.install.crs.config.gpnp.scanPort=${var.SCAN_PORT} \\
+    oracle.install.crs.config.clusterName=${var.CLUSTER_NAME} \\
     oracle.install.crs.config.ClusterConfiguration=STANDALONE \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle_install_crs_ConfigureMgmtDB=false \\
