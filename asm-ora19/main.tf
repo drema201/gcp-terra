@@ -1,3 +1,74 @@
+variable "DOMAIN" {
+description ="DNS doman name"
+type=string
+default="localdomain"
+}
+
+variable "NODE1_NAME" {
+description ="1st node name"
+type=string
+default="terra-inst-asm-01"
+}
+
+variable "NODE2_NAME" {
+description ="1st node name"
+type=string
+default="terra-inst-asm-02"
+}
+
+
+variable "NODE1_FQ_NAME" {
+description ="1st node FQ name"
+type=string
+default="terra-inst-asm-01.localdomain"
+}
+
+variable "NODE2_FQ_NAME" {
+description ="1st node FQ name"
+type=string
+default="terra-inst-asm-02.localdomain"
+}
+
+
+variable "NODE1_VIPNAME" {
+description ="1st node name"
+type=string
+default="terra-inst-asm-01-vip"
+}
+
+variable "NODE2_VIPNAME" {
+description ="1st node name"
+type=string
+default="terra-inst-asm-02-vip"
+}
+
+
+variable "NODE1_PRIVNAME" {
+description ="1st node name"
+type=string
+default="terra-inst-asm-01-priv"
+}
+
+variable "NODE1_PRIVNAME" {
+description ="1st node name"
+type=string
+default="terra-inst-asm-02-priv"
+}
+
+
+
+variable "NET_DEVICE1" {
+description ="1st real net interface"
+type=string
+default="eth1"
+}
+
+variable "NET_DEVICE2" {
+description ="2nd real net interface"
+type=string
+default="eth2"
+}
+
 provider "google" {
   project     = "postgretrial"    
   region      = "us-central1"    
@@ -372,8 +443,8 @@ $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle.install.crs.config.clusterName=ol7-rac-c \\
     oracle_install_crs_ConfigureMgmtDB=false \\
-    oracle.install.crs.config.clusterNodes=${NODE1_FQ_HOSTNAME}:${NODE1_FQ_VIPNAME}:HUB,${NODE2_FQ_HOSTNAME}:${NODE2_FQ_VIPNAME}:HUB \\
-    oracle.install.crs.config.networkInterfaceList=${NET_DEVICE1}:${PUBLIC_SUBNET}:1,${NET_DEVICE2}:${PRIVATE_SUBNET}:5 \\
+    oracle.install.crs.config.clusterNodes=${var.NODE1_NAME}.${var.DOMAIN}:${var.NODE1_VIPNAME}.${var.DOMAIN}:HUB,${var.NODE2_NAME}.${var.DOMAIN}:${var.NODE2_VIPNAME}.${var.DOMAIN}:HUB \\
+    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:google_compute_subnetwork.priv_asm_subnet.ip_cidr_range:1,${var.NET_DEVICE2}:google_compute_subnetwork.pub_asm_subnet.ip_cidr_range:5\\
 
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
@@ -432,13 +503,11 @@ $${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
     oracle.install.crs.config.gpnp.scanName=${SCAN_NAME} \\
     oracle.install.crs.config.gpnp.scanPort=${SCAN_PORT} \\
     oracle.install.crs.config.clusterName=${CLUSTER_NAME} \\
-
     oracle.install.crs.config.ClusterConfiguration=STANDALONE \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle_install_crs_ConfigureMgmtDB=false \\
-    oracle.install.crs.config.clusterNodes=${NODE1_FQ_HOSTNAME}:${NODE1_FQ_VIPNAME}:HUB,${NODE2_FQ_HOSTNAME}:${NODE2_FQ_VIPNAME}:HUB \\
-    oracle.install.crs.config.networkInterfaceList=${NET_DEVICE1}:${PUBLIC_SUBNET}:1,${NET_DEVICE2}:${PRIVATE_SUBNET}:5 \\
-
+    oracle.install.crs.config.clusterNodes=${var.NODE1_NAME}.${var.DOMAIN}:${var.NODE1_VIPNAME}.${var.DOMAIN}:HUB,${var.NODE2_NAME}.${var.DOMAIN}:${var.NODE2_VIPNAME}.${var.DOMAIN}:HUB \\
+    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:google_compute_subnetwork.priv_asm_subnet.ip_cidr_range:1,${var.NET_DEVICE2}:google_compute_subnetwork.pub_asm_subnet.ip_cidr_range:5 \\
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
     oracle.install.asm.configureGIMRDataDG=false \\
