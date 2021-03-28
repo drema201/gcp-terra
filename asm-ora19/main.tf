@@ -313,13 +313,13 @@ echo "-----------------------------------------------------------------"
   cat >> /home/grid/.bash_profile << EOL
 export ORACLE_HOME=$${GI_HOME}
 export PATH=\$ORACLE_HOME/bin:$${PATH}
-export ORACLE_SID=+ASM
+export ORACLE_SID=+ASM1
 EOL
 
     cat >> /home/oracle/.bash_profile << EOL
 export ORACLE_HOME=$${DB_HOME}
 export PATH=\$ORACLE_HOME/bin:$${PATH}
-export ORACLE_SID=$${DB_NAME}_1
+export ORACLE_SID=$${DB_NAME}1
 EOL
 
 echo "-----------------------------------------------------------------"
@@ -359,15 +359,22 @@ $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \\
     -responseFile $${GI_HOME}/install/response/gridsetup.rsp \\
     INVENTORY_LOCATION=/u01/app/oraInventory \\
     SELECTED_LANGUAGES=en,en_GB \\
-    oracle.install.option=HA_CONFIG \\
+    oracle.install.option=CRS_CONFIG \\
     ORACLE_BASE=$${GRID_BASE} \\
     oracle.install.asm.OSDBA=asmdba \\
     oracle.install.asm.OSOPER=asmoper \\
     oracle.install.asm.OSASM=asmadmin \\
+    oracle.install.crs.config.scanType=LOCAL_SCAN \\
+    oracle.install.crs.config.gpnp.scanName=${SCAN_NAME} \\
+    oracle.install.crs.config.gpnp.scanPort=${SCAN_PORT} \\
+
     oracle.install.crs.config.ClusterConfiguration=STANDALONE \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle.install.crs.config.clusterName=ol7-rac-c \\
     oracle_install_crs_ConfigureMgmtDB=false \\
+    oracle.install.crs.config.clusterNodes=${NODE1_FQ_HOSTNAME}:${NODE1_FQ_VIPNAME}:HUB,${NODE2_FQ_HOSTNAME}:${NODE2_FQ_VIPNAME}:HUB \\
+    oracle.install.crs.config.networkInterfaceList=${NET_DEVICE1}:${PUBLIC_SUBNET}:1,${NET_DEVICE2}:${PRIVATE_SUBNET}:5 \\
+
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
     oracle.install.asm.configureGIMRDataDG=false \\
@@ -403,9 +410,10 @@ echo "-----------------------------------------------------------------"
 /u01/app/oraInventory/orainstRoot.sh
 
 echo "-----------------------------------------------------------------"
-echo -e "`date +%F' '%T`: roothas.pl script"
+echo -e "`date +%F' '%T`: ORESTART=false"
 echo "-----------------------------------------------------------------"
-$${GI_HOME}/perl/bin/perl -I $${GI_HOME}/perl/lib -I $${GI_HOME}/crs/install $${GI_HOME}/crs/install/roothas.pl
+sh $${GI_HOME}/root.sh
+
 
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Configure GI software"
@@ -415,14 +423,22 @@ $${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
     -responseFile $${GI_HOME}/install/response/gridsetup.rsp \\
     INVENTORY_LOCATION=/u01/app/oraInventory \\
     SELECTED_LANGUAGES=en,en_GB \\
-    oracle.install.option=HA_CONFIG \\
+    oracle.install.option=CRS_CONFIG \\
     ORACLE_BASE=$${GRID_BASE} \\
     oracle.install.asm.OSDBA=asmdba \\
     oracle.install.asm.OSOPER=asmoper \\
     oracle.install.asm.OSASM=asmadmin \\
+    oracle.install.crs.config.scanType=LOCAL_SCAN \\
+    oracle.install.crs.config.gpnp.scanName=${SCAN_NAME} \\
+    oracle.install.crs.config.gpnp.scanPort=${SCAN_PORT} \\
+    oracle.install.crs.config.clusterName=${CLUSTER_NAME} \\
+
     oracle.install.crs.config.ClusterConfiguration=STANDALONE \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle_install_crs_ConfigureMgmtDB=false \\
+    oracle.install.crs.config.clusterNodes=${NODE1_FQ_HOSTNAME}:${NODE1_FQ_VIPNAME}:HUB,${NODE2_FQ_HOSTNAME}:${NODE2_FQ_VIPNAME}:HUB \\
+    oracle.install.crs.config.networkInterfaceList=${NET_DEVICE1}:${PUBLIC_SUBNET}:1,${NET_DEVICE2}:${PRIVATE_SUBNET}:5 \\
+
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
     oracle.install.asm.configureGIMRDataDG=false \\
