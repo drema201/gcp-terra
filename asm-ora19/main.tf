@@ -167,7 +167,7 @@ resource "google_compute_address" "addr2" {
 }
 
 resource "google_compute_address" "addr3" {
-  name         = "my-internal-address2"
+  name         = "my-internal-address3"
   subnetwork   = google_compute_subnetwork.priv_asm_subnet3.id
   address_type = "INTERNAL"
   region       = "us-central1"
