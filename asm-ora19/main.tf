@@ -226,7 +226,7 @@ output "my-inst-1" {
 resource "google_compute_instance" "terra-asm-1" {
   provider = google-beta
   name           = "terra-inst-asm-01"
-  machine_type   = "e2-standard-2"
+  machine_type   = "e2-standard-4"
   zone           = "us-central1-b"
   can_ip_forward = false
   service_account {
