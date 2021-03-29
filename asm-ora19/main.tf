@@ -77,6 +77,20 @@ type=string
 default="terra-inst-asm-02-priv"
 }
 
+variable "SCAN1" {
+type=string
+default="192.168.2.100"
+}
+variable "SCAN2" {
+type=string
+default="192.168.2.101"
+}
+variable "SCAN3" {
+type=string
+default="192.168.2.102"
+}
+
+
 
 
 variable "NET_DEVICE1" {
@@ -450,6 +464,10 @@ ${google_compute_address.addr1.address}  ${var.NODE1_NAME}.${var.DOMAIN}  ${var.
 ${google_compute_address.addr2.address}  ${var.NODE1_VIPNAME}.${var.DOMAIN}  ${var.NODE1_VIPNAME}
 # Virtual host info
 ${google_compute_address.addr3.address}  ${var.NODE1_PRIVNAME}.${var.DOMAIN}  ${var.NODE1_PRIVNAME}
+# Scan info
+${var.SCAN1}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
+${var.SCAN2}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
+${var.SCAN3}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
 EOL
 
 
@@ -498,14 +516,12 @@ $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \\
     oracle.install.crs.config.scanType=LOCAL_SCAN \\
     oracle.install.crs.config.gpnp.scanName=${var.SCAN_NAME} \\
     oracle.install.crs.config.gpnp.scanPort=${var.SCAN_PORT} \\
-
     oracle.install.crs.config.ClusterConfiguration=STANDALONE \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle.install.crs.config.clusterName=ol7-rac-c \\
     oracle_install_crs_ConfigureMgmtDB=false \\
     oracle.install.crs.config.clusterNodes=${var.NODE1_NAME}.${var.DOMAIN}:${var.NODE1_VIPNAME}.${var.DOMAIN}:HUB,${var.NODE2_NAME}.${var.DOMAIN}:${var.NODE2_VIPNAME}.${var.DOMAIN}:HUB \\
     oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:${google_compute_subnetwork.priv_asm_subnet.ip_cidr_range}:1,${var.NET_DEVICE2}:${google_compute_subnetwork.priv_asm_subnet2.ip_cidr_range}:5\\
-
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
     oracle.install.asm.configureGIMRDataDG=false \\
