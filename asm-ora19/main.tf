@@ -113,6 +113,12 @@ resource "google_compute_network" "priv_asm_net2" {
   auto_create_subnetworks = false
 }
 
+resource "google_compute_network" "priv_asm_net3" {
+  name = "my-asm-priv-network3"
+  auto_create_subnetworks = false
+}
+
+
 resource "google_compute_firewall" "priv-asm-firewall" {
   name    = "priv-asm-firewall"
   network = google_compute_network.priv_asm_net.name
@@ -137,6 +143,14 @@ resource "google_compute_subnetwork" "priv_asm_subnet2" {
   network       = google_compute_network.priv_asm_net2.id
 }
 
+resource "google_compute_subnetwork" "priv_asm_subnet3" {
+  name          = "my-asm-priv-subnet3"
+  region        = "us-central1"
+  ip_cidr_range = "192.168.5.0/24"
+  network       = google_compute_network.priv_asm_net3.id
+}
+
+
 
 resource "google_compute_address" "addr1" {
   name         = "my-internal-address"
@@ -151,6 +165,14 @@ resource "google_compute_address" "addr2" {
   address_type = "INTERNAL"
   region       = "us-central1"
 }
+
+resource "google_compute_address" "addr3" {
+  name         = "my-internal-address2"
+  subnetwork   = google_compute_subnetwork.priv_asm_subnet3.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
+}
+
 
 
 ## end network
@@ -219,19 +241,21 @@ resource "google_compute_instance" "terra-asm-1" {
     }
 
   network_interface {
-    #network = "default"
     subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
     network_ip = google_compute_address.addr1.address
     access_config {
      nat_ip = google_compute_address.pubnetwork.address
-   //network_tier = "PREMIUM"
     }
    }
 
   network_interface {
-    #network = "default"
     subnetwork = google_compute_subnetwork.priv_asm_subnet2.self_link
     network_ip = google_compute_address.addr2.address
+   }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.priv_asm_subnet3.self_link
+    network_ip = google_compute_address.addr3.address
    }
 
   attached_disk {
@@ -414,6 +438,20 @@ export ORACLE_HOME=$${DB_HOME}
 export PATH=\$ORACLE_HOME/bin:$${PATH}
 export ORACLE_SID=$${DB_NAME}1
 EOL
+
+echo "-----------------------------------------------------------------"
+echo "set /etc/hosts"
+echo "-----------------------------------------------------------------"
+
+cat >> /etc/hosts <<EOL
+# Public host info
+${google_compute_address.addr1.address}  ${var.NODE1_NAME}.${var.DOMAIN}  ${var.NODE1_NAME}
+# Private host info
+${google_compute_address.addr2.address}  ${var.NODE1_VIPNAME}.${var.DOMAIN}  ${var.NODE1_VIPNAME}
+# Virtual host info
+${google_compute_address.addr3.address}  ${var.NODE1_PRIVNAME}.${var.DOMAIN}  ${var.NODE1_PRIVNAME}
+EOL
+
 
 echo "-----------------------------------------------------------------"
 echo "copy grid software binaries"
