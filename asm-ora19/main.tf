@@ -165,7 +165,7 @@ resource "google_compute_subnetwork" "priv_asm_subnet" {
 }
 
 resource "google_compute_address" "main_addr0" {
-  name         = "my-internal-address"
+  name         = "my-public-address0"
   subnetwork   = google_compute_subnetwork.main_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
@@ -173,7 +173,7 @@ resource "google_compute_address" "main_addr0" {
 
 
 resource "google_compute_address" "pub_addr1" {
-  name         = "my-internal-address"
+  name         = "my-internal-address1"
   subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
