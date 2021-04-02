@@ -33,7 +33,7 @@ default="terra-inst-asm-01"
 }
 
 variable "NODE2_NAME" {
-description ="1st node name"
+description ="2nd node name"
 type=string
 default="terra-inst-asm-02"
 }
@@ -46,7 +46,7 @@ default="terra-inst-asm-01.localdomain"
 }
 
 variable "NODE2_FQ_NAME" {
-description ="1st node FQ name"
+description ="2nd node FQ name"
 type=string
 default="terra-inst-asm-02.localdomain"
 }
@@ -117,25 +117,25 @@ resource "google_compute_address" "pubnetwork" {
 }
 
 ##################################################
+resource "google_compute_network" "main_asm_net" {
+  name = "my-asm-main-network"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_network" "pub_asm_net" {
+  name = "my-asm-pub-network"
+  auto_create_subnetworks = false
+}
+
 resource "google_compute_network" "priv_asm_net" {
   name = "my-asm-priv-network"
   auto_create_subnetworks = false
 }
 
-resource "google_compute_network" "priv_asm_net2" {
-  name = "my-asm-priv-network2"
-  auto_create_subnetworks = false
-}
 
-resource "google_compute_network" "priv_asm_net3" {
-  name = "my-asm-priv-network3"
-  auto_create_subnetworks = false
-}
-
-
-resource "google_compute_firewall" "priv-asm-firewall" {
-  name    = "priv-asm-firewall"
-  network = google_compute_network.priv_asm_net.name
+resource "google_compute_firewall" "main-asm-firewall" {
+  name    = "main-asm-firewall"
+  network = google_compute_network.main_asm_net.name
 
   allow {
     protocol = "tcp"
@@ -143,39 +143,52 @@ resource "google_compute_firewall" "priv-asm-firewall" {
   }
 }
 
+resource "google_compute_subnetwork" "main_asm_subnet" {
+  name          = "my-asm-main-subnet"
+  region        = "us-central1"
+  ip_cidr_range = "10.4.0.0/24"
+  network       = google_compute_network.main_asm_net.id
+}
+
 resource "google_compute_subnetwork" "pub_asm_subnet" {
   name          = "my-asm-pub-subnet"
   region        = "us-central1"
-  ip_cidr_range = "10.4.0.0/14"
+  ip_cidr_range = "192.168.56.0/24"
+  network       = google_compute_network.pub_asm_net.id
+}
+
+resource "google_compute_subnetwork" "priv_asm_subnet" {
+  name          = "my-asm-priv-subnet"
+  region        = "us-central1"
+  ip_cidr_range = "192.168.200.0/24"
   network       = google_compute_network.priv_asm_net.id
 }
 
-resource "google_compute_subnetwork" "priv_asm_subnet2" {
-  name          = "my-asm-priv-subnet2"
-  region        = "us-central1"
-  ip_cidr_range = "192.168.2.0/24"
-  network       = google_compute_network.priv_asm_net2.id
+resource "google_compute_address" "main_addr0" {
+  name         = "my-internal-address"
+  subnetwork   = google_compute_subnetwork.main_asm_subnet.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
 }
 
 
-
-resource "google_compute_address" "addr1" {
+resource "google_compute_address" "pub_addr1" {
   name         = "my-internal-address"
   subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
 
-resource "google_compute_address" "addr2" {
+resource "google_compute_address" "priv_addr2" {
   name         = "my-internal-address2"
-  subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
+  subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
 
-resource "google_compute_address" "addr3" {
+resource "google_compute_address" "vip_addr3" {
   name         = "my-internal-address3"
-  subnetwork   = google_compute_subnetwork.priv_asm_subnet2.id
+  subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
@@ -248,8 +261,8 @@ resource "google_compute_instance" "terra-asm-1" {
     }
 
   network_interface {
-    subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
-    network_ip = google_compute_address.addr1.address
+    subnetwork = google_compute_subnetwork.main_asm_subnet.self_link
+    network_ip = google_compute_address.main_addr0.address
     access_config {
      nat_ip = google_compute_address.pubnetwork.address
     }
@@ -257,13 +270,14 @@ resource "google_compute_instance" "terra-asm-1" {
 
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
-    network_ip = google_compute_address.addr2.address
+    network_ip = google_compute_address.pub_addr1.address
    }
 
   network_interface {
-    subnetwork = google_compute_subnetwork.priv_asm_subnet2.self_link
-    network_ip = google_compute_address.addr3.address
+    subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
+    network_ip = google_compute_address.priv_addr2.address
    }
+
 
   attached_disk {
         source      = google_compute_disk.disk-b.self_link
@@ -338,8 +352,8 @@ sleep 10
 echo "-----------------------------------------------------------------"
 echo "IPs for this instance is:"
 echo "-----------------------------------------------------------------"
-echo "addr1=${google_compute_address.addr1.address}"
-echo "addr2=${google_compute_address.addr2.address}"
+echo "pub_addr1=${google_compute_address.pub_addr1.address}"
+echo "priv_addr2=${google_compute_address.priv_addr2.address}"
 
 echo "-----------------------------------------------------------------"
 echo "            YUM section "
@@ -452,11 +466,11 @@ echo "-----------------------------------------------------------------"
 
 cat >> /etc/hosts <<EOL
 # Public host info
-${google_compute_address.addr1.address}  ${var.NODE1_NAME}.${var.DOMAIN}  ${var.NODE1_NAME}
+${google_compute_address.pub_addr1.address}  ${var.NODE1_NAME}.${var.DOMAIN}  ${var.NODE1_NAME}
 # Private host info
-${google_compute_address.addr2.address}  ${var.NODE1_VIPNAME}.${var.DOMAIN}  ${var.NODE1_VIPNAME}
-# Virtual host info
-${google_compute_address.addr3.address}  ${var.NODE1_PRIVNAME}.${var.DOMAIN}  ${var.NODE1_PRIVNAME}
+${google_compute_address.priv_addr2.address}  ${var.NODE1_PRIVNAME}.${var.DOMAIN}  ${var.NODE1_PRIVNAME}
+# Virtual host info (the same subnet as pub)
+${google_compute_address.vip_addr3.address}  ${var.NODE1_VIPNAME}.${var.DOMAIN}  ${var.NODE1_VIPNAME}
 # Scan info
 ${var.SCAN1}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
 ${var.SCAN2}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
@@ -514,7 +528,7 @@ $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \\
     oracle.install.crs.config.clusterName=ol7-rac-c \\
     oracle_install_crs_ConfigureMgmtDB=false \\
     oracle.install.crs.config.clusterNodes=${var.NODE1_NAME}.${var.DOMAIN}:${var.NODE1_VIPNAME}.${var.DOMAIN}:HUB,${var.NODE2_NAME}.${var.DOMAIN}:${var.NODE2_VIPNAME}.${var.DOMAIN}:HUB \\
-    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:replace(${google_compute_subnetwork.pub_asm_subnet.ip_cidr_range},'/14',''):1,${var.NET_DEVICE2}:replace(${google_compute_subnetwork.priv_asm_subnet2.ip_cidr_range},'/24',''):5\\
+    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:replace(${google_compute_subnetwork.pub_asm_subnet.ip_cidr_range},'/24',''):1,${var.NET_DEVICE2}:replace(${google_compute_subnetwork.priv_asm_subnet.ip_cidr_range},'/24',''):5\\
     oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
     oracle.install.asm.configureGIMRDataDG=false \\
@@ -576,7 +590,7 @@ $${GI_HOME}/gridSetup.sh -silent -executeConfigTools \\
     oracle.install.crs.config.configureAsExtendedCluster=false \\
     oracle_install_crs_ConfigureMgmtDB=false \\
     oracle.install.crs.config.clusterNodes=${var.NODE1_NAME}.${var.DOMAIN}:${var.NODE1_VIPNAME}.${var.DOMAIN}:HUB,${var.NODE2_NAME}.${var.DOMAIN}:${var.NODE2_VIPNAME}.${var.DOMAIN}:HUB \\
-    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:replace(${google_compute_subnetwork.pub_asm_subnet.ip_cidr_range},'/14',''):1,${var.NET_DEVICE2}:replace(${google_compute_subnetwork.priv_asm_subnet2.ip_cidr_range},'/24',''):5\\    oracle.install.crs.config.gpnp.configureGNS=false \\
+    oracle.install.crs.config.networkInterfaceList=${var.NET_DEVICE1}:replace(${google_compute_subnetwork.pub_asm_subnet.ip_cidr_range},'/14',''):1,${var.NET_DEVICE2}:replace(${google_compute_subnetwork.priv_asm_subnet.ip_cidr_range},'/24',''):5\\    oracle.install.crs.config.gpnp.configureGNS=false \\
     oracle.install.crs.config.autoConfigureClusterNodeVIP=false \\
     oracle.install.asm.configureGIMRDataDG=false \\
     oracle.install.crs.config.useIPMI=false \\
