@@ -4,6 +4,8 @@ provider "google" {
   zone        = "us-central1-b"    
 }    
 
-provisioner "local-exec" {
+resource "null_resource" "test" {
+  provisioner "local-exec" {
     command = "echo local"
   }
+}
