@@ -79,15 +79,15 @@ default="terra-inst-asm-02-priv"
 
 variable "SCAN1" {
 type=string
-default="192.168.2.2"
+default="192.168.56.22"
 }
 variable "SCAN2" {
 type=string
-default="192.168.2.2"
+default="192.168.56.23"
 }
 variable "SCAN3" {
 type=string
-default="192.168.2.2"
+default="192.168.56.24"
 }
 
 
