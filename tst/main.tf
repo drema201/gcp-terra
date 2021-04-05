@@ -17,6 +17,10 @@ default="10.0.0.0/24"
 resource "null_resource" "test" {
   provisioner "local-exec" {
     command = "echo '${replace(var.PREFIX,'/24','')}'"
+  }
+
+  provisioner "local-exec" {
     command = "echo '${cidrhost(var.PREFIX,0)}'"
   }
+
 }
