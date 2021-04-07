@@ -271,11 +271,17 @@ resource "google_compute_instance" "terra-asm-1" {
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
     network_ip = google_compute_address.pub_addr1.address
+    alias_ip_range {
+      ip_cidr_range = "/24"
+    }
    }
 
   network_interface {
     subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
     network_ip = google_compute_address.priv_addr2.address
+    alias_ip_range {
+      ip_cidr_range = "/24"
+    }
    }
 
 
