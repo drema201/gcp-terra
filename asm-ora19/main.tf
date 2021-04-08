@@ -271,17 +271,11 @@ resource "google_compute_instance" "terra-asm-1" {
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
     network_ip = google_compute_address.pub_addr1.address
-    alias_ip_range {
-      ip_cidr_range = "/28"
-    }
    }
 
   network_interface {
     subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
     network_ip = google_compute_address.priv_addr2.address
-    alias_ip_range {
-      ip_cidr_range = "/28"
-    }
    }
 
 
@@ -303,6 +297,15 @@ resource "google_compute_instance" "terra-asm-1" {
   }
 
   metadata_startup_script = <<EOF
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Adjust network"
+echo "-----------------------------------------------------------------"
+ifconfig eth1 broadcast ${cidrhost(google_compute_subnetwork.pub_asm_subnet.ip_cidr_range,255)}
+ifconfig eth2 broadcast ${cidrhost(google_compute_subnetwork.priv_asm_subnet.ip_cidr_range,255)}
+
+ifconfig eth1 netmask 255.255.255.0
+ifconfig eth2 netmask 255.255.255.0
+
 echo "partitioning /sdb"
 parted -s /dev/sdb mklabel gpt
 parted -s /dev/sdb mkpart primary ext4 4096s 60%
