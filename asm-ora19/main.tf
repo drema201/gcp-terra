@@ -116,6 +116,11 @@ resource "google_compute_address" "pubnetwork" {
   address_type = "EXTERNAL"
 }
 
+resource "google_compute_address" "pubnetwork-2" {
+  name = "public-ipv4-address-2"
+  address_type = "EXTERNAL"
+}
+
 ##################################################
 resource "google_compute_network" "main_asm_net" {
   name = "my-asm-main-network"
@@ -780,7 +785,7 @@ resource "google_compute_instance" "terra-asm-2" {
     subnetwork = google_compute_subnetwork.main_asm_subnet.self_link
     
     access_config {
-     nat_ip = google_compute_address.pubnetwork.address
+     nat_ip = google_compute_address.pubnetwork-2.address
     }
    }
 
