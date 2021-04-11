@@ -784,9 +784,7 @@ resource "google_compute_instance" "terra-asm-2" {
   network_interface {
     subnetwork = google_compute_subnetwork.main_asm_subnet.self_link
     
-    access_config {
-     nat_ip = google_compute_address.pubnetwork-2.address
-    }
+
    }
 
   network_interface {
