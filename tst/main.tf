@@ -28,3 +28,31 @@ resource "null_resource" "test2" {
   }
 
 }
+
+resource "google_compute_address" "pubnetwork" {
+  name = "public-ipv4-address"
+  address_type = "EXTERNAL"
+}
+
+resource "google_compute_address" "pubnetwork-2" {
+  name = "public-ipv4-address-2"
+  address_type = "EXTERNAL"
+}
+
+data "google_compute_address" "data-net1" {
+  self_link = google_compute_address.pubnetwork.self_link
+}
+
+data "google_compute_address" "data-net2" {
+  self_link = google_compute_address.pubnetwork-2.self_link
+}
+
+
+output "net-1" {
+  value = data.google_compute_address.data-net1
+}
+
+output "net-2" {
+  value = data.google_compute_address.data-net2
+}
+
