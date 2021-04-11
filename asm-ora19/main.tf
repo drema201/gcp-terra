@@ -194,21 +194,21 @@ resource "google_compute_address" "vip_addr3" {
 }
 
 resource "google_compute_address" "pub_addr1_2" {
-  name         = "my-internal-address1_2"
+  name         = "my-internal-address1-2"
   subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
 
 resource "google_compute_address" "priv_addr2_2" {
-  name         = "my-internal-address2_2"
+  name         = "my-internal-address2-2"
   subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
 
 resource "google_compute_address" "vip_addr3_2" {
-  name         = "my-internal-address3_2"
+  name         = "my-internal-address3-2"
   subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
