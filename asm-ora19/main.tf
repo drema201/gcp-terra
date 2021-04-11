@@ -193,6 +193,26 @@ resource "google_compute_address" "vip_addr3" {
   region       = "us-central1"
 }
 
+resource "google_compute_address" "pub_addr1_2" {
+  name         = "my-internal-address1_2"
+  subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
+}
+
+resource "google_compute_address" "priv_addr2_2" {
+  name         = "my-internal-address2_2"
+  subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
+}
+
+resource "google_compute_address" "vip_addr3_2" {
+  name         = "my-internal-address3_2"
+  subnetwork   = google_compute_subnetwork.pub_asm_subnet.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
+}
 
 
 ## end network
@@ -476,10 +496,14 @@ echo "-----------------------------------------------------------------"
 cat >> /etc/hosts <<EOL
 # Public host info
 ${google_compute_address.pub_addr1.address}  ${var.NODE1_NAME}.${var.DOMAIN}  ${var.NODE1_NAME}
+${google_compute_address.pub_addr1_2.address}  ${var.NODE2_NAME}.${var.DOMAIN}  ${var.NODE2_NAME}
 # Private host info
 ${google_compute_address.priv_addr2.address}  ${var.NODE1_PRIVNAME}.${var.DOMAIN}  ${var.NODE1_PRIVNAME}
+${google_compute_address.priv_addr2_2.address}  ${var.NODE2_PRIVNAME}.${var.DOMAIN}  ${var.NODE2_PRIVNAME}
+
 # Virtual host info (the same subnet as pub)
 ${google_compute_address.vip_addr3.address}  ${var.NODE1_VIPNAME}.${var.DOMAIN}  ${var.NODE1_VIPNAME}
+${google_compute_address.vip_addr3_2.address}  ${var.NODE2_VIPNAME}.${var.DOMAIN}  ${var.NODE2_VIPNAME}
 # Scan info
 ${var.SCAN1}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
 ${var.SCAN2}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
@@ -731,5 +755,74 @@ EOL
 chown  grid:oinstall /tmp/ora-createdb.sh
 
 su - oracle -c 'sh /tmp/ora-createdb.sh'
+EOF
+}
+
+
+resource "google_compute_instance" "terra-asm-2" {
+  provider = google-beta
+  name           = "terra-inst-asm-02"
+  machine_type   = "e2-standard-4"
+  zone           = "us-central1-b"
+  can_ip_forward = false
+  service_account {
+     email = data.google_compute_default_service_account.default.email
+     scopes = ["cloud-platform"]
+     }
+
+  boot_disk {
+    initialize_params {
+      image = data.google_compute_image.image-terra-ora.self_link
+      }
+    }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.main_asm_subnet.self_link
+    
+    access_config {
+     nat_ip = google_compute_address.pubnetwork.address
+    }
+   }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
+    network_ip = google_compute_address.pub_addr1_2.address
+   }
+
+  network_interface {
+    subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
+    network_ip = google_compute_address.priv_addr2_2.address
+   }
+
+     metadata_startup_script = <<EOF
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Adjust network"
+echo "-----------------------------------------------------------------"
+
+ifconfig eth1 netmask 255.255.255.0
+ifconfig eth2 netmask 255.255.255.0
+
+echo "-----------------------------------------------------------------"
+echo "set /etc/hosts"
+echo "-----------------------------------------------------------------"
+
+
+cat >> /etc/hosts <<EOL
+# Public host info
+${google_compute_address.pub_addr1.address}  ${var.NODE1_NAME}.${var.DOMAIN}  ${var.NODE1_NAME}
+${google_compute_address.pub_addr1_2.address}  ${var.NODE2_NAME}.${var.DOMAIN}  ${var.NODE2_NAME}
+# Private host info
+${google_compute_address.priv_addr2.address}  ${var.NODE1_PRIVNAME}.${var.DOMAIN}  ${var.NODE1_PRIVNAME}
+${google_compute_address.priv_addr2_2.address}  ${var.NODE2_PRIVNAME}.${var.DOMAIN}  ${var.NODE2_PRIVNAME}
+
+# Virtual host info (the same subnet as pub)
+${google_compute_address.vip_addr3.address}  ${var.NODE1_VIPNAME}.${var.DOMAIN}  ${var.NODE1_VIPNAME}
+${google_compute_address.vip_addr3_2.address}  ${var.NODE2_VIPNAME}.${var.DOMAIN}  ${var.NODE2_VIPNAME}
+# Scan info
+${var.SCAN1}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
+${var.SCAN2}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
+${var.SCAN3}    ${var.SCAN_NAME}.${var.DOMAIN}    ${var.SCAN_NAME}
+EOL
+
 EOF
 }
