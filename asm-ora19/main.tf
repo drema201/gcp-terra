@@ -322,14 +322,6 @@ resource "google_compute_instance" "terra-asm-1" {
   }
 
   metadata_startup_script = <<EOF
-echo "-----------------------------------------------------------------"
-echo -e "`date +%F' '%T`: Adjust network"
-echo "-----------------------------------------------------------------"
-
-ifconfig eth1 netmask 255.255.255.0
-ifconfig eth2 netmask 255.255.255.0
-ifconfig eth1
-ifconfig eth2
 
 echo "partitioning /sdb"
 parted -s /dev/sdb mklabel gpt
@@ -590,6 +582,15 @@ $${GI_HOME}/gridSetup.sh -ignorePrereq -waitforcompletion -silent \\
 EOL
 
 chown -R grid:oinstall /tmp/gi_installation.sh
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Adjust network (ifconfig)"
+echo "-----------------------------------------------------------------"
+
+ifconfig eth1 netmask 255.255.255.0
+ifconfig eth2 netmask 255.255.255.0
+ifconfig eth1
+ifconfig eth2
 
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Install GI software"
