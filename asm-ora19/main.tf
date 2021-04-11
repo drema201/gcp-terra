@@ -325,11 +325,11 @@ resource "google_compute_instance" "terra-asm-1" {
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Adjust network"
 echo "-----------------------------------------------------------------"
-ifconfig eth1 broadcast ${cidrhost(google_compute_subnetwork.pub_asm_subnet.ip_cidr_range,255)}
-ifconfig eth2 broadcast ${cidrhost(google_compute_subnetwork.priv_asm_subnet.ip_cidr_range,255)}
 
 ifconfig eth1 netmask 255.255.255.0
 ifconfig eth2 netmask 255.255.255.0
+ifconfig eth1
+ifconfig eth2
 
 echo "partitioning /sdb"
 parted -s /dev/sdb mklabel gpt
@@ -804,6 +804,8 @@ echo "-----------------------------------------------------------------"
 
 ifconfig eth1 netmask 255.255.255.0
 ifconfig eth2 netmask 255.255.255.0
+ifconfig eth1
+ifconfig eth2
 
 echo "-----------------------------------------------------------------"
 echo "set /etc/hosts"
