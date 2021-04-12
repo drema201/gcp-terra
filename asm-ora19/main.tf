@@ -148,6 +148,43 @@ resource "google_compute_firewall" "main-asm-firewall" {
   }
 }
 
+resource "google_compute_firewall" "pub-asm-firewall" {
+  name    = "pub-asm-firewall"
+  network = google_compute_network.pub_asm_subnet.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+  allow {
+    protocol = "udp"
+    ports    = ["0-65535"]
+  }
+  allow {
+    protocol = "icmp"
+  }
+
+}
+
+resource "google_compute_firewall" "priv-asm-firewall" {
+  name    = "priv-asm-firewall"
+  network = google_compute_network.priv_asm_subnet.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+  allow {
+    protocol = "udp"
+    ports    = ["0-65535"]
+  }
+  allow {
+    protocol = "icmp"
+  }
+
+}
+
+
 resource "google_compute_subnetwork" "main_asm_subnet" {
   name          = "my-asm-main-subnet"
   region        = "us-central1"
