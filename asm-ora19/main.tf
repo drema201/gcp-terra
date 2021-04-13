@@ -323,16 +323,11 @@ resource "google_compute_instance" "terra-asm-1" {
     }
 
   network_interface {
-    subnetwork = google_compute_subnetwork.main_asm_subnet.self_link
-    network_ip = google_compute_address.main_addr0.address
+    subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
+    network_ip = google_compute_address.pub_addr1.address
     access_config {
      nat_ip = google_compute_address.pubnetwork.address
     }
-   }
-
-  network_interface {
-    subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
-    network_ip = google_compute_address.pub_addr1.address
    }
 
   network_interface {
@@ -819,18 +814,13 @@ resource "google_compute_instance" "terra-asm-2" {
       }
     }
 
-  network_interface {
-    subnetwork = google_compute_subnetwork.main_asm_subnet.self_link
-    access_config {
-      nat_ip = google_compute_address.pubnetwork-2.address
-    }
-
-
-   }
 
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
     network_ip = google_compute_address.pub_addr1_2.address
+    access_config {
+      nat_ip = google_compute_address.pubnetwork-2.address
+    }
    }
 
   network_interface {
