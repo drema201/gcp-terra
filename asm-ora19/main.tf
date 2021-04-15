@@ -619,10 +619,10 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Adjust network (ifconfig)"
 echo "-----------------------------------------------------------------"
 
+ifconfig eth0 netmask 255.255.255.0
 ifconfig eth1 netmask 255.255.255.0
-ifconfig eth2 netmask 255.255.255.0
+ifconfig eth0
 ifconfig eth1
-ifconfig eth2
 
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Install GI software"
@@ -833,10 +833,10 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Adjust network"
 echo "-----------------------------------------------------------------"
 
+ifconfig eth0 netmask 255.255.255.0
 ifconfig eth1 netmask 255.255.255.0
-ifconfig eth2 netmask 255.255.255.0
+ifconfig eth0
 ifconfig eth1
-ifconfig eth2
 
 echo "-----------------------------------------------------------------"
 echo "set /etc/hosts"
