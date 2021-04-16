@@ -322,6 +322,10 @@ resource "google_compute_instance" "terra-asm-1" {
       }
     }
 
+  guest_os_features {
+    type = "MULTI_IP_SUBNET"
+  }
+
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
     network_ip = google_compute_address.pub_addr1.address
@@ -814,6 +818,9 @@ resource "google_compute_instance" "terra-asm-2" {
       }
     }
 
+  guest_os_features {
+    type = "MULTI_IP_SUBNET"
+  }
 
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
