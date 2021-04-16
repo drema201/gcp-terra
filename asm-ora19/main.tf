@@ -266,6 +266,10 @@ data "google_compute_image" "image-terra-ora" {
   provider = google-beta
   family  = "centos-7"
   project = "centos-cloud"
+
+  guest_os_features {
+    type = "MULTI_IP_SUBNET"
+  }
 }
 
 resource "google_compute_disk" "disk-b" {
@@ -321,10 +325,6 @@ resource "google_compute_instance" "terra-asm-1" {
       image = data.google_compute_image.image-terra-ora.self_link
       }
     }
-
-  guest_os_features {
-    type = "MULTI_IP_SUBNET"
-  }
 
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
@@ -817,10 +817,6 @@ resource "google_compute_instance" "terra-asm-2" {
       image = data.google_compute_image.image-terra-ora.self_link
       }
     }
-
-  guest_os_features {
-    type = "MULTI_IP_SUBNET"
-  }
 
   network_interface {
     subnetwork = google_compute_subnetwork.pub_asm_subnet.self_link
