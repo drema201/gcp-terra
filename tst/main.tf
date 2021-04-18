@@ -17,7 +17,7 @@ data "google_compute_image" "image-terra-ora" {
 resource "google_compute_instance" "templ-cenos" {
   provider = google-beta
   name           = "terra-inst-centos"
-  machine_type   = "e2-standard-1"
+  machine_type   = "e2-standard-2"
   zone           = "us-central1-b"
   can_ip_forward = false
   service_account {
