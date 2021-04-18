@@ -30,6 +30,13 @@ resource "google_compute_instance" "templ-cenos" {
       image = data.google_compute_image.image-terra-ora.self_link
       }
     }
+
+  network_interface {
+    network = "default"
+    access_config {
+   //network_tier = "PREMIUM"
+    }
+
 }
 
 resource "google_compute_machine_image" "image" {
