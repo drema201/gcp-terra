@@ -46,9 +46,11 @@ resource "google_compute_machine_image" "myimage" {
 
 }
 
+
+
 resource "google_compute_image" "image-base" {
     name="image-base"
-    source_image=projects.centos-cloud.global.images.centos-7-v20210401
+    source_image=data.google_compute_image.image-terra-ora.self_link
 
     guest_os_features {
       type = "MULTI_IP_SUBNET"
