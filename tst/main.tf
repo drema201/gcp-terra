@@ -36,7 +36,7 @@ resource "google_compute_instance" "templ-cenos" {
     access_config {
    //network_tier = "PREMIUM"
     }
-
+  }
 }
 
 resource "google_compute_machine_image" "image" {
