@@ -4,9 +4,19 @@ provider "google" {
   zone        = "us-central1-b"
 }
 
+data "google_compute_default_service_account" "default" {
+}
+
+data "google_compute_image" "image-terra-ora" {
+  provider = google-beta
+  family  = "centos-7"
+  project = "centos-cloud"
+
+}
+
 resource "google_compute_instance" "templ-cenos" {
   provider = google-beta
-  name           = "terra-inst-asm-01"
+  name           = "terra-inst-centos"
   machine_type   = "e2-standard-1"
   zone           = "us-central1-b"
   can_ip_forward = false
