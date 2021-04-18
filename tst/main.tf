@@ -38,7 +38,7 @@ resource "google_compute_instance" "terra-test-1" {
 
   boot_disk {
     initialize_params {
-      image = data.google_compute_image.image-base.self_link
+      image = google_compute_image.image-base.self_link
     }
   }
   network_interface {
