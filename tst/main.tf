@@ -39,16 +39,16 @@ resource "google_compute_instance" "templ-cenos" {
   }
 }
 
-resource "google_compute_machine_image" "image" {
+resource "google_compute_machine_image" "myimage" {
   provider        = google-beta
-  name            = "image"
+  name            = "myimage"
   source_instance = google_compute_instance.templ-cenos.self_link
 
 }
 
 resource "google_compute_image" "image-base" {
     name="image-base"
-    source_image=google_compute_machine_image.image.self_link
+    source_image=google_compute_machine_image.myimage.self_link
 
     guest_os_features {
       type = "MULTI_IP_SUBNET"
