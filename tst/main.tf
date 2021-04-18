@@ -44,6 +44,11 @@ resource "google_compute_machine_image" "image" {
   name            = "image"
   source_instance = google_compute_instance.templ-cenos.self_link
 
+}
+
+data "google_compute_image" "image-base" {
+    source_image=google_compute_machine_image.image.self_link
+
     guest_os_features {
       type = "MULTI_IP_SUBNET"
     }
