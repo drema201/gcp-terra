@@ -1,3 +1,9 @@
+provider "google" {
+  project     = "postgretrial"
+  region      = "us-central1"
+  zone        = "us-central1-b"
+}
+
 resource "google_compute_instance" "templ-cenos" {
   provider = google-beta
   name           = "terra-inst-asm-01"
