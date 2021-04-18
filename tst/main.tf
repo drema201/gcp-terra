@@ -46,7 +46,7 @@ resource "google_compute_machine_image" "image" {
 
 }
 
-data "google_compute_image" "image-base" {
+resource "google_compute_image" "image-base" {
     source_image=google_compute_machine_image.image.self_link
 
     guest_os_features {
