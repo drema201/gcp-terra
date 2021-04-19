@@ -269,7 +269,6 @@ data "google_compute_image" "image-terra-cent7" {
 
 }
 
-
 resource "google_compute_image" "image-base" {
     name="image-base"
     source_image=data.google_compute_image.image-terra-cent7.self_link
@@ -322,6 +321,8 @@ resource "google_compute_instance" "terra-asm-1" {
   machine_type   = "e2-standard-4"
   zone           = "us-central1-b"
   can_ip_forward = false
+
+
   service_account {
      email = data.google_compute_default_service_account.default.email
      scopes = ["cloud-platform"]
@@ -329,7 +330,7 @@ resource "google_compute_instance" "terra-asm-1" {
 
   boot_disk {
     initialize_params {
-      image = data.google_compute_image.image-base.self_link
+      image = google_compute_image.image-base.self_link
       }
     }
 
@@ -821,7 +822,7 @@ resource "google_compute_instance" "terra-asm-2" {
 
   boot_disk {
     initialize_params {
-      image = data.google_compute_image.image-base.self_link
+      image = google_compute_image.image-base.self_link
       }
     }
 
