@@ -262,10 +262,21 @@ resource "google_compute_address" "vip_addr3_2" {
 data "google_compute_default_service_account" "default" {
 }
 
-data "google_compute_image" "image-terra-ora" {
+data "google_compute_image" "image-terra-cent7" {
   provider = google-beta
   family  = "centos-7"
   project = "centos-cloud"
+
+}
+
+
+resource "google_compute_image" "image-base" {
+    name="image-base"
+    source_image=data.google_compute_image.image-terra-cent7.self_link
+
+    guest_os_features {
+      type = "MULTI_IP_SUBNET"
+    }
 }
 
 resource "google_compute_disk" "disk-b" {
@@ -318,7 +329,7 @@ resource "google_compute_instance" "terra-asm-1" {
 
   boot_disk {
     initialize_params {
-      image = data.google_compute_image.image-terra-ora.self_link
+      image = data.google_compute_image.image-base.self_link
       }
     }
 
@@ -810,7 +821,7 @@ resource "google_compute_instance" "terra-asm-2" {
 
   boot_disk {
     initialize_params {
-      image = data.google_compute_image.image-terra-ora.self_link
+      image = data.google_compute_image.image-base.self_link
       }
     }
 

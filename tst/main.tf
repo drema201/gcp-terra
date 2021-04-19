@@ -15,7 +15,6 @@ data "google_compute_image" "image-terra-cent7" {
 }
 
 
-
 resource "google_compute_image" "image-base" {
     name="image-base"
     source_image=data.google_compute_image.image-terra-cent7.self_link
