@@ -23,8 +23,8 @@ resource "google_service_account_key" "orakey" {
   service_account_id = google_service_account.oracle.name
 }
 
-resource "google_compute_image" "image-base" {
-    name="image-base"
+resource "google_compute_image" "image-base1" {
+    name="image-base1"
     source_image=data.google_compute_image.image-terra-cent7.self_link
 
     guest_os_features {
@@ -45,7 +45,7 @@ resource "google_compute_instance" "terra-test-1" {
 
   boot_disk {
     initialize_params {
-      image = google_compute_image.image-base.self_link
+      image = google_compute_image.image-base1.self_link
     }
   }
   network_interface {
