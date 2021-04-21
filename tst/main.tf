@@ -14,6 +14,14 @@ data "google_compute_image" "image-terra-cent7" {
 
 }
 
+resource "google_service_account" "oracle" {
+  account_id   = "myaccount"
+  display_name = "My Service Account"
+}
+
+resource "google_service_account_key" "orakey" {
+  service_account_id = google_service_account.oracle.name
+}
 
 resource "google_compute_image" "image-base" {
     name="image-base"
@@ -46,4 +54,14 @@ resource "google_compute_instance" "terra-test-1" {
    //network_tier = "PREMIUM"
     }
   }
+    metadata_startup_script = <<EOF
+groupadd oinstall
+useradd oracle -d /home/oracle -m -p $(echo "welcome1") -g oinstall
+mkdir -p /home/oracle/.ssh
+cat "${google_service_account_key.orakey.private_key}" > /home/oracle/.ssh/nodekey
+cat "${google_service_account_key.orakey.public_key}" > /home/oracle/.ssh/nodekey.pub
+chown -R oracle:oinstall /home/oracle
+
+EOF
+
 }
