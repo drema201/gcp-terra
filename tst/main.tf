@@ -21,8 +21,8 @@ resource "google_service_account" "oracle" {
 
 resource "google_service_account_key" "orakey" {
   service_account_id = google_service_account.oracle.name
-  private_key_type = TYPE_GOOGLE_CREDENTIALS_FILE
-  key_algorithm = KEY_ALG_RSA_1024
+  private_key_type = "TYPE_GOOGLE_CREDENTIALS_FILE"
+  key_algorithm = "KEY_ALG_RSA_1024"
   public_key_type = "TYPE_X509_PEM_FILE"
 }
 
