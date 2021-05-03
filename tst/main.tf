@@ -15,12 +15,15 @@ data "google_compute_image" "image-terra-cent7" {
 }
 
 resource "google_service_account" "oracle" {
-  account_id   = "myaccount"
+  account_id   = "oracle"
   display_name = "My Service Account"
 }
 
 resource "google_service_account_key" "orakey" {
   service_account_id = google_service_account.oracle.name
+  private_key_type = TYPE_GOOGLE_CREDENTIALS_FILE
+  key_algorithm = KEY_ALG_RSA_1024
+  public_key_type = TYPE_X509_PEM_FILE
 }
 
 resource "google_compute_image" "image-base1" {
@@ -58,8 +61,8 @@ resource "google_compute_instance" "terra-test-1" {
 groupadd oinstall
 useradd oracle -d /home/oracle -m -p $(echo "welcome1") -g oinstall
 mkdir -p /home/oracle/.ssh
-echo "${base64decode(google_service_account_key.orakey.private_key)}" > /home/oracle/.ssh/nodekey
-echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/nodekey.pub
+echo "${base64decode(google_service_account_key.orakey.private_key)}" > /home/oracle/.ssh/id_rsa
+echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
 chown -R oracle:oinstall /home/oracle
 
 EOF
