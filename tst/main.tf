@@ -21,7 +21,7 @@ resource "google_service_account" "oracle" {
 
 resource "google_service_account_key" "orakey" {
   service_account_id = google_service_account.oracle.name
-  private_key_type = "TYPE_GOOGLE_CREDENTIALS_FILE"
+  private_key_type = "TYPE_PKCS12_FILE"
   key_algorithm = "KEY_ALG_RSA_1024"
   public_key_type = "TYPE_X509_PEM_FILE"
 }
@@ -64,7 +64,8 @@ mkdir -p /home/oracle/.ssh
 echo "${base64decode(google_service_account_key.orakey.private_key)}" > /home/oracle/.ssh/id_rsa
 echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
 chown -R oracle:oinstall /home/oracle
-
+chmod og-r id_rsa
+ssh-keygen -p -P notasecret -N -f /home/oracle/.ssh/id_rsa
 EOF
 
 }
