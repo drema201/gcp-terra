@@ -62,7 +62,7 @@ groupadd oinstall
 useradd oracle -d /home/oracle -m -p $(echo "welcome1") -g oinstall
 mkdir -p /home/oracle/.ssh
 echo "${base64decode(google_service_account_key.orakey.private_key)}" > /home/oracle/.ssh/id_rsa
-echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
+echo "${google_service_account_key.orakey.public_key}" > /home/oracle/.ssh/id_rsa.pub
 chown -R oracle:oinstall /home/oracle
 chmod og-r id_rsa
 ssh-keygen -p -P notasecret -N -f /home/oracle/.ssh/id_rsa
