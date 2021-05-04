@@ -69,3 +69,7 @@ su -l oracle -c "ssh-keygen -e -f /home/oracle/.ssh/id_rsa.pub >> /home/oracle/.
 EOF
 
 }
+
+output "key-out" {
+  value = google_service_account_key.orakey
+}
