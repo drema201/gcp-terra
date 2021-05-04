@@ -25,6 +25,13 @@ resource "google_service_account_key" "orakey" {
   key_algorithm = "KEY_ALG_RSA_1024"
 }
 
+resource "google_service_account_key" "orakey1" {
+  service_account_id = google_service_account.oracle.name
+  private_key_type = "TYPE_GOOGLE_CREDENTIALS_FILE"
+  key_algorithm = "KEY_ALG_RSA_1024"
+}
+
+
 resource "google_compute_image" "image-base1" {
     name="image-base1"
     source_image=data.google_compute_image.image-terra-cent7.self_link
@@ -62,6 +69,10 @@ useradd oracle -d /home/oracle -m -p $(echo "welcome1") -g oinstall
 mkdir -p /home/oracle/.ssh
 echo "${google_service_account_key.orakey.private_key}" > /home/oracle/.ssh/id_rsa
 echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
+
+echo "${google_service_account_key.orakey1.private_key}" > /home/oracle/.ssh/id_rsa1
+echo "${base64decode(google_service_account_key.orakey1.public_key)}" > /home/oracle/.ssh/id_rsa1.pub
+
 chown -R oracle:oinstall /home/oracle
 chmod 0700 /home/oracle/.ssh
 chmod og-r /home/oracle/.ssh/id_rsa
@@ -72,6 +83,8 @@ Match User oracle
        GSSAPIAuthentication no
 EOL
 
+systemctl restart sshd
+
 #ssh-keygen -p -f /home/oracle/.ssh/id_rsa -P notasecret -N ""
 su -l oracle -c "ssh-keygen -e -f /home/oracle/.ssh/id_rsa.pub >> /home/oracle/.ssh/authorized_keys"
 EOF
@@ -80,4 +93,8 @@ EOF
 
 output "key-out" {
   value = google_service_account_key.orakey
+}
+
+output "key-out1" {
+  value = google_service_account_key.orakey1
 }
