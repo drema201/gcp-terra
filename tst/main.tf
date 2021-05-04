@@ -63,7 +63,15 @@ mkdir -p /home/oracle/.ssh
 echo "${google_service_account_key.orakey.private_key}" > /home/oracle/.ssh/id_rsa
 echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
 chown -R oracle:oinstall /home/oracle
+chmod 0700 /home/oracle/.ssh
 chmod og-r /home/oracle/.ssh/id_rsa
+chmod og-r /home/oracle/.ssh/id_rsa.pub
+cat << EOL >> /etc/ssh/sshd_config
+Match User oracle
+       PubkeyAuthentication yes
+       GSSAPIAuthentication no
+EOL
+
 #ssh-keygen -p -f /home/oracle/.ssh/id_rsa -P notasecret -N ""
 su -l oracle -c "ssh-keygen -e -f /home/oracle/.ssh/id_rsa.pub >> /home/oracle/.ssh/authorized_keys"
 EOF
