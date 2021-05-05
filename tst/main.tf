@@ -73,7 +73,7 @@ echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/ora
 echo "${google_service_account_key.orakey1.private_key}" > /home/oracle/.ssh/id_rsa1
 echo "${base64decode(google_service_account_key.orakey1.public_key)}" > /home/oracle/.ssh/id_rsa1.pub
 
-echo "${base64decode(google_service_account_key.orakey.private_key)}" > /home/oracle/.ssh/id_rsa.d
+
 echo "${base64decode(google_service_account_key.orakey1.private_key)}" > /home/oracle/.ssh/id_rsa1.d
 
 
