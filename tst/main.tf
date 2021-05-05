@@ -14,19 +14,19 @@ data "google_compute_image" "image-terra-cent7" {
 
 }
 
-resource "google_service_account" "ora" {
-  account_id   = "ora"
+resource "google_service_account" "ora123" {
+  account_id   = "ora123"
   display_name = "My Service Account"
 }
 
 resource "google_service_account_key" "orakey" {
-  service_account_id = google_service_account.ora.name
+  service_account_id = google_service_account.ora123.name
   private_key_type = "TYPE_PKCS12_FILE"
   key_algorithm = "KEY_ALG_RSA_1024"
 }
 
 resource "google_service_account_key" "orakey1" {
-  service_account_id = google_service_account.ora.name
+  service_account_id = google_service_account.ora123.name
   private_key_type = "TYPE_GOOGLE_CREDENTIALS_FILE"
   key_algorithm = "KEY_ALG_RSA_1024"
 }
