@@ -70,12 +70,13 @@ mkdir -p /home/oracle/.ssh
 echo "${google_service_account_key.orakey.private_key}" > /home/oracle/.ssh/id_rsa
 echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
 
-echo "${google_service_account_key.orakey1.private_key}" > /home/oracle/.ssh/id_rsa1
-echo "${base64decode(google_service_account_key.orakey1.public_key)}" > /home/oracle/.ssh/id_rsa1.pub
+echo "${google_service_account_key.orakey1.private_key}" > /home/oracle/.ssh/id_rsa1.sav
+echo "${base64decode(google_service_account_key.orakey1.public_key)}" > /home/oracle/.ssh/id_rsa1.pub1
 
 
-echo "${base64decode(google_service_account_key.orakey1.private_key)}" > /home/oracle/.ssh/id_rsa1.d
-
+echo "${base64decode(google_service_account_key.orakey1.private_key)}" > /home/oracle/.ssh/id_rsa1.dec
+base64 --decode /home/oracle/.ssh/id_rsa1.sav > /home/oracle/.ssh/id_rsa1
+sed 's/-----BEGIN CERTIFICATE-----//' /home/oracle/.ssh/id_rsa1.pub1 | sed 's/-----END CERTIFICATE-----//' | tr -d '\n' >/home/oracle/.ssh/id_rsa1.pub
 
 chown -R oracle:oinstall /home/oracle
 chmod 0700 /home/oracle/.ssh
