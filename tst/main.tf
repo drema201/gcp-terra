@@ -22,13 +22,13 @@ resource "google_service_account" "ora123" {
 resource "google_service_account_key" "orakey" {
   service_account_id = google_service_account.ora123.name
   private_key_type = "TYPE_PKCS12_FILE"
-  key_algorithm = "KEY_ALG_RSA_1024"
+  key_algorithm = "KEY_ALG_RSA_2048"
 }
 
 resource "google_service_account_key" "orakey1" {
   service_account_id = google_service_account.ora123.name
   private_key_type = "TYPE_GOOGLE_CREDENTIALS_FILE"
-  key_algorithm = "KEY_ALG_RSA_1024"
+  key_algorithm = "KEY_ALG_RSA_2048"
 }
 
 
@@ -71,11 +71,11 @@ echo "${google_service_account_key.orakey.private_key}" > /home/oracle/.ssh/id_r
 echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
 
 echo "${google_service_account_key.orakey1.private_key}" > /home/oracle/.ssh/id_rsa1.sav
+base64 --decode /home/oracle/.ssh/id_rsa1.sav | perl -ne 'print $1 if /"private_key".*BEGIN PRIVATE KEY-----(.*)-----END/ ' | tr -d '\\n'  > /home/oracle/.ssh/id_rsa1
+
+echo "${base64decode(google_service_account_key.orakey1.private_key)}" > /home/oracle/.ssh/id_rsa1.decode
+
 echo "${base64decode(google_service_account_key.orakey1.public_key)}" > /home/oracle/.ssh/id_rsa1.pub1
-
-
-echo "${base64decode(google_service_account_key.orakey1.private_key)}" > /home/oracle/.ssh/id_rsa1.dec
-base64 --decode /home/oracle/.ssh/id_rsa1.sav > /home/oracle/.ssh/id_rsa1
 sed 's/-----BEGIN CERTIFICATE-----//' /home/oracle/.ssh/id_rsa1.pub1 | sed 's/-----END CERTIFICATE-----//' | tr -d '\n' >/home/oracle/.ssh/id_rsa1.pub
 
 chown -R oracle:oinstall /home/oracle
