@@ -14,19 +14,19 @@ data "google_compute_image" "image-terra-cent7" {
 
 }
 
-resource "google_service_account" "ora123" {
-  account_id   = "ora123"
+resource "google_service_account" "ora1234" {
+  account_id   = "ora1234"
   display_name = "My Service Account"
 }
 
 resource "google_service_account_key" "orakey" {
-  service_account_id = google_service_account.ora123.name
+  service_account_id = google_service_account.ora1234.name
   private_key_type = "TYPE_PKCS12_FILE"
   key_algorithm = "KEY_ALG_RSA_2048"
 }
 
 resource "google_service_account_key" "orakey1" {
-  service_account_id = google_service_account.ora123.name
+  service_account_id = google_service_account.ora1234.name
   private_key_type = "TYPE_GOOGLE_CREDENTIALS_FILE"
   key_algorithm = "KEY_ALG_RSA_2048"
 }
@@ -70,13 +70,14 @@ mkdir -p /home/oracle/.ssh
 echo "${google_service_account_key.orakey.private_key}" > /home/oracle/.ssh/id_rsa
 echo "${base64decode(google_service_account_key.orakey.public_key)}" > /home/oracle/.ssh/id_rsa.pub
 
-echo "${google_service_account_key.orakey1.private_key}" > /home/oracle/.ssh/id_rsa1.sav
-base64 --decode /home/oracle/.ssh/id_rsa1.sav | perl -ne 'print $1 if /"private_key".*(BEGIN PRIVATE KEY-----.*-----END PRIVATE KEY-----)/ ' | tr '\\n' '\n'  > /home/oracle/.ssh/id_rsa1
+echo "${google_service_account_key.orakey1.private_key}" > /home/oracle/.ssh/id_rsa1.raw
+base64 --decode /home/oracle/.ssh/id_rsa1.raw | perl -ne 'print $1 if /"private_key".*(-----BEGIN PRIVATE KEY-----.*-----END PRIVATE KEY-----)/ ' | sed 's/\\n/\n/g'
 
 echo "${base64decode(google_service_account_key.orakey1.private_key)}" > /home/oracle/.ssh/id_rsa1.decode
 
-echo "${base64decode(google_service_account_key.orakey1.public_key)}" > /home/oracle/.ssh/id_rsa1.pub1
-sed 's/-----BEGIN CERTIFICATE-----//' /home/oracle/.ssh/id_rsa1.pub1 | sed 's/-----END CERTIFICATE-----//' | tr -d '\n' >/home/oracle/.ssh/id_rsa1.pub
+echo "${google_service_account_key.orakey1.public_key}" > /home/oracle/.ssh/id_rsa1.pub.raw
+echo "${base64decode(google_service_account_key.orakey1.public_key)}" > /home/oracle/.ssh/id_rsa1.pub.decode
+sed 's/-----BEGIN CERTIFICATE-----/ssh-rsa /' /home/oracle/.ssh/id_rsa1.pub.decode | sed 's/-----END CERTIFICATE-----/ oracle@localhost\n/g' | tr -d '\n' >/home/oracle/.ssh/id_rsa1.pub
 
 chown -R oracle:oinstall /home/oracle
 chmod 0700 /home/oracle/.ssh
@@ -94,7 +95,7 @@ EOL
 
 systemctl restart sshd
 
-#ssh-keygen -p -f /home/oracle/.ssh/id_rsa -P notasecret -N ""
+#ssh-keygen -p -f /home/oracle/.ssh/id_rsa1 -P notasecret -N ""
 su -l oracle -c "ssh-keygen -e -f /home/oracle/.ssh/id_rsa.pub >> /home/oracle/.ssh/authorized_keys"
 EOF
 
