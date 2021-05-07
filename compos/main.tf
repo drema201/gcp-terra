@@ -25,7 +25,7 @@ resource "google_composer_environment" "compos-1" {
   region = "us-central1"
 
   config {
-    node_count = 2
+    node_count = 3
 
     node_config {
       zone         = "us-central1-a"
