@@ -82,7 +82,7 @@ resource "google_bigquery_table" "average_weather" {
   dataset_id = google_bigquery_dataset.comp_ds.dataset_id
   table_id   = "average_weather"
 
-  deletion_protection = NO
+  deletion_protection = false
 
   labels = {
     env = "default"
