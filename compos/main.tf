@@ -1,7 +1,7 @@
 provider "google" {
   project     = "postgretrial"
   region      = "us-central1"
-  zone        = "us-central1-b"
+  zone        = "us-central1-a"
 }
 
 resource "google_compute_network" "comp-net" {
