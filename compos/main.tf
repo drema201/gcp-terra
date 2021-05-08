@@ -4,6 +4,10 @@ provider "google" {
   zone        = "us-central1-a"
 }
 
+provider "null" {
+}
+
+
 resource "google_compute_network" "comp-net" {
   name                    = "comp1-network"
   auto_create_subnetworks = false
