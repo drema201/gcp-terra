@@ -67,10 +67,10 @@ resource "google_composer_environment" "compos-3" {
 
     provisioner "local-exec" {
       command = <<EOF
-gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set project_id postgretrial
-gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set gce_region ${var.GCE_REGION}
-gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set gce_zone ${var.GCE_ZONE}
-gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set bucket_path ${google_storage_bucket.for-compose-3.name}
+gcloud composer environments run ${google_composer_environment.compos-3.name} --location ${google_composer_environment.compos-3.region}  variables --  --set project_id postgretrial
+gcloud composer environments run ${google_composer_environment.compos-3.name} --location ${google_composer_environment.compos-3.region}  variables --  --set gce_region ${var.GCE_REGION}
+gcloud composer environments run ${google_composer_environment.compos-3.name} --location ${google_composer_environment.compos-3.region}  variables --  --set gce_zone ${var.GCE_ZONE}
+gcloud composer environments run ${google_composer_environment.compos-3.name} --location ${google_composer_environment.compos-3.region}  variables --  --set bucket_path ${google_storage_bucket.for-compose-3.name}
 EOF
     }
 
