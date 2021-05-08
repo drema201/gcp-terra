@@ -78,4 +78,11 @@ resource "null_resource" "example1" {
   provisioner "local-exec" {
     command = "echo 'test provis2'"
   }
+  provisioner "local-exec" {
+    command = "gsutil cp Node.js gs://${google_storage_bucket.for-compose.name}/"
+  }
+
+  depends_on = [
+      google_storage_bucket.for-compose,
+  ]
 }
