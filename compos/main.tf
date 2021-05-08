@@ -70,7 +70,7 @@ resource "google_composer_environment" "compos-3" {
 gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set project_id postgretrial
 gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set gce_region ${var.GCE_REGION}
 gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set gce_zone ${var.GCE_ZONE}
-gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set bucket_path ${google_storage_bucket.for-compose.name}
+gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set bucket_path ${google_storage_bucket.for-compose-3.name}
 EOF
     }
 
@@ -90,16 +90,16 @@ resource "null_resource" "example1" {
     command = "echo 'test provis2'"
   }
   provisioner "local-exec" {
-    command = "gsutil cp transformCSVtoJSON.js gs://${google_storage_bucket.for-compose.name}/"
+    command = "gsutil cp transformCSVtoJSON.js gs://${google_storage_bucket.for-compose-3.name}/"
   }
   provisioner "local-exec" {
-    command = "gsutil cp jsonSchema.js gs://${google_storage_bucket.for-compose.name}/"
+    command = "gsutil cp jsonSchema.js gs://${google_storage_bucket.for-compose-3.name}/"
   }
   provisioner "local-exec" {
-    command = "gsutil cp inputFile.txt gs://${google_storage_bucket.for-compose.name}/"
+    command = "gsutil cp inputFile.txt gs://${google_storage_bucket.for-compose-3.name}/"
   }
 
   depends_on = [
-      google_storage_bucket.for-compose,
+      google_storage_bucket.for-compose-3,
   ]
 }
