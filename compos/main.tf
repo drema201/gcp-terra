@@ -60,6 +60,10 @@ resource "google_composer_environment" "compos-2" {
     }
 
   }
+
+    provisioner "local-exec" {
+      command = "echo 'test provis'"
+    }
 }
 
 
