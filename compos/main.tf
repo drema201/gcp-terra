@@ -48,11 +48,6 @@ resource "google_composer_environment" "compos-2" {
         core-load_example = "True"
       }
 
-      pypi_packages = {
-        numpy = ""
-        scipy = "==1.1.0"
-      }
-
       env_variables = {
         FOO = "bar"
       }
@@ -73,4 +68,10 @@ resource "google_storage_bucket" "for-compose" {
 
   uniform_bucket_level_access = true
 
+}
+
+resource "null_resource" "example1" {
+  provisioner "local-exec" {
+    command = "echo 'test provis2'"
+  }
 }
