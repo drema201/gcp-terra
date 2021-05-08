@@ -22,6 +22,12 @@ resource "google_bigquery_dataset" "comp_ds" {
     user_by_email =  data.google_compute_default_service_account.default.email
   }
 
+  access {
+    role          = "OWNER"
+    user_by_email =  "daviabidavi@gmail.com"
+  }
+
+
 }
 
 resource "google_service_account" "bqowner" {
