@@ -80,7 +80,7 @@ EOF
 resource "google_storage_bucket" "for-compose-3" {
   name          = "compose-gs"
   location      = "US"
-  force_destroy = True
+  force_destroy = true
 
   uniform_bucket_level_access = true
 
