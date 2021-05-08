@@ -30,8 +30,8 @@ resource "google_project_iam_member" "composer-worker" {
   member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
-resource "google_composer_environment" "compos-2" {
-  name   = "compos-2"
+resource "google_composer_environment" "compos-3" {
+  name   = "compos-3"
   region = "us-central1"
 
   config {
@@ -49,7 +49,7 @@ resource "google_composer_environment" "compos-2" {
 
     software_config {
       airflow_config_overrides = {
-        core-load_example = "True"
+        core-load_example = "False"
       }
 
       env_variables = {
@@ -61,12 +61,23 @@ resource "google_composer_environment" "compos-2" {
   }
 
     provisioner "local-exec" {
-      command = "echo 'test provis'"
+      command = "echo 'INSIDE composer ENV'"
     }
+
+
+    provisioner "local-exec" {
+      command = <<EOF
+gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set project_id postgretrial
+gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set gce_region ${var.GCE_REGION}
+gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set gce_zone ${var.GCE_ZONE}
+gcloud composer environments run ENVIRONMENT --location LOCATION  variables --  --set bucket_path ${google_storage_bucket.for-compose.name}
+EOF
+    }
+
 }
 
 
-resource "google_storage_bucket" "for-compose" {
+resource "google_storage_bucket" "for-compose-3" {
   name          = "compose-gs"
   location      = "US"
 
@@ -79,7 +90,13 @@ resource "null_resource" "example1" {
     command = "echo 'test provis2'"
   }
   provisioner "local-exec" {
-    command = "gsutil cp Node.js gs://${google_storage_bucket.for-compose.name}/"
+    command = "gsutil cp transformCSVtoJSON.js gs://${google_storage_bucket.for-compose.name}/"
+  }
+  provisioner "local-exec" {
+    command = "gsutil cp jsonSchema.js gs://${google_storage_bucket.for-compose.name}/"
+  }
+  provisioner "local-exec" {
+    command = "gsutil cp inputFile.txt gs://${google_storage_bucket.for-compose.name}/"
   }
 
   depends_on = [
