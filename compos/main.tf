@@ -31,7 +31,7 @@ resource "google_project_iam_member" "composer-worker" {
 }
 
 resource "google_composer_environment" "compos-2" {
-  name   = "compos-1"
+  name   = "compos-2"
   region = "us-central1"
 
   config {
