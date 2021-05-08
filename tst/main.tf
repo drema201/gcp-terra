@@ -19,7 +19,7 @@ resource "google_bigquery_dataset" "comp_ds" {
 
   access {
     role          = "OWNER"
-    user_by_email =  data.google_compute_default_service_account.default.bqowner.email
+    user_by_email =  data.google_compute_default_service_account.default.email
   }
 
 }
