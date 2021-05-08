@@ -26,7 +26,7 @@ resource "google_project_iam_member" "composer-worker" {
   member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
-resource "google_composer_environment" "compos-1" {
+resource "google_composer_environment" "compos-2" {
   name   = "compos-1"
   region = "us-central1"
 
