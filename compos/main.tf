@@ -98,7 +98,7 @@ resource "null_resource" "example1" {
     command = "gsutil cp transformCSVtoJSON.js gs://${google_storage_bucket.for-compose-3.name}/"
   }
   provisioner "local-exec" {
-    command = "gsutil cp jsonSchema.js gs://${google_storage_bucket.for-compose-3.name}/"
+    command = "gsutil cp jsonSchema.json gs://${google_storage_bucket.for-compose-3.name}/"
   }
   provisioner "local-exec" {
     command = "gsutil cp inputFile.txt gs://${google_storage_bucket.for-compose-3.name}/"
