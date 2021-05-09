@@ -119,7 +119,7 @@ resource "null_resource" "after-env" {
     command = "echo 'test provis3'"
   }
   provisioner "local-exec" {
-    command = "gsutil cp dag/composer-dataflow-dag.py ${google_composer_environment.compos-3.config.0.dag_gcs_prefix}/"
+    command = "gsutil cp dags/composer-dataflow-dag.py ${google_composer_environment.compos-3.config.0.dag_gcs_prefix}/"
   }
 
   depends_on = [
