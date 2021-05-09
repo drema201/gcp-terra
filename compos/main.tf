@@ -104,3 +104,7 @@ resource "null_resource" "example1" {
       google_storage_bucket.for-compose-3,
   ]
 }
+
+output "env-conf-out" {
+  value = google_composer_environment.compos-3.config.0
+}
