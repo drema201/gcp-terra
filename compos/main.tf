@@ -86,6 +86,10 @@ resource "google_storage_bucket" "for-compose-3" {
 
 }
 
+output "env-bucket-out" {
+  value = google_storage_bucket.for-compose-3.name
+}
+
 resource "null_resource" "example1" {
   provisioner "local-exec" {
     command = "echo 'test provis2'"
