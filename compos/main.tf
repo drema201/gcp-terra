@@ -1,7 +1,7 @@
 provider "google" {
   project     = "postgretrial"
-  region      = ${var.GCE_REGION}
-  zone        = ${var.GCE_ZONE}
+  region      = "${var.GCE_REGION}"
+  zone        = "${var.GCE_ZONE}"
 }
 
 provider "null" {
@@ -16,7 +16,7 @@ resource "google_compute_network" "comp-net" {
 resource "google_compute_subnetwork" "comp-subnet" {
   name          = "comp1-subnetwork"
   ip_cidr_range = "10.2.0.0/16"
-  region        = ${var.GCE_REGION}
+  region        = "${var.GCE_REGION}"
   network       = google_compute_network.comp-net.id
 }
 
@@ -32,13 +32,13 @@ resource "google_project_iam_member" "composer-worker" {
 
 resource "google_composer_environment" "compos-3" {
   name   = "compos-3"
-  region = ${var.GCE_REGION}
+  region = "${var.GCE_REGION}"
 
   config {
     node_count = 3
 
     node_config {
-      zone         = ${var.GCE_ZONE}
+      zone         = "${var.GCE_ZONE}"
       machine_type = "e2-medium"
 
       network    = google_compute_network.comp-net.id
