@@ -90,7 +90,7 @@ output "env-bucket-out" {
   value = google_storage_bucket.for-compose-3.name
 }
 
-resource "null_resource" "example1" {
+resource "null_resource" "after-bucket" {
   provisioner "local-exec" {
     command = "echo 'test provis2'"
   }
@@ -111,4 +111,18 @@ resource "null_resource" "example1" {
 
 output "env-conf-out" {
   value = google_composer_environment.compos-3.config.0
+}
+
+resource "null_resource" "after-env" {
+  provisioner "local-exec" {
+    command = "echo 'test provis3'"
+  }
+  provisioner "local-exec" {
+    command = "gsutil cp dag/composer-dataflow-dag.py ${google_composer_environment.compos-3.config.0.dag_gcs_prefix}/"
+  }
+
+  depends_on = [
+      google_composer_environment.compos-3
+  ]
+
 }
