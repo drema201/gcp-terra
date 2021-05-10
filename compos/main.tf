@@ -29,6 +29,11 @@ resource "google_project_iam_member" "composer-worker" {
   role   = "roles/composer.worker"
   member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
+resource "google_project_iam_member" "composer-worker-1" {
+  role   = "roles/dataflow.jobs.create"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
+}
+
 
 resource "google_composer_environment" "compos-3" {
   name   = "compos-3"
