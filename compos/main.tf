@@ -1,7 +1,7 @@
 provider "google" {
   project     = "postgretrial"
-  region      = "${var.GCE_REGION}"
-  zone        = "${var.GCE_ZONE}"
+  region      = ${var.GCE_REGION}
+  zone        = ${var.GCE_ZONE}
 }
 
 provider "null" {
@@ -23,6 +23,11 @@ resource "google_compute_subnetwork" "comp-subnet" {
 resource "google_service_account" "comp-acc" {
   account_id   = "composer-env-account"
   display_name = "Test Service Account for Composer Environment"
+}
+
+resource "google_service_account_key" "comp-acc-key" {
+  service_account_id = google_service_account.comp-acc.name
+  public_key_type    = "TYPE_X509_PEM_FILE"
 }
 
 resource "google_project_iam_member" "composer-worker" {
