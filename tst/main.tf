@@ -3,6 +3,11 @@ resource "google_service_account" "comp-acc" {
   display_name = "Test Service Account for Composer Environment"
 }
 
+resource "google_service_account_key" "mykey" {
+  service_account_id = google_service_account.comp-acc.name
+  public_key_type    = "TYPE_X509_PEM_FILE"
+}
+
 resource "google_project_iam_member" "composer-worker" {
   role   = "roles/composer.worker"
   member = "serviceAccount:${google_service_account.comp-acc.email}"
