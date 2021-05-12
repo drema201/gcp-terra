@@ -49,6 +49,11 @@ resource "google_project_iam_member" "composer-worker-4" {
   member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
+resource "google_project_iam_member" "composer-worker-5" {
+  role   = "roles/bigquery.user"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
+}
+
 resource "google_composer_environment" "compos-3" {
   name   = "compos-3"
   region = "${var.GCE_REGION}"
