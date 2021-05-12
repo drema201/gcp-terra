@@ -30,7 +30,7 @@ resource "google_project_iam_member" "composer-worker" {
   member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 resource "google_project_iam_member" "composer-worker-1" {
-  role   = "roles/dataflow.jobs.create"
+  role   = "roles/dataflow.developer"
   member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
