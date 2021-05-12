@@ -34,6 +34,10 @@ resource "google_project_iam_member" "composer-worker-1" {
   member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
+resource "google_project_iam_member" "composer-worker-1" {
+  role   = "roles/iam.serviceAccountUser"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
+}
 
 resource "google_composer_environment" "compos-3" {
   name   = "compos-3"
