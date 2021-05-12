@@ -1,76 +1,33 @@
-data "google_compute_default_service_account" "default" {
+resource "google_service_account" "comp-acc" {
+  account_id   = "composer-env-account"
+  display_name = "Test Service Account for Composer Environment"
 }
 
-resource "google_bigquery_dataset" "comp_ds" {
-  dataset_id                  = "average_weather"
-  friendly_name               = "Composer_WEATHER"
-  description                 = "This is a test description"
-  location                    = "US"
-  default_table_expiration_ms = 3600000
-
-  labels = {
-    env = "default"
-  }
-
-  access {
-    role          = "OWNER"
-    user_by_email = google_service_account.bqowner.email
-  }
-
-
-  access {
-    role          = "OWNER"
-    special_group =  "projectOwners"
-  }
-
-
+resource "google_project_iam_member" "composer-worker" {
+  role   = "roles/composer.worker"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
+}
+resource "google_project_iam_member" "composer-worker-1" {
+  role   = "roles/dataflow.developer"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
-resource "google_service_account" "bqowner" {
-  account_id = "bqowner"
+resource "google_project_iam_member" "composer-worker-2" {
+  role   = "roles/iam.serviceAccountUser"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
-resource "google_bigquery_table" "average_weather" {
-  dataset_id = google_bigquery_dataset.comp_ds.dataset_id
-  table_id   = "average_weather"
-
-  deletion_protection = false
-
-  labels = {
-    env = "default"
-  }
-
-  schema = <<EOF
-[
-{
-"name": "location",
-"type": "GEOGRAPHY",
-"mode": "REQUIRED"
-},
-{
-"name": "average_temperature",
-"type": "INTEGER",
-"mode": "REQUIRED"
-},
-{
-"name": "month",
-"type": "STRING",
-"mode": "REQUIRED"
-},
-{
-"name": "inches_of_rain",
-"type": "NUMERIC"
-},
-{
-"name": "is_current",
-"type": "BOOLEAN"
-},
-{
-"name": "latest_measurement",
-"type": "DATE"
-}
-]
-EOF
-
+resource "google_project_iam_member" "composer-worker-3" {
+  role   = "roles/bigquery.dataEditor"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
 }
 
+resource "google_project_iam_member" "composer-worker-4" {
+  role   = "roles/bigquery.jobUser"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
+}
+
+resource "google_project_iam_member" "composer-worker-5" {
+  role   = "roles/bigquery.user"
+  member = "serviceAccount:${google_service_account.comp-acc.email}"
+}
