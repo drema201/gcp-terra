@@ -20,6 +20,9 @@ resource "google_compute_subnetwork" "comp-subnet" {
   network       = google_compute_network.comp-net.id
 }
 
+data "google_compute_default_service_account" "default" {
+}
+
 resource "google_service_account" "comp-acc" {
   account_id   = "composer-env-acc"
   display_name = "Test Service Account for Composer Environment"
@@ -73,7 +76,10 @@ resource "google_composer_environment" "compos-3" {
       network    = google_compute_network.comp-net.id
       subnetwork = google_compute_subnetwork.comp-subnet.id
 
-      service_account = google_service_account.comp-acc.name
+      service_account {
+      email = google_service_account.comp-acc.email
+      scopes = ["cloud-platform"]
+      }
       disk_size_gb = 30
     }
 
