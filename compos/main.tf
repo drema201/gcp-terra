@@ -20,44 +20,6 @@ resource "google_compute_subnetwork" "comp-subnet" {
   network       = google_compute_network.comp-net.id
 }
 
-resource "google_service_account" "comp-acc" {
-  account_id   = "composer-env-acc"
-  display_name = "Test Service Account for Composer Environment"
-}
-
-resource "google_service_account_key" "comp-acc-key" {
-  service_account_id = google_service_account.comp-acc.name
-  public_key_type    = "TYPE_X509_PEM_FILE"
-}
-
-resource "google_project_iam_member" "composer-worker" {
-  role   = "roles/composer.worker"
-  member = "serviceAccount:${google_service_account.comp-acc.email}"
-}
-resource "google_project_iam_member" "composer-worker-1" {
-  role   = "roles/dataflow.developer"
-  member = "serviceAccount:${google_service_account.comp-acc.email}"
-}
-
-resource "google_project_iam_member" "composer-worker-2" {
-  role   = "roles/iam.serviceAccountUser"
-  member = "serviceAccount:${google_service_account.comp-acc.email}"
-}
-
-resource "google_project_iam_member" "composer-worker-3" {
-  role   = "roles/bigquery.dataEditor"
-  member = "serviceAccount:${google_service_account.comp-acc.email}"
-}
-
-resource "google_project_iam_member" "composer-worker-4" {
-  role   = "roles/bigquery.jobUser"
-  member = "serviceAccount:${google_service_account.comp-acc.email}"
-}
-
-resource "google_project_iam_member" "composer-worker-5" {
-  role   = "roles/bigquery.user"
-  member = "serviceAccount:${google_service_account.comp-acc.email}"
-}
 
 resource "google_composer_environment" "compos-3" {
   name   = "compos-3"
@@ -73,7 +35,7 @@ resource "google_composer_environment" "compos-3" {
       network    = google_compute_network.comp-net.id
       subnetwork = google_compute_subnetwork.comp-subnet.id
 
-      service_account = data.google_compute_default_service_account.default.name
+      service_account = google_service_account.comp-acc.name
       disk_size_gb = 30
     }
 
