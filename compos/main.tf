@@ -20,9 +20,6 @@ resource "google_compute_subnetwork" "comp-subnet" {
   network       = google_compute_network.comp-net.id
 }
 
-data "google_compute_default_service_account" "default" {
-}
-
 resource "google_service_account" "comp-acc" {
   account_id   = "composer-env-acc"
   display_name = "Test Service Account for Composer Environment"
