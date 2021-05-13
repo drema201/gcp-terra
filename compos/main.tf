@@ -73,7 +73,7 @@ resource "google_composer_environment" "compos-3" {
       network    = google_compute_network.comp-net.id
       subnetwork = google_compute_subnetwork.comp-subnet.id
 
-      service_account = google_service_account.default.name
+      service_account = google_compute_default_service_account.default.name
       disk_size_gb = 30
     }
 
