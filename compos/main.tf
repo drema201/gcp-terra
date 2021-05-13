@@ -1,7 +1,7 @@
 provider "google" {
   project     = "postgretrial"
-  region      = ${var.GCE_REGION}
-  zone        = ${var.GCE_ZONE}
+  region      = var.GCE_REGION
+  zone        = var.GCE_ZONE
 }
 
 provider "null" {
