@@ -22,7 +22,7 @@ resource "google_compute_subnetwork" "comp-subnet" {
 
 
 resource "google_composer_environment" "compos-3" {
-  name   = "compos-3"
+  name   = "compos-3-0"
   region = "${var.GCE_REGION}"
 
   config {
