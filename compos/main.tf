@@ -30,7 +30,7 @@ resource "google_composer_environment" "compos-3" {
 
     node_config {
       zone         = "${var.GCE_ZONE}"
-      machine_type = "e2-medium"
+      machine_type = "n1-standard-2"
 
       network    = google_compute_network.comp-net.id
       subnetwork = google_compute_subnetwork.comp-subnet.id
