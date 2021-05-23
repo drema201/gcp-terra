@@ -37,7 +37,7 @@ resource "google_dataproc_workflow_template" "template" {
     step_id = "compute"
     spark_job {
       main_class = "org.apache.spark.examples.SparkPi"
-      jar_file_uris="file:///usr/lib/spark/examples/jars/spark-examples.jar"
+      jar_file_uris=["file:///usr/lib/spark/examples/jars/spark-examples.jar"]
     }
   }
 
