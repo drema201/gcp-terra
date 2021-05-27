@@ -7,5 +7,11 @@ default="us-central1"
 variable "GCE_ZONE" {
 description ="region for GKE"
 type=string
-default="us-central1-a"
+default="us-central1-c"
+}
+
+variable "GCE_ZONE2" {
+  description ="region for GKE"
+  type=string
+  default="us-central1-b"
 }
