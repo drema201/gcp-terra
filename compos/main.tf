@@ -50,6 +50,10 @@ resource "google_composer_environment" "compos-3" {
 
     }
 
+    private_environment_config {
+      enable_private_endpoint = true
+    }
+
   }
 
     provisioner "local-exec" {
