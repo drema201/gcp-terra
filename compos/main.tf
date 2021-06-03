@@ -19,6 +19,7 @@ resource "google_compute_subnetwork" "comp-subnet" {
   ip_cidr_range = "10.2.0.0/16"
   region        = "${var.GCE_REGION}"
   network       = google_compute_network.comp-net.id
+  private_ip_google_access = true
   secondary_ip_range {
     range_name    = "comp-subnet-2nd-range"
     ip_cidr_range = "192.168.10.0/24"
