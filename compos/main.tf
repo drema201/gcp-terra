@@ -40,6 +40,9 @@ resource "google_composer_environment" "compos-3" {
 
       network    = google_compute_network.comp-net.id
       subnetwork = google_compute_subnetwork.comp-subnet.id
+      ip_allocation_policy {
+        use_ip_aliases = true
+      }
 
       service_account = google_service_account.comp-acc.name
       disk_size_gb = 30
