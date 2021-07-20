@@ -88,10 +88,25 @@ sleep 3
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
 yum -y --nogpgcheck install  oracle-database-preinstall-19c openssl
-groupadd -g 54321 oinstall
-groupadd -g 54322 dba
-groupadd -g 54323 oper
-useradd -u 54321 -g oinstall -G dba,oper oracle
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Setup oracle and grid user"
+echo "-----------------------------------------------------------------"
+userdel -fr oracle
+groupdel oinstall
+groupdel dba
+groupdel backupdba
+groupdel dgdba
+groupdel kmdba
+groupdel racdba
+groupadd oinstall
+groupadd dbaoper
+groupadd dba
+groupadd backupdba
+
+useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba,asmdba,backupdba,dgdba,kmdba,racdba
+
+
 mkdir -p /u01/app/oracle/product/19.0.0/dbhome_1
 mkdir -p /u02/oradata
 chown -R oracle:oinstall /u01 /u02
