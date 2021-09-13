@@ -14,7 +14,7 @@ resource "google_pubsub_schema" "collect_io_sch" {
 }
 
 resource "google_pubsub_topic" "collect_io_topic" {
-  name = "collect_io_topic-topic"
+  name = "collect_io_topic"
 
   depends_on = [google_pubsub_schema.collect_io_sch]
   schema_settings {
