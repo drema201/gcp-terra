@@ -49,7 +49,7 @@ resource "google_pubsub_subscription" "collect_io_subscr2" {
 
   retain_acked_messages = false
 
-  ack_deadline_seconds = 5
+  ack_deadline_seconds = 10
 
   retry_policy {
     minimum_backoff = "10s"
