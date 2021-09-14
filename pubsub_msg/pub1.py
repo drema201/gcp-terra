@@ -3,6 +3,11 @@ def publish_messages(project_id, topic_id):
     # [START pubsub_quickstart_publisher]
     # [START pubsub_publish]
     from google.cloud import pubsub_v1
+    from avro.io import BinaryEncoder, DatumWriter
+    import avro
+    import io
+    import json
+
 
     # TODO(developer)
     # project_id = "your-project-id"
@@ -13,10 +18,16 @@ def publish_messages(project_id, topic_id):
     # in the form `projects/{project_id}/topics/{topic_id}`
     topic_path = publisher.topic_path(project_id, topic_id)
 
+    record = {"NameField": "Alaska", "GBSecField": 0}
+    data = json.dumps(record).encode("utf-8")
+    print(f"Preparing a JSON-encoded message:\n{data}")
+
+    future = publisher_client.publish(topic_path, data)
+    print(f"Published message ID: {future.result()}")
+
     for n in range(1, 10):
-        data = f"Message number {n}"
-        # Data must be a bytestring
-        data = data.encode("utf-8")
+        record = {"NameField": "lon{n}", "GBSecField": 1002+n}
+        data = json.dumps(record).encode("utf-8")
         # When you publish a message, the client returns a future.
         future = publisher.publish(topic_path, data)
         print(future.result())
