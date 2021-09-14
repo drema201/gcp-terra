@@ -51,9 +51,6 @@ resource "google_pubsub_subscription" "collect_io_subscr2" {
 
   ack_deadline_seconds = 5
 
-  expiration_policy {
-    ttl = "300000.5s"
-  }
   retry_policy {
     minimum_backoff = "10s"
   }
