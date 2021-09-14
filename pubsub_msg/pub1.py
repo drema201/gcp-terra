@@ -22,7 +22,7 @@ def publish_messages(project_id, topic_id):
     data = json.dumps(record).encode("utf-8")
     print(f"Preparing a JSON-encoded message:\n{data}")
 
-    future = publisher_client.publish(topic_path, data)
+    future = publisher.publish(topic_path, data)
     print(f"Published message ID: {future.result()}")
 
     for n in range(1, 10):
