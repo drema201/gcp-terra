@@ -25,7 +25,7 @@ def publish_messages(project_id, topic_id):
     future = publisher.publish(topic_path, data)
     print(f"Published message ID: {future.result()}")
 
-    for n in range(1, 10):
+    for n in range(1, 1000):
         record = {"NameField": "lon{n}", "GBSecField": 1002+n}
         data = json.dumps(record).encode("utf-8")
         # When you publish a message, the client returns a future.
