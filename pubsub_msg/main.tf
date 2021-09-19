@@ -23,6 +23,12 @@ resource "google_pubsub_topic" "collect_io_topic" {
   }
 }
 
+##dead letter topic
+resource "google_pubsub_topic" "err_collect_io_topic" {
+  name = "err_collect_io_topic"
+}
+
+
 resource "google_pubsub_subscription" "collect_io_subscr1" {
   name = "collect_io_subscr1"
   topic = google_pubsub_topic.collect_io_topic.name
@@ -32,9 +38,6 @@ resource "google_pubsub_subscription" "collect_io_subscr1" {
 
   ack_deadline_seconds = 20
 
-  expiration_policy {
-    ttl = "300000.5s"
-  }
   retry_policy {
     minimum_backoff = "10s"
   }
@@ -53,6 +56,12 @@ resource "google_pubsub_subscription" "collect_io_subscr2" {
 
   retry_policy {
     minimum_backoff = "10s"
+    maximum_backoff = "40s"
+  }
+
+  dead_letter_policy {
+    dead_letter_topic = google_pubsub_topic.err_collect_io_topic.id
+    max_delivery_attempts = 10
   }
   enable_message_ordering = true
 }
