@@ -4,6 +4,7 @@ def receive_messages(project_id, subscription_id, timeout=None):
     # [START pubsub_quickstart_subscriber]
     from concurrent.futures import TimeoutError
     from google.cloud import pubsub_v1
+    import json
 
     # TODO(developer)
     # project_id = "your-project-id"
@@ -18,7 +19,10 @@ def receive_messages(project_id, subscription_id, timeout=None):
 
     def callback(message):
         print(f"Received {message}.")
-        message.ack()
+        message_data = json.loads(message.data)
+
+        if message_data.GBSecField <10000+200:
+          message.ack()
 
     streaming_pull_future = subscriber.subscribe(subscription_path, callback=callback)
     print(f"Listening for messages on {subscription_path}..\n")
