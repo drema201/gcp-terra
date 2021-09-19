@@ -21,7 +21,7 @@ def receive_messages(project_id, subscription_id, timeout=None):
         print(f"Received {message}.")
         message_data = json.loads(message.data)
 
-        if message_data.GBSecField <10000+200:
+        if message_data['GBSecField'] <10000+200:
           message.ack()
 
     streaming_pull_future = subscriber.subscribe(subscription_path, callback=callback)
