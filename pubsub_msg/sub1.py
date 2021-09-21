@@ -21,7 +21,7 @@ def receive_messages(project_id, subscription_id, timeout=None):
         print(f"Received {message}.")
         message_data = json.loads(message.data)
 
-        if message_data['GBSecField'] <10000+200:
+        if message_data['GBSecField'] <10000+900:
           print(f"to ack {message_data}")
           message.ack()
         else:
