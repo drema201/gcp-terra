@@ -32,12 +32,12 @@ def publish_messages(project_id, topic_id):
 
     record = {"NameField": "Alaska", "GBSecField": 0}
     data = json.dumps(record).encode("utf-8")
-    future = publisher.publish(topic_path, data)
+    #future = publisher.publish(topic_path, data)
 
     print(f"Published message ID: {future.result()}")
 
-    future = publisher_client.publish(
-        topic_path, data, year="2020", author="unknown",
+    future = publisher.publish(
+        topic_path, "data", year="2020", author="unknown",
     )
 ##    for n in range(1, 1000):
 ##        record = {"NameField": f"lon{n}", "GBSecField": 10000+n}
