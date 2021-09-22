@@ -21,6 +21,7 @@ def publish_messages(project_id, topic_id):
     # topic_id = "your-topic-id"
 
     publisher = PublisherClient()
+    publisher.__enter__()
     # The `topic_path` method creates a fully qualified identifier
     # in the form `projects/{project_id}/topics/{topic_id}`
     #topic_path = publisher.topic_path(project_id, topic_id)
