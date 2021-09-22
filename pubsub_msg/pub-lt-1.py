@@ -28,7 +28,7 @@ def publish_messages(project_id, topic_id):
     zone_id="us-central1-c"
 
     location = CloudZone(CloudRegion(cloud_region), zone_id)
-    topic_path = TopicPath(project_number, location, topic_id)
+    topic_path = TopicPath(project_id, location, topic_id)
 
     record = {"NameField": "Alaska", "GBSecField": 0}
     data = json.dumps(record).encode("utf-8")
