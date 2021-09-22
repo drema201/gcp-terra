@@ -82,3 +82,19 @@ resource "google_pubsub_lite_topic" "collect-light-topic" {
     period="1000s"
   }
 }
+
+resource "google_pubsub_lite_subscription" "collect-light-subscr1" {
+    name  = "collect-light-subscr1"
+  topic = google_pubsub_lite_topic.collect-light-topic.name
+  delivery_config {
+    delivery_requirement = "DELIVER_AFTER_STORED"
+  }
+}
+
+resource "google_pubsub_lite_subscription" "collect-light-subscr2" {
+  name  = "collect-light-subscr2"
+  topic = google_pubsub_lite_topic.collect-light-topic.name
+  delivery_config {
+    delivery_requirement = "DELIVER_IMMEDIATELY"
+  }
+}
