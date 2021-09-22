@@ -5,6 +5,7 @@ from google.cloud.pubsublite.types import (
     CloudZone,
     FlowControlSettings,
     SubscriptionPath,
+    PubsubMessage,
 )
 
 # TODO(developer):
