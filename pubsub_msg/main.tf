@@ -19,15 +19,13 @@ resource "google_pubsub_topic" "collect_io_topic" {
   depends_on = [google_pubsub_schema.collect_io_sch]
   schema_settings {
     schema = "projects/postgretrial/schemas/collect_io_sch"
-    encoding = "JSON"
+    encoding = "AVRO"
   }
 }
 
 ##dead letter topic
 resource "google_pubsub_topic" "err_collect_io_topic" {
   name = "err_collect_io_topic"
-  message_retention_duration = "3000s"
-  retain_acked_messages      = true
 }
 
 #subscriptions
@@ -81,6 +79,6 @@ resource "google_pubsub_lite_topic" "collect-light-topic" {
 
   retention_config {
     per_partition_bytes = 32212254720
-    peripd=1000
+    period=1000
   }
 }
