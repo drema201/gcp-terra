@@ -45,8 +45,8 @@ def publish_messages(project_id, topic_id):
         data = json.dumps(record).encode("utf-8")
         # When you publish a message, the client returns a future.
         future = publisher.publish(topic_path,  "data".encode("utf-8"))
-        print(future.result())
-    #message_id = future.result()
+        #print(future.result())
+    message_id = future.result()
     #message_metadata = MessageMetadata.decode(message_id)
 
     print(f"Published messages to {topic_path}.")
