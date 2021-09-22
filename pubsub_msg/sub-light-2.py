@@ -1,6 +1,6 @@
 from concurrent.futures._base import TimeoutError
 from google.cloud.pubsublite.cloudpubsub import SubscriberClient
-from google.cloud.pubsub import PubsubMessage
+from google.pubsub_v1.types import pubsub
 from google.cloud.pubsublite.types import (
     CloudRegion,
     CloudZone,
@@ -32,7 +32,7 @@ per_partition_flow_control_settings = FlowControlSettings(
     bytes_outstanding=10 * 1024 * 1024,
 )
 
-def callback(message: PubsubMessage):
+def callback(message: pubsub.PubsubMessage):
     message_data = message.data.decode("utf-8")
     metadata = MessageMetadata.decode(message.message_id)
     print(f"Received {message_data} of ordering key {message.ordering_key} with id {metadata}.")
