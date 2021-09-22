@@ -26,9 +26,11 @@ resource "google_pubsub_topic" "collect_io_topic" {
 ##dead letter topic
 resource "google_pubsub_topic" "err_collect_io_topic" {
   name = "err_collect_io_topic"
+  message_retention_duration = "3000s"
+  retain_acked_messages      = true
 }
 
-
+#subscriptions
 resource "google_pubsub_subscription" "collect_io_subscr1" {
   name = "collect_io_subscr1"
   topic = google_pubsub_topic.collect_io_topic.name
@@ -66,4 +68,19 @@ resource "google_pubsub_subscription" "collect_io_subscr2" {
   enable_message_ordering = true
 }
 
+resource "google_pubsub_lite_topic" "collect-light-topic" {
+  name = "collect-light-topic"
 
+  partition_config {
+    count = 4
+    capacity {
+      publish_mib_per_sec = 4
+      subscribe_mib_per_sec = 8
+    }
+  }
+
+  retention_config {
+    per_partition_bytes = 32212254720
+    peripd=1000
+  }
+}
