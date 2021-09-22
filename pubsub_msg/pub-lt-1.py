@@ -34,7 +34,7 @@ def publish_messages(project_id, topic_id):
     data = json.dumps(record).encode("utf-8")
     #future = publisher.publish(topic_path, data)
 
-    print(f"Published message ID: {future.result()}")
+    #print(f"Published message ID: {future.result()}")
 
     future = publisher.publish(
         topic_path, "data", year="2020", author="unknown",
