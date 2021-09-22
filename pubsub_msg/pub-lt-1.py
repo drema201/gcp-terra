@@ -37,16 +37,15 @@ def publish_messages(project_id, topic_id):
 
     #print(f"Published message ID: {future.result()}")
 
-    future = publisher.publish(
-        topic_path, "data".encode("utf-8"), year="2020", author="unknown",
-    )
+    #future = publisher.publish(topic_path, "data".encode("utf-8"), year="2020", author="unknown",)
     for n in range(1, 1000):
         record = {"NameField": f"lon{n}", "GBSecField": 10000+n}
         data = json.dumps(record).encode("utf-8")
         # When you publish a message, the client returns a future.
         future = publisher.publish(topic_path,  "data".encode("utf-8"))
+        msg_id = future.result()
         #print(future.result())
-    message_id = future.result()
+    #message_id = future.result()
     #message_metadata = MessageMetadata.decode(message_id)
 
     print(f"Published messages to {topic_path}.")
