@@ -1,11 +1,11 @@
 from concurrent.futures._base import TimeoutError
 from google.cloud.pubsublite.cloudpubsub import SubscriberClient
+from google.cloud.pubsub import PubsubMessage
 from google.cloud.pubsublite.types import (
     CloudRegion,
     CloudZone,
     FlowControlSettings,
     SubscriptionPath,
-    PubsubMessage,
 )
 
 # TODO(developer):
