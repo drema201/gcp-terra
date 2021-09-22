@@ -18,7 +18,7 @@ project_number = "postgretrial"
 subscription_id = "collect-light-subscr2"
 cloud_region = "us-central1"
 zone_id = "c"
-timeout = 5
+timeout = 50
 
 
 location = CloudZone(CloudRegion(cloud_region), zone_id)
