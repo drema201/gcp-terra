@@ -15,7 +15,7 @@ from google.cloud.pubsublite.types import (
 # subscription_id = "your-subscription-id"
 # timeout = 90
 project_number = "postgretrial"
-subscription_id = "collect-light-subscr2"
+subscription_id = "collect-light-subscr1"
 cloud_region = "us-central1"
 zone_id = "c"
 timeout = 50
