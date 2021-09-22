@@ -33,9 +33,9 @@ def publish_messages(project_id, topic_id):
 
     record = {"NameField": "Alaska", "GBSecField": 0}
     data = json.dumps(record).encode("utf-8")
-    #future = publisher.publish(topic_path, data)
+    future = publisher.publish(topic_path, data)
 
-    #print(f"Published message ID: {future.result()}")
+    print(f"Published message ID: {future.result()}")
 
     future = publisher.publish(
         topic_path, "data".encode("utf-8"), year="2020", author="unknown",
@@ -46,7 +46,11 @@ def publish_messages(project_id, topic_id):
         # When you publish a message, the client returns a future.
 ##        future = publisher.publish(topic_path, data)
 ##        print(future.result())
-
+    message_id = future.result()
+    message_metadata = MessageMetadata.decode(message_id)
+    print(
+        f"Published {data} to partition {message_metadata.partition.value} and offset {message_metadata.cursor.offset}."
+    )
     print(f"Published messages to {topic_path}.")
 
 project_id = "postgretrial"
