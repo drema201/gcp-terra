@@ -23,12 +23,17 @@ def publish_messages(project_id, topic_id):
     publisher = PublisherClient()
     # The `topic_path` method creates a fully qualified identifier
     # in the form `projects/{project_id}/topics/{topic_id}`
-    topic_path = publisher.topic_path(project_id, topic_id)
+    #topic_path = publisher.topic_path(project_id, topic_id)
+    cloud_region = "us-central1"
+    zone_id="us-central1-c"
+
+    location = CloudZone(CloudRegion(cloud_region), zone_id)
+    topic_path = TopicPath(project_number, location, topic_id)
 
     record = {"NameField": "Alaska", "GBSecField": 0}
     data = json.dumps(record).encode("utf-8")
-
     future = publisher.publish(topic_path, data)
+
     print(f"Published message ID: {future.result()}")
 
     future = publisher_client.publish(
