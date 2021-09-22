@@ -19,7 +19,7 @@ resource "google_pubsub_topic" "collect_io_topic" {
   depends_on = [google_pubsub_schema.collect_io_sch]
   schema_settings {
     schema = "projects/postgretrial/schemas/collect_io_sch"
-    encoding = "AVRO"
+    encoding = "JSON"
   }
 }
 
