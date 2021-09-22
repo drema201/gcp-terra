@@ -79,6 +79,6 @@ resource "google_pubsub_lite_topic" "collect-light-topic" {
 
   retention_config {
     per_partition_bytes = 32212254720
-    period=1000
+    period=1000s
   }
 }
