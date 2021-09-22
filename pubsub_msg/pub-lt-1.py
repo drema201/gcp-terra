@@ -26,7 +26,7 @@ def publish_messages(project_id, topic_id):
     # in the form `projects/{project_id}/topics/{topic_id}`
     #topic_path = publisher.topic_path(project_id, topic_id)
     cloud_region = "us-central1"
-    zone_id="us-central1-c"
+    zone_id="c"
 
     location = CloudZone(CloudRegion(cloud_region), zone_id)
     topic_path = TopicPath(project_id, location, topic_id)
