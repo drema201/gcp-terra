@@ -38,7 +38,6 @@ resource "google_dataproc_cluster" "dataprc-ml" {
     worker_config {
       num_instances    = 2
       machine_type     = "e2-medium"
-      min_cpu_platform = "Intel Skylake"
       disk_config {
         boot_disk_size_gb = 30
         num_local_ssds    = 1
