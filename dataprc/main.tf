@@ -30,7 +30,6 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       num_instances = 1
       machine_type  = "e2-medium"
       disk_config {
-        boot_disk_type    = "pd-ssd"
         boot_disk_size_gb = 30
       }
     }
