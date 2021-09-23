@@ -7,7 +7,13 @@ provider "google" {
 data "google_compute_default_service_account" "default" {
 }
 
+resource "google_storage_bucket" "for-dataprc" {
+  name          = "postgretrial-dataproc-staging-bucket"
+  location      = "US"
 
+  uniform_bucket_level_access = true
+
+}
 
 resource "google_dataproc_cluster" "dataprc-ml" {
   name     = "dataprc-ml"
@@ -18,7 +24,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
   }
 
   cluster_config {
-    staging_bucket = "postgretrial-dataproc-staging-bucket"
+    staging_bucket = google_storage_bucket.for-dataprc.name
 
     master_config {
       num_instances = 1
