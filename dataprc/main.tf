@@ -54,12 +54,19 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       }
     }
 
+    properties {
+      override_properties = {
+        "core:fs.defaultFS" = "gs://postgretrial-dataproc-staging-bucket"
+      }
+
+    }
+
 
 
     # You can define multiple initialization_action blocks
     initialization_action {
       script      = "gs://dataproc-initialization-actions/spark-nlp/spark-nlp.sh"
-      timeout_sec = 90
+      timeout_sec = 180
     }
   }
 }
