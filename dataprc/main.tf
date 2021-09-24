@@ -54,12 +54,12 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       }
     }
 
-    properties {
-      override_properties = {
-        "core:fs.defaultFS" = "gs://postgretrial-dataproc-staging-bucket"
-      }
 
+    override_properties = {
+     "core:fs.defaultFS" = "gs://postgretrial-dataproc-staging-bucket"
     }
+
+
 
 
 
