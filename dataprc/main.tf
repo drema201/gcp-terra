@@ -45,7 +45,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
     }
 
     worker_config {
-      num_instances    = 1
+      num_instances    = 2
       disk_config {
         boot_disk_size_gb = 30
         num_local_ssds    = 1
