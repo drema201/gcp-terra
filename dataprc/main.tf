@@ -25,6 +25,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
 
   cluster_config {
     staging_bucket = google_storage_bucket.for-dataprc.name
+    temp_bucket = google_storage_bucket.for-dataprc.name
 
     gce_cluster_config {
       tags = ["foo", "bar"]
@@ -37,7 +38,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
 
     master_config {
       num_instances = 1
-      machine_type  = "n1-standard-2"
+      machine_type  = "n1-standard-4"
       disk_config {
         boot_disk_size_gb = 30
         num_local_ssds    = 2
@@ -46,6 +47,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
 
     worker_config {
       num_instances    = 2
+      machine_type  = "n1-standard-2"
       disk_config {
         boot_disk_size_gb = 30
         num_local_ssds    = 1
