@@ -41,7 +41,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
   }
 
 
-
+  cluster_config {
     staging_bucket = google_storage_bucket.for-dataprc.name
     temp_bucket = google_storage_bucket.for-dataprc-tmp.name
 
