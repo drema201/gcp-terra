@@ -52,9 +52,6 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       }
     }
 
-    preemptible_worker_config {
-      num_instances = 2
-    }
 
     # Override or set some custom properties
     software_config {
@@ -67,7 +64,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
 
     # You can define multiple initialization_action blocks
     initialization_action {
-      script      = "gs://dataproc-initialization-actions/spark-nlp/spark-nlp.sh"
+      script      = "gs://dataproc-initialization-actions/stackdriver/stackdriver.sh"
       timeout_sec = 300
     }
   }
