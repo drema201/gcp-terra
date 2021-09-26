@@ -88,5 +88,10 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       script      = "gs://dataproc-initialization-actions/stackdriver/stackdriver.sh"
       timeout_sec = 300
     }
+
+    lifecycle_config {
+      idle_delete_ttl = "20m"
+      auto_delete_time = "2120-01-01T12:00:00.01Z"
+    }
   }
 }
