@@ -15,6 +15,15 @@ resource "google_storage_bucket" "for-dataprc" {
 
 }
 
+resource "google_storage_bucket" "for-dataprc-tmp" {
+  name          = "postgretrial-dataproc-temp-bucket"
+  location      = "US"
+
+  uniform_bucket_level_access = true
+
+}
+
+
 resource "google_dataproc_cluster" "dataprc-ml" {
   name     = "dataprc-ml"
   region   = "us-central1"
@@ -25,7 +34,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
 
   cluster_config {
     staging_bucket = google_storage_bucket.for-dataprc.name
-    temp_bucket = google_storage_bucket.for-dataprc.name
+    temp_bucket = google_storage_bucket.for-dataprc-tmp.name
 
     gce_cluster_config {
       tags = ["foo", "bar"]
@@ -58,10 +67,10 @@ resource "google_dataproc_cluster" "dataprc-ml" {
     # Override or set some custom properties
     software_config {
       image_version = "1.3.7-deb9"
-      override_properties = {
-        "dataproc:dataproc.allow.zero.workers" = "true"
-        "core:fs.defaultFS" = "gs://postgretrial-dataproc-staging-bucket"
-      }
+      #override_properties = {
+      #  "dataproc:dataproc.allow.zero.workers" = "true"
+        #"core:fs.defaultFS" = "gs://postgretrial-dataproc-staging-bucket"
+      #}
     }
 
     # You can define multiple initialization_action blocks
