@@ -26,16 +26,26 @@ resource "google_dataproc_cluster" "dataprc-ml" {
   cluster_config {
     staging_bucket = google_storage_bucket.for-dataprc.name
 
+    gce_cluster_config {
+      tags = ["foo", "bar"]
+      # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+      service_account = data.google_compute_default_service_account.default.email
+      service_account_scopes = [
+        "cloud-platform"
+      ]
+    }
+
     master_config {
       num_instances = 1
-      machine_type  = "e2-medium"
+      machine_type  = "n1-standard-2"
       disk_config {
         boot_disk_size_gb = 30
+        num_local_ssds    = 2
       }
     }
 
     worker_config {
-      num_instances    = 2
+      num_instances    = 1
       disk_config {
         boot_disk_size_gb = 30
         num_local_ssds    = 1
@@ -58,7 +68,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
     # You can define multiple initialization_action blocks
     initialization_action {
       script      = "gs://dataproc-initialization-actions/spark-nlp/spark-nlp.sh"
-      timeout_sec = 180
+      timeout_sec = 300
     }
   }
 }
