@@ -40,11 +40,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
     foo = "bar"
   }
 
-  cluster_config {
-    lifecycle_config {
-      idle_delete_ttl = "20m"
-      auto_delete_time = "2120-01-01T12:00:00.01Z"
-    }
+
 
     staging_bucket = google_storage_bucket.for-dataprc.name
     temp_bucket = google_storage_bucket.for-dataprc-tmp.name
