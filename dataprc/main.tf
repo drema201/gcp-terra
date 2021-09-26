@@ -75,10 +75,10 @@ resource "google_dataproc_cluster" "dataprc-ml" {
     # Override or set some custom properties
     software_config {
       image_version = "1.3.7-deb9"
-      #override_properties = {
-      #  "dataproc:dataproc.allow.zero.workers" = "true"
+      override_properties = {
+        "dataproc:dataproc.allow.zero.workers" = "true"
       #  "core:fs.defaultFS" = "gs://postgretrial-dataproc-fs-bucket"
-      #}
+      }
     }
 
     # You can define multiple initialization_action blocks
