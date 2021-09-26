@@ -77,7 +77,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       image_version = "1.3.7-deb9"
       #override_properties = {
       #  "dataproc:dataproc.allow.zero.workers" = "true"
-        "core:fs.defaultFS" = "gs://postgretrial-dataproc-fs-bucket"
+      #  "core:fs.defaultFS" = "gs://postgretrial-dataproc-fs-bucket"
       #}
     }
 
