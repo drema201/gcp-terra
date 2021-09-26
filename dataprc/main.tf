@@ -35,6 +35,8 @@ resource "google_storage_bucket" "for-dataprc-fs" {
 resource "google_dataproc_cluster" "dataprc-ml" {
   name     = "dataprc-ml"
   region   = "us-central1"
+  provider = google-beta
+
   graceful_decommission_timeout = "120s"
   labels = {
     foo = "bar"
