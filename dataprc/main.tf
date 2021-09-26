@@ -40,13 +40,14 @@ resource "google_dataproc_cluster" "dataprc-ml" {
     foo = "bar"
   }
 
+  lifecycle_config {
+    idle_delete_ttl = "20m"
+  }
+
   cluster_config {
     staging_bucket = google_storage_bucket.for-dataprc.name
     temp_bucket = google_storage_bucket.for-dataprc-tmp.name
 
-    lifecycle_config {
-      idle_delete_ttl = "20m"
-    }
 
     gce_cluster_config {
       tags = ["foo", "bar"]
