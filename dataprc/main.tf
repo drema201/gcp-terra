@@ -81,7 +81,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       image_version = "1.3.7-deb9"
       override_properties = {
         "dataproc:dataproc.allow.zero.workers" = "true"
-        "core:fs.defaultFS" = "gs://postgretrial-dataproc-fs-bucket"
+        #"core:fs.defaultFS" = "gs://postgretrial-dataproc-fs-bucket"
       }
     }
 
@@ -95,4 +95,23 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       idle_delete_ttl = "1800s"
     }
   }
+}
+
+resource "google_dataproc_job" "pyspark" {
+  region       = google_dataproc_cluster.dataprc-ml.region
+  force_delete = true
+  placement {
+    cluster_name = google_dataproc_cluster.dataprc-ml.name
+  }
+
+  pyspark_config {
+    main_python_file_uri = "gs://dataproc-examples-2f10d78d114f6aaec76462e3c310f31f/src/pyspark/hello-world/hello-world.py"
+    properties = {
+      "spark.logConf" = "true"
+    }
+  }
+}
+
+output "pyspark_status" {
+  value = google_dataproc_job.pyspark.status[0].state
 }
