@@ -115,3 +115,10 @@ resource "google_dataproc_job" "pyspark" {
 output "pyspark_status" {
   value = google_dataproc_job.pyspark.status[0].state
 }
+
+resource "null_resource" "localcp" {
+  provisioner "local-exec" {
+    command = "gsutil cp hello-world.py gs://postgretrial-dataproc-fs-bucket/examples/pyspark/hello-world.py"
+    interpreter = ["sh"]
+  }
+}
