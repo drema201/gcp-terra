@@ -120,7 +120,7 @@ resource "google_dataproc_job" "pyspark-cnt" {
   }
 
   pyspark_config {
-    main_python_file_uri = "gs://${google_storage_bucket.for-dataprc-fs.name}/examples/pyspark/count_by_subreddit.py"
+    main_python_file_uri = "gs://${google_storage_bucket.for-dataprc-fs.name}/examples/pyspark/counts_by_subreddit.py"
     jar_file_uris = [
       "gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"
     ]
@@ -136,7 +136,8 @@ resource "null_resource" "localcp" {
   provisioner "local-exec" {
     command = "gsutil cp hello-world.py gs://${google_storage_bucket.for-dataprc-fs.name}/examples/pyspark/hello-world.py"
   }
+
   provisioner "local-exec" {
-    command = "gsutil cp count_by_subreddit.py gs://${google_storage_bucket.for-dataprc-fs.name}/examples/pyspark/counts_by_subreddit.py"
+    command = "gsutil cp counts_by_subreddit.py gs://${google_storage_bucket.for-dataprc-fs.name}/examples/pyspark/counts_by_subreddit.py"
   }
 }
