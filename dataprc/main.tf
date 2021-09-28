@@ -112,6 +112,22 @@ resource "google_dataproc_job" "pyspark" {
   }
 }
 
+resource "google_dataproc_job" "pyspark-cnt" {
+  region       = google_dataproc_cluster.dataprc-ml.region
+  force_delete = true
+  placement {
+    cluster_name = google_dataproc_cluster.dataprc-ml.name
+  }
+
+  pyspark_config {
+    main_python_file_uri = "gs://${google_storage_bucket.for-dataprc-fs.name}/pyspark/hello-world/hello-world.py"
+    jars = [
+      "gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"
+    ]
+  }
+}
+
+
 output "pyspark_status" {
   value = google_dataproc_job.pyspark.status[0].state
 }
@@ -119,5 +135,8 @@ output "pyspark_status" {
 resource "null_resource" "localcp" {
   provisioner "local-exec" {
     command = "gsutil cp hello-world.py gs://postgretrial-dataproc-fs-bucket/examples/pyspark/hello-world.py"
+  }
+  provisioner "local-exec" {
+    command = "gsutil cp count_by_subreddit.py gs://${google_storage_bucket.for-dataprc-fs.name}/examples/pyspark/count_by_subreddit.py"
   }
 }
