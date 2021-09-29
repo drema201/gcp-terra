@@ -24,10 +24,10 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
           zone = "us-central1-a"
           tags = ["foo", "bar"]
           # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-          service_account = data.google_compute_default_service_account.default.email
-          service_account_scopes = [
-            "cloud-platform"
-          ]
+         # service_account = data.google_compute_default_service_account.default.email
+         # service_account_scopes = [
+         #   "cloud-platform"
+         # ]
         }
 
         master_config {
