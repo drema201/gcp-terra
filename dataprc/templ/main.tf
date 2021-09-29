@@ -62,9 +62,6 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
           executable_file      = "gs://dataproc-initialization-actions/stackdriver/stackdriver.sh"
         }
 
-        lifecycle_config {
-          idle_delete_ttl = "600s"
-        }
 
       }
     }
