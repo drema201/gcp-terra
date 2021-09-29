@@ -95,10 +95,10 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
 
 resource "null_resource" "localcp" {
   provisioner "local-exec" {
-    command = "gsutil cp ../hello-world.py gs://gs://postgretrial-dataproc-fs-bucket/examples/pyspark/hello-world.py"
+    command = "gsutil cp ../hello-world.py gs://postgretrial-dataproc-fs-bucket/examples/pyspark/hello-world.py"
   }
 
   provisioner "local-exec" {
-    command = "gsutil cp ../counts_by_subreddit.py gs://gs://postgretrial-dataproc-fs-bucket/examples/pyspark/counts_by_subreddit.py"
+    command = "gsutil cp ../counts_by_subreddit.py gs://postgretrial-dataproc-fs-bucket/examples/pyspark/counts_by_subreddit.py"
   }
 }
