@@ -17,9 +17,8 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
     managed_cluster {
       cluster_name = "dataprc-cluster-ml"
       config {
-        staging_bucket = google_storage_bucket.for-dataprc.name
-        temp_bucket = google_storage_bucket.for-dataprc-tmp.name
-
+        staging_bucket = "postgretrial-dataproc-staging-bucket"
+        temp_bucket    = "postgretrial-dataproc-temp-bucket"
 
         gce_cluster_config {
           zone = "us-central1-a"
