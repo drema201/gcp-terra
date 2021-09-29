@@ -58,13 +58,12 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
         }
 
         # You can define multiple initialization_action blocks
-        initialization_action {
-          script      = "gs://dataproc-initialization-actions/stackdriver/stackdriver.sh"
-          timeout_sec = 300
+        initialization_actions {
+          executable_file      = "gs://dataproc-initialization-actions/stackdriver/stackdriver.sh"
         }
 
         lifecycle_config {
-          idle_delete_ttl = "1800s"
+          idle_delete_ttl = "600s"
         }
 
       }
