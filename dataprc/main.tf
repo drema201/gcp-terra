@@ -81,6 +81,7 @@ resource "google_dataproc_cluster" "dataprc-ml" {
       #image_version = "1.3.7-deb9"
       override_properties = {
         "dataproc:dataproc.allow.zero.workers" = "true",
+        "spark:spark.pyspark.python" = "/opt/conda/default/bin/python3",
         "spark-env:PYSPARK_PYTHON"="/opt/conda/default/bin/python3"
         #"core:fs.defaultFS" = "gs://postgretrial-dataproc-fs-bucket"
         #/opt/conda/default/bin/python3
