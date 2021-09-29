@@ -50,7 +50,7 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
 
         # Override or set some custom properties
         software_config {
-          override_properties = {
+          properties = {
             "dataproc:dataproc.allow.zero.workers" = "true",
             "spark:spark.pyspark.python" = "/opt/conda/default/bin/python3",
             "spark-env:PYSPARK_PYTHON"="/opt/conda/default/bin/python3"
