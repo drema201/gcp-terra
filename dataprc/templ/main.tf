@@ -35,7 +35,7 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
           machine_type = "n1-standard-4"
           disk_config {
             boot_disk_type = "pd-ssd"
-            boot_disk_size_gb = 15
+            boot_disk_size_gb = 30
           }
         }
 
@@ -43,7 +43,7 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
           num_instances = 2
           machine_type = "n1-standard-2"
           disk_config {
-            boot_disk_size_gb = 10
+            boot_disk_size_gb = 30
             num_local_ssds = 2
           }
         }
