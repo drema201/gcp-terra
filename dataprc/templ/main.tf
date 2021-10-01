@@ -23,7 +23,10 @@ resource "google_service_account" "proc-account" {
   display_name = "Service Account for DataProc"
 }
 
-
+resource "google_service_account_iam_binding" "proc-account-iam" {
+  service_account_id = google_service_account.proc-account.name
+  role               = "roles/dataproc.worker"
+}
 
 resource "google_dataproc_workflow_template" "dataprc-template-ml" {
   provider = google-beta
