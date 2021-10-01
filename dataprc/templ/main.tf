@@ -12,6 +12,14 @@ resource "google_service_account" "proc-account" {
   display_name = "Service Account for DataProc"
 }
 
+resource "google_dataproc_cluster_iam_binding" "editor" {
+  cluster = "dataprc-cluster-ml"
+  role    = "roles/editor"
+  members = [
+    "serviceAccount:${google_service_account.proc-account.email}",
+  ]
+}
+
 resource "google_dataproc_workflow_template" "dataprc-template-ml" {
   provider = google-beta
   name = "dataprc-template-ml"
