@@ -25,7 +25,7 @@ resource "google_service_account" "proc-account" {
 
 resource "google_service_account_iam_binding" "proc-account-iam" {
   service_account_id = google_service_account.proc-account.name
-  role               = "roles/dataproc.worker"
+  role               = "roles/iam.serviceAccountUser"
   members = [
   ]
 }
