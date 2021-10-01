@@ -17,6 +17,7 @@ resource "google_dataproc_cluster_iam_binding" "editor" {
   role    = "roles/editor"
   members = [
     "serviceAccount:${google_service_account.proc-account.email}",
+    "user:gcloudpostgr@gmail.com"
   ]
 }
 
