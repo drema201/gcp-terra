@@ -7,6 +7,10 @@ provider "google" {
 data "google_compute_default_service_account" "default" {
 }
 
+resource "google_service_account" "proc-account" {
+  account_id   = "dataproc-service-account-id"
+  display_name = "Service Account for DataProc"
+}
 
 resource "google_dataproc_workflow_template" "dataprc-template-ml" {
   provider = google-beta
@@ -24,10 +28,10 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
           zone = "us-central1-a"
           tags = ["foo", "bar"]
           # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-         # service_account = data.google_compute_default_service_account.default.email
-         # service_account_scopes = [
-         #   "cloud-platform"
-         # ]
+          service_account = google_service_account.proc-account.email
+          service_account_scopes = [
+            "cloud-platform"
+          ]
         }
 
         master_config {
