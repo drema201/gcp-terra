@@ -7,19 +7,23 @@ provider "google" {
 data "google_compute_default_service_account" "default" {
 }
 
+data "google_iam_policy" "dataprc_policy" {
+  binding {
+    role = "roles/compute.instanceAdmin"
+
+    members = [
+      "serviceAccount:${google_service_account.proc-account.email}",
+    ]
+  }
+
+}
+
 resource "google_service_account" "proc-account" {
   account_id   = "dataproc-service-account-id"
   display_name = "Service Account for DataProc"
 }
 
-resource "google_dataproc_cluster_iam_binding" "editor" {
-  cluster = "dataprc-cluster-ml"
-  role    = "roles/editor"
-  members = [
-    "serviceAccount:${google_service_account.proc-account.email}",
-    "user:gcloudpostgr@gmail.com"
-  ]
-}
+
 
 resource "google_dataproc_workflow_template" "dataprc-template-ml" {
   provider = google-beta
@@ -39,7 +43,7 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
           # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
           service_account = google_service_account.proc-account.email
           service_account_scopes = [
-            "cloud-platform"
+            "dataproc.*"
           ]
         }
 
