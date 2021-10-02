@@ -13,6 +13,13 @@ resource "google_service_account" "proc-account" {
   display_name = "Service Account for DataProc 2"
 }
 
+resource "google_project_iam_member" "project" {
+  project = "your-project-id"
+  role    = "roles/dataproc.worker"
+  member  = "serviceAccount:${google_service_account.proc-account.email}"
+}
+
+
 resource "google_service_account_iam_binding" "proc-account-iam" {
   service_account_id = google_service_account.proc-account.name
   role               = "roles/iam.serviceAccountUser"
