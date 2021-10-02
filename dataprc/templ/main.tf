@@ -14,7 +14,7 @@ resource "google_service_account" "proc-account" {
 }
 
 resource "google_project_iam_member" "project" {
-  project = "your-project-id"
+  project = "postgretrial"
   role    = "roles/dataproc.worker"
   member  = "serviceAccount:${google_service_account.proc-account.email}"
 }
