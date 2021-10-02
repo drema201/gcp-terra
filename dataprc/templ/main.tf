@@ -19,6 +19,12 @@ resource "google_project_iam_member" "project" {
   member  = "serviceAccount:${google_service_account.proc-account.email}"
 }
 
+resource "google_project_iam_member" "project-1" {
+  project = "postgretrial"
+  role    = "roles/bigquery.readSessionUser"
+  member  = "serviceAccount:${google_service_account.proc-account.email}"
+}
+
 
 resource "google_service_account_iam_binding" "proc-account-iam" {
   service_account_id = google_service_account.proc-account.name
