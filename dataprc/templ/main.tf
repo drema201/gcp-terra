@@ -7,16 +7,6 @@ provider "google" {
 data "google_compute_default_service_account" "default" {
 }
 
-data "google_iam_policy" "dataprc_policy" {
-  binding {
-    role = "roles/compute.instanceAdmin"
-
-    members = [
-      "serviceAccount:${google_service_account.proc-account.email}",
-    ]
-  }
-
-}
 
 resource "google_service_account" "proc-account" {
   account_id   = "dataproc-service-account-id"
