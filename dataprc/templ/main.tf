@@ -9,8 +9,8 @@ data "google_compute_default_service_account" "default" {
 
 
 resource "google_service_account" "proc-account" {
-  account_id   = "dataproc-service-account-id"
-  display_name = "Service Account for DataProc"
+  account_id   = "dataproc-service-account"
+  display_name = "Service Account for DataProc 2"
 }
 
 resource "google_service_account_iam_binding" "proc-account-iam" {
