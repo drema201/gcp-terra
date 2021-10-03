@@ -46,6 +46,8 @@ schema = StructType(fields)
 # Create an empty DataFrame. We will continuously union our output with this
 subreddit_counts = spark.createDataFrame([], schema)
 
+year=str(year).strip()
+month=str(month).strip()
 # Establish a set of years and months to iterate over
 years = [year]
 months = [month]
