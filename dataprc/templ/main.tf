@@ -125,6 +125,36 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
     }
   }
 
+  jobs {
+    step_id = "count-reddit-11-13"
+    prerequisite_step_ids = ["hello"]
+    pyspark_job {
+      main_python_file_uri = "gs://postgretrial-dataproc-fs-bucket/examples/pyspark/counts_by_subreddit-sm.py"
+      jar_file_uris = [
+        "gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"
+      ]
+      args = [
+        "-m 11",
+        "-y 2013"
+      ]
+    }
+  }
+
+  jobs {
+    step_id = "count-reddit-11-14"
+    prerequisite_step_ids = ["count-reddit-11-13"]
+    pyspark_job {
+      main_python_file_uri = "gs://postgretrial-dataproc-fs-bucket/examples/pyspark/counts_by_subreddit-sm.py"
+      jar_file_uris = [
+        "gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"
+      ]
+      args = [
+        "-m 11",
+        "-y 2014"
+      ]
+    }
+  }
+
 }
 
 
