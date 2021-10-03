@@ -110,6 +110,21 @@ resource "google_dataproc_workflow_template" "dataprc-template-ml" {
     }
   }
 
+  jobs {
+    step_id = "count-reddit-1"
+    prerequisite_step_ids = ["hello"]
+    pyspark_job {
+      main_python_file_uri = "gs://postgretrial-dataproc-fs-bucket/examples/pyspark/counts_by_subreddit-sm.py"
+      jar_file_uris = [
+        "gs://spark-lib/bigquery/spark-bigquery-latest_2.12.jar"
+      ]
+      args = [
+        "-m 12",
+        "-y 2013"
+      ]
+    }
+  }
+
 }
 
 
@@ -122,4 +137,9 @@ resource "null_resource" "localcp" {
   provisioner "local-exec" {
     command = "gsutil cp ../counts_by_subreddit.py gs://postgretrial-dataproc-fs-bucket/examples/pyspark/counts_by_subreddit.py"
   }
+
+  provisioner "local-exec" {
+    command = "gsutil cp ../counts_by_subreddit-sm.py gs://postgretrial-dataproc-fs-bucket/examples/pyspark/counts_by_subreddit-sm.py"
+  }
+
 }
