@@ -1,0 +1,7 @@
+{"city": {"id":1283240, "name":"Kathmandu", "country":"NP", "coord":{"lon":85.316666, "lat":27.716667}}, "time":1394865171}
+{"city": {"id":1283241, "name":"Moscow", "country":"RU", "coord":{"lon":85.689, "lat":24.716667}}, "time":1394865171}
+{"city": {"id":1283242, "name":"London", "country":"EN", "coord":{"lon":85.5754, "lat":27.6796}}, "time":1394865171}
+{"city": {"id":1283542, "name":"Paris", "coord":{"lon":85.5754, "lat":27.6796}}, "time":1394865171, "ds":  "mu"}
+{"town": {"id":1283542, "name":"Frya", "coord":{"lon":12.5754, "lat":11.6796}}, "time":547589}
+{"town": {"id":1283542, "name":"Korol", "coord":{"lon":1.5754, "lat":111.6796}}, "timestamp":547589}
+{"sub": {"id":1283542, "name":"Korol", "coord":{"lon":1.5754, "lat":111.6796}}, "timestamp":547589}
