@@ -5,8 +5,8 @@ provider "google" {
 }
 
 
-resource "google_bigquery_dataset" "ds-test" {
-  dataset_id                  = "ds-test"
+resource "google_bigquery_dataset" "ds_test" {
+  dataset_id                  = "ds_test"
   friendly_name               = "test"
   description                 = "This is a test description"
   location                    = "US"
