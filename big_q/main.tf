@@ -18,7 +18,7 @@ resource "google_bigquery_dataset" "ds_test" {
 }
 
 resource "google_bigquery_table" "default" {
-  dataset_id = google_bigquery_dataset.ds-test.dataset_id
+  dataset_id = google_bigquery_dataset.ds_test.dataset_id
   table_id   = "bar"
 
   time_partitioning {
@@ -49,7 +49,7 @@ EOF
 }
 
 resource "google_bigquery_table" "sheet" {
-  dataset_id = google_bigquery_dataset.ds-test.dataset_id
+  dataset_id = google_bigquery_dataset.ds_test.dataset_id
   table_id   = "sheet"
 
   external_data_configuration {
