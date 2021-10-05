@@ -21,6 +21,23 @@ resource "google_storage_bucket" "for-bg" {
 
 }
 
+resource "google_bigquery_dataset_iam_binding" "reader" {
+  dataset_id = google_bigquery_dataset.ds_test.dataset_id
+  role       = "roles/bigquery.dataViewer"
+
+  members = [
+    "user:gcloudpostgr@gmail.com",
+  ]
+}
+
+resource "google_bigquery_table_iam_member" "member" {
+  project = google_bigquery_table.default.project
+  dataset_id = google_bigquery_table.default.dataset_id
+  table_id = google_bigquery_table.default.table_id
+  role = "roles/bigquery.dataViewer"
+  member = "user:gcloudpostgr@gmail.com"
+}
+
 resource "google_bigquery_dataset" "ds_test" {
   dataset_id                  = "ds_test"
   friendly_name               = "test"
