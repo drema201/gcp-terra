@@ -83,7 +83,7 @@ EOF
 
 resource "google_bigquery_table" "sheet" {
   dataset_id = google_bigquery_dataset.ds_test.dataset_id
-  table_id   = "sheet"
+  table_id   = "names_avro"
 
   external_data_configuration {
     autodetect    = true
@@ -91,6 +91,20 @@ resource "google_bigquery_table" "sheet" {
 
     source_uris = [
       "gs://${google_storage_bucket.for-bg.name}/names_us",
+    ]
+  }
+}
+
+resource "google_bigquery_table" "names_p" {
+  dataset_id = google_bigquery_dataset.ds_test.dataset_id
+  table_id   = "names_parquet"
+
+  external_data_configuration {
+    autodetect    = true
+    source_format = "PARQUET"
+
+    source_uris = [
+      "gs://${google_storage_bucket.for-bg.name}/names_us_p",
     ]
   }
 }
