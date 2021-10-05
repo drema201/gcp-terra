@@ -77,14 +77,14 @@ resource "google_bigquery_table" "sheet" {
     }
 
     source_uris = [
-      "gs://${google_storage_bucket.for-bg.name}/tables/excel/lostpolicy_2012-2015.xls",
+      "gs://${google_storage_bucket.for-bg.name}/tables/excel/lostpolicy_2012-2015.axls",
     ]
   }
 }
 
 resource "null_resource" "localcp" {
   provisioner "local-exec" {
-    command = "gsutil cp lostpolicy_2012-2015.xls gs://${google_storage_bucket.for-bg.name}/tables/excel/lostpolicy_2012-2015.xls"
+    command = "gsutil cp lostpolicy_2012-2015.axls gs://${google_storage_bucket.for-bg.name}/tables/excel/lostpolicy_2012-2015.axls"
   }
 
 }
