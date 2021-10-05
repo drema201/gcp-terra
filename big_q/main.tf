@@ -70,14 +70,14 @@ resource "google_bigquery_table" "sheet" {
 
   external_data_configuration {
     autodetect    = true
-    source_format = "GOOGLE_SHEETS"
+    source_format = "AVRO"
 
     google_sheets_options {
       skip_leading_rows = 1
     }
 
     source_uris = [
-      "gs://${google_storage_bucket.for-bg.name}/tables/excel/lostpolicy_2012-2015.axls",
+      "gs://${google_storage_bucket.for-bg.name}/names_us",
     ]
   }
 }
