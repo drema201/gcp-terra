@@ -4,6 +4,22 @@ provider "google" {
   zone        = "us-central1-b"
 }
 
+resource "google_storage_bucket" "for-bg" {
+  name          = "postgretrial-bigq"
+  location      = "US"
+
+  lifecycle_rule {
+    condition {
+      age = 3
+    }
+    action {
+      type = "Delete"
+    }
+  }
+
+  uniform_bucket_level_access = true
+
+}
 
 resource "google_bigquery_dataset" "ds_test" {
   dataset_id                  = "ds_test"
@@ -61,7 +77,14 @@ resource "google_bigquery_table" "sheet" {
     }
 
     source_uris = [
-      "https://docs.google.com/spreadsheets/d/123456789012345",
+      "gs://${google_storage_bucket.for-bg.name}/tables/excel/lostpolicy_2021-2015.xls",
     ]
   }
+}
+
+resource "null_resource" "localcp" {
+  provisioner "local-exec" {
+    command = "gsutil cp lostpolicy_2021-2015.xls gs://${google_storage_bucket.for-bg.name}/tables/excel/lostpolicy_2021-2015.xls"
+  }
+
 }
