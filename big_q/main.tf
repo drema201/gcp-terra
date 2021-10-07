@@ -50,6 +50,22 @@ resource "google_bigquery_dataset" "ds_test" {
   }
 }
 
+resource "google_bigquery_job" "extjob" {
+  job_id     = "job_extract"
+
+  extract {
+    destination_uris = ["${google_storage_bucket.for-bg.url}/extract/names_us_p"]
+
+    source_table {
+      project_id = "bigquery-public-data"
+      dataset_id = "usa_names"
+      table_id   = "usa_1910_2013"
+    }
+
+    destination_format = "PARQUET"
+  }
+}
+
 resource "google_bigquery_table" "default" {
   dataset_id = google_bigquery_dataset.ds_test.dataset_id
   table_id   = "bar"
