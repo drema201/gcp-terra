@@ -76,7 +76,7 @@ resource "google_bigquery_job" "extjob_a" {
       project_id = "bigquery-public-data"
       dataset_id = "usa_names"
       table_id   = "usa_1910_2013"
-      query = SELECT * from `bigquery-public-data1.usa_names.usa_1910_2013` "
+      query = SELECT * from bigquery-public-data1.usa_names.usa_1910_2013 "
     }
 
     destination_format = "AVRO"
