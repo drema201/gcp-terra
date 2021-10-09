@@ -86,7 +86,7 @@ resource "google_bigquery_job" "sqljob_a" {
   job_id     = "job_query_a"
 
   query {
-    query = "select * from bigquery-public-data.usa_names.usa_1910_2013"
+    query = "select * from bigquery-public-data.usa_names.usa_1910_2013 WHERE name like 'I%' AND year=1941"
 
     destination_table {
       project_id = "postgretrial"
