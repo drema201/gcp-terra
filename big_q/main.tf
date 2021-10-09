@@ -87,6 +87,8 @@ resource "google_bigquery_job" "sqljob_a" {
 
   query {
     query = "select * from bigquery-public-data.usa_names.usa_1910_2013 WHERE name like 'I%' AND year=1941"
+    create_disposition = "CREATE_IF_NEEDED"
+    write_disposition ="WRITE_TRUNCATE"
 
     destination_table {
       project_id = "postgretrial"
