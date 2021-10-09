@@ -123,7 +123,7 @@ resource "google_bigquery_table" "names_a" {
     source_format = "AVRO"
 
     source_uris = [
-      "gs://${google_storage_bucket.for-bg.name}/names_us",
+      "gs://${google_storage_bucket.for-bg.name}/extract/names_us_a",
     ]
   }
 }
@@ -137,7 +137,7 @@ resource "google_bigquery_table" "names_p" {
     source_format = "PARQUET"
 
     source_uris = [
-      "gs://${google_storage_bucket.for-bg.name}/names_us_p",
+      "gs://${google_storage_bucket.for-bg.name}/extract/names_us_p",
     ]
   }
 }
