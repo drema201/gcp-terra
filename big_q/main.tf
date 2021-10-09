@@ -68,7 +68,7 @@ resource "google_bigquery_job" "extjob" {
 
 resource "google_bigquery_table" "default" {
   dataset_id = google_bigquery_dataset.ds_test.dataset_id
-  table_id   = "bar"
+  table_id   = "links-day"
 
   time_partitioning {
     type = "DAY"
@@ -97,7 +97,7 @@ EOF
 
 }
 
-resource "google_bigquery_table" "sheet" {
+resource "google_bigquery_table" "names_a" {
   dataset_id = google_bigquery_dataset.ds_test.dataset_id
   table_id   = "names_avro"
 
