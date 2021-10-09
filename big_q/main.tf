@@ -66,6 +66,24 @@ resource "google_bigquery_job" "extjob" {
   }
 }
 
+resource "google_bigquery_job" "extjob_a" {
+  job_id     = "job_extract_a"
+
+  extract {
+    destination_uris = ["${google_storage_bucket.for-bg.url}/extract/names_us_a"]
+
+    source_table {
+      project_id = "bigquery-public-data"
+      dataset_id = "usa_names"
+      table_id   = "usa_1910_2013"
+      query = SELECT * from `bigquery-public-data1.usa_names.usa_1910_2013` "
+    }
+
+    destination_format = "AVRO"
+  }
+}
+
+
 resource "google_bigquery_table" "default" {
   dataset_id = google_bigquery_dataset.ds_test.dataset_id
   table_id   = "links-day"
