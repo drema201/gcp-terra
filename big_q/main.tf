@@ -82,8 +82,8 @@ resource "google_bigquery_job" "extjob_a" {
   }
 }
 
-resource "google_bigquery_job" "sqljob_a" {
-  job_id     = "job_query_a"
+resource "google_bigquery_job" "sqljob_b" {
+  job_id     = "job_query_b"
 
   query {
     query = "select * from bigquery-public-data.usa_names.usa_1910_2013 WHERE name like 'I%' AND year=1941"
