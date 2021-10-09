@@ -82,6 +82,21 @@ resource "google_bigquery_job" "extjob_a" {
   }
 }
 
+resource "google_bigquery_job" "sqljob_a" {
+  job_id     = "job_query_a"
+
+  query {
+    query = "select * from bigquery-public-data.usa_names.usa_1910_2013"
+
+    destination_table {
+      project_id = "postgretrial"
+      dataset_id = "${google_bigquery_dataset.ds_test.dataset_id}"
+      table_id   = "usa_1910_2013_1"
+    }
+  }
+}
+
+
 
 resource "google_bigquery_table" "default" {
   dataset_id = google_bigquery_dataset.ds_test.dataset_id
