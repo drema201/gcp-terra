@@ -97,12 +97,13 @@ resource "google_bigquery_job" "sqljob_b" {
     }
   }
 }
-
+//bq ls --jobs
+//bq --location=US show --job=true job_query_create1
 resource "google_bigquery_job" "sqljob_create1" {
   job_id     = "job_query_create1"
 
   query {
-    query = "CREATE MATERIALIZED VIEW postgretrial-id.${google_bigquery_dataset.ds_test.dataset_id}.my_mv_table    OPTIONS (enable_refresh = true, refresh_interval_minutes = 60) AS SELECT count(1), state FROM  usa_1910_2013_1 GROUP BY state"
+    query = "CREATE MATERIALIZED VIEW postgretrial-id.${google_bigquery_dataset.ds_test.dataset_id}.my_mv_table    OPTIONS (enable_refresh = true, refresh_interval_minutes = 60) AS SELECT count(1), state FROM  ds_test.usa_1910_2013_1 GROUP BY state"
     create_disposition = ""
     write_disposition =""
 
