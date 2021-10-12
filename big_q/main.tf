@@ -4,6 +4,10 @@ provider "google" {
   zone        = "us-central1-b"
 }
 
+resource "random_string" "defrnd" {
+  length = 16
+}
+
 resource "google_storage_bucket" "for-bg" {
   name          = "postgretrial-bigq"
   location      = "US"
@@ -107,7 +111,7 @@ resource "google_bigquery_job" "sqljob_create1" {
   job_id     = "job_query_create5"
 
   query {
-    query = "CREATE MATERIALIZED VIEW postgretrial.${google_bigquery_dataset.ds_test.dataset_id}.my_mv_table    OPTIONS (enable_refresh = true, refresh_interval_minutes = 60) AS SELECT count(1), state FROM  ds_test.usa_1910_2013_1 GROUP BY state"
+    query = "CREATE MATERIALIZED VIEW postgretrial.${google_bigquery_dataset.ds_test.dataset_id}.my_mv_table    OPTIONS (enable_refresh = true, refresh_interval_minutes = 60) AS SELECT count(1) cnt, state FROM  ds_test.usa_1910_2013_1 GROUP BY state"
     create_disposition = ""
     write_disposition =""
 
