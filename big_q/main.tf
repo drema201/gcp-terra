@@ -187,7 +187,7 @@ resource "null_resource" "localcp" {
 
 resource "null_resource" "localshow" {
   provisioner "local-exec" {
-    command = "bq ls  --jobs --max_result 10"
+    command = "bq ls  --jobs --max_results 10"
   }
 
 }
