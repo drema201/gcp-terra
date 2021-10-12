@@ -55,7 +55,7 @@ resource "google_bigquery_dataset" "ds_test" {
 }
 
 resource "google_bigquery_job" "extjob" {
-  job_id     = "job_extract${random_string.defrnd.result}"
+  job_id     = "job_extract-${random_string.defrnd.result}"
 
   extract {
     destination_uris = ["${google_storage_bucket.for-bg.url}/extract/names_us_p"]
@@ -71,7 +71,7 @@ resource "google_bigquery_job" "extjob" {
 }
 
 resource "google_bigquery_job" "extjob_a" {
-  job_id     = "job_extract_a${random_string.defrnd.result}"
+  job_id     = "job_extract_a-${random_string.defrnd.result}"
 
   extract {
     destination_uris = ["${google_storage_bucket.for-bg.url}/extract/names_us_a"]
@@ -87,7 +87,7 @@ resource "google_bigquery_job" "extjob_a" {
 }
 
 resource "google_bigquery_job" "sqljob_b" {
-  job_id     = "job_query_b1${random_string.defrnd.result}"
+  job_id     = "job_query_createtbl-${random_string.defrnd.result}"
 
   query {
     query = "select * from bigquery-public-data.usa_names.usa_1910_2013 WHERE name like 'I%' AND year=1941"
@@ -101,14 +101,14 @@ resource "google_bigquery_job" "sqljob_b" {
     }
   }
 }
-//bq ls --jobs
+//bq ls --jobs --max_result 10
 // bq --location=US show --job=true job_query_create1
 // bq --location=US --project_id=postgretrial rm -j job_query_create1
 resource "google_bigquery_job" "sqljob_create1" {
   depends_on = [
     google_bigquery_job.sqljob_b,
   ]
-  job_id     = "job_query_create_${random_string.defrnd.result}"
+  job_id     = "job_query_createmv_${random_string.defrnd.result}"
 
   query {
     query = "CREATE MATERIALIZED VIEW postgretrial.${google_bigquery_dataset.ds_test.dataset_id}.my_mv_table    OPTIONS (enable_refresh = true, refresh_interval_minutes = 60) AS SELECT count(1) cnt, state FROM  ds_test.usa_1910_2013_1 GROUP BY state"
@@ -184,3 +184,11 @@ resource "null_resource" "localcp" {
   }
 
 }
+
+resource "null_resource" "localshow" {
+  provisioner "local-exec" {
+    command = "bq ls  --jobs --max_result 10"
+  }
+
+}
+
