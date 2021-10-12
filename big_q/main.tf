@@ -83,7 +83,7 @@ resource "google_bigquery_job" "extjob_a" {
 }
 
 resource "google_bigquery_job" "sqljob_b" {
-  job_id     = "job_query_b"
+  job_id     = "job_query_b1"
 
   query {
     query = "select * from bigquery-public-data.usa_names.usa_1910_2013 WHERE name like 'I%' AND year=1941"
@@ -98,9 +98,12 @@ resource "google_bigquery_job" "sqljob_b" {
   }
 }
 //bq ls --jobs
-//bq --location=US show --job=true job_query_create1
+// bq --location=US show --job=true job_query_create1
 // bq --location=US --project_id=postgretrial rm -j job_query_create1
 resource "google_bigquery_job" "sqljob_create1" {
+  depends_on = [
+    google_bigquery_job.sqljob_b,
+  ]
   job_id     = "job_query_create2"
 
   query {
