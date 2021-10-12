@@ -6,12 +6,12 @@ provider "google" {
 
 resource "google_bigtable_instance" "production-instance" {
   name = "btbl-instance"
+  deletion_protection = false
 
   cluster {
     cluster_id   = "bgtblclust"
     num_nodes    = 2
     storage_type = "SSD"
-    deletion_protection = false
   }
 
   labels = {
