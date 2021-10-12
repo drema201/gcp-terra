@@ -104,7 +104,7 @@ resource "google_bigquery_job" "sqljob_create1" {
   depends_on = [
     google_bigquery_job.sqljob_b,
   ]
-  job_id     = "job_query_create2"
+  job_id     = "job_query_create3"
 
   query {
     query = "CREATE MATERIALIZED VIEW postgretrial-id.${google_bigquery_dataset.ds_test.dataset_id}.my_mv_table    OPTIONS (enable_refresh = true, refresh_interval_minutes = 60) AS SELECT count(1), state FROM  ds_test.usa_1910_2013_1 GROUP BY state"
