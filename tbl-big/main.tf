@@ -55,9 +55,9 @@ resource "google_dataflow_job" "bigtbl_dfj" {
   temp_gcs_location = "${google_storage_bucket.for-btbl.name}/tmp"
   //enable_streaming_engine = true
   parameters = {
-    bigtableProject="postgretrial",
-    bigtableInstanceId="${google_bigtable_instance.production-instance.id}",
-    bigtableTableId="${google_bigtable_table.table_a.name},"
+    bigtableProject="postgretrial"
+    bigtableInstanceId="${google_bigtable_instance.production-instance.id}"
+    bigtableTableId="${google_bigtable_table.table_a.name}"
     sourcePattern="gs://cloud-bigtable-public-datasets/bus-data/*"
   }
   transform_name_mapping = {
