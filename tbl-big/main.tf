@@ -50,9 +50,9 @@ resource "google_bigtable_table" "table_a" {
 }
 
 resource "google_dataflow_job" "bigtbl_dfj" {
-  name = "import-bus-data-1"
+  name = "import-bus-data-2"
   template_gcs_path = "gs://dataflow-templates/latest/GCS_SequenceFile_to_Cloud_Bigtable"
-  temp_gcs_location = "${google_storage_bucket.for-btbl.url}/tmp"
+  //temp_gcs_location = "${google_storage_bucket.for-btbl.url}/tmp"
   zone = "us-central1-b"
   //enable_streaming_engine = true
   parameters = {
