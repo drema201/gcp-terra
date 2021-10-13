@@ -50,7 +50,7 @@ resource "google_bigtable_table" "table_a" {
 }
 
 resource "google_dataflow_job" "bigtbl_dfj" {
-  name = "bt-test-dataflow-job1"
+  name = "import-bus-data-1"
   template_gcs_path = "gs://dataflow-templates/latest/GCS_SequenceFile_to_Cloud_Bigtable"
   temp_gcs_location = "${google_storage_bucket.for-btbl.name}/tmp"
   //enable_streaming_engine = true
@@ -59,10 +59,6 @@ resource "google_dataflow_job" "bigtbl_dfj" {
     bigtableInstanceId="${google_bigtable_instance.production-instance.id}"
     bigtableTableId="${google_bigtable_table.table_a.name}"
     sourcePattern="gs://cloud-bigtable-public-datasets/bus-data/*"
-  }
-  transform_name_mapping = {
-    name = "test_job"
-    env = "test"
   }
   on_delete = "cancel"
 }
