@@ -23,7 +23,12 @@ resource "google_bigtable_table" "table_a" {
   name          = "tbl_a"
   instance_name = google_bigtable_instance.production-instance.name
   split_keys    = ["a", "b", "c"]
-
+  column_family {
+    family = "fml1"
+  }
+  column_family {
+    family = "fml2"
+  }
   lifecycle {
     prevent_destroy = false
   }
