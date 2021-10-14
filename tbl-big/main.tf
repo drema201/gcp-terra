@@ -60,8 +60,8 @@ resource "google_dataflow_job" "bigtbl_dfj" {
     bigtableInstanceId="${google_bigtable_instance.production-instance.id}",
     bigtableTableId="${google_bigtable_table.table_a.name}",
     sourcePattern="gs://cloud-bigtable-public-datasets/bus-data/*",
-    numWorkers = 0,
-    maxNumWorkers = 0
+    numWorkers = 2,
+    maxNumWorkers = 2
   }
   on_delete = "cancel"
 }
