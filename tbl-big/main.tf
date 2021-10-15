@@ -57,7 +57,7 @@ resource "google_dataflow_job" "bigtbl_dfj" {
   //enable_streaming_engine = true
   parameters = {
     bigtableProject="postgretrial",
-    bigtableInstanceId="${google_bigtable_instance.production-instance.id}",
+    bigtableInstanceId="bus-instance",
     bigtableTableId="${google_bigtable_table.table_a.name}",
     sourcePattern="gs://cloud-bigtable-public-datasets/bus-data/*",
     numWorkers = 2,
