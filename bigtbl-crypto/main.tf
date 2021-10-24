@@ -58,7 +58,7 @@ resource "google_compute_instance" "default" {
     }
   }
 
-  metadata_startup_script = "${data.template_cloudinit_config.config.rendered}"
+  custom_data = "${data.template_cloudinit_config.config.rendered}"
 
   network_interface {
     network = "default"
