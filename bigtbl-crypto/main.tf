@@ -57,8 +57,9 @@ resource "google_compute_instance" "default" {
       size = "20"
     }
   }
-
-  user_data = "${data.template_cloudinit_config.config.rendered}"
+  metadata = {
+    user_data = "${data.template_cloudinit_config.config.rendered}"
+  }
 
   network_interface {
     network = "default"
