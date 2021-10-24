@@ -22,6 +22,7 @@ provider "google" {
 resource "google_bigtable_instance" "instance" {
   project = "${var.project_id}"
   name = "${var.bigtable_instance_name}"
+  deletion_protection = false
   #instance_type = "DEVELOPMENT"
   cluster {
     cluster_id = "${var.bigtable_instance_name}-cluster"
