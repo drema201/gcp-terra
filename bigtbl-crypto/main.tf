@@ -141,3 +141,7 @@ data "template_cloudinit_config" "config" {
   }
 
 }
+
+output "templ_render-2" {
+  value = data.template_cloudinit_config.config.rendered
+}
