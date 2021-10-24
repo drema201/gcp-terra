@@ -32,6 +32,19 @@ resource "google_bigtable_instance" "instance" {
   }
 }
 
+resource "google_bigtable_table" "table_crypt" {
+  name          = "${var.bigtable_table_name}"
+  instance_name = google_bigtable_instance.instance.name
+
+  column_family {
+    family = "${var.bigtable_family_name}"
+  }
+
+  lifecycle {
+    prevent_destroy = false
+  }
+}
+
 
 resource "google_compute_instance" "default" {
   project = "${var.project_id}"
