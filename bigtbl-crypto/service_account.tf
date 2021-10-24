@@ -43,7 +43,7 @@ resource "google_project_iam_member" "compute_role" {
 }
 
 
-output "vmaccess service account" {
+output "vmaccess_service_account" {
   value = "${google_service_account.vmaccess.email}"
 }
 
