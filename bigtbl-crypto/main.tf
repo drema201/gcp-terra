@@ -111,6 +111,9 @@ data "template_file" "init" {
   }
 }
 
+output "templ_render" {
+  value = data.template_file.init.rendered
+}
 
 # Render a multi-part cloud-init config making use of the part
 # above, and other source files
