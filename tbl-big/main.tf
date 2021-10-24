@@ -50,8 +50,8 @@ resource "google_bigtable_table" "table_a" {
 }
 
 //gcloud beta dataflow jobs run import-bus-data-15 --gcs-location gs://dataflow-templates/latest/GCS_SequenceFile_to_Cloud_Bigtable --verbosity debug --num-workers=2 --max-workers=2 --parameters bigtableProject=postgretrial,bigtableInstanceId=bus-instance,bigtableTableId=bus-data,sourcePattern=gs://cloud-bigtable-public-datasets/bus-data/*
-resource "google_dataflow_job" "bigtbl_dfj" {
-  name = "import-bus-data-2"
+resource "google_dataflow_job" "bigtbl_dfjob" {
+  name = "import-bus-data-3"
   template_gcs_path = "gs://dataflow-templates/latest/GCS_SequenceFile_to_Cloud_Bigtable"
   temp_gcs_location = "${google_storage_bucket.for-btbl.url}/tmp"
   zone = "us-central1-b"
