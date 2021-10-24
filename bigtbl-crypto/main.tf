@@ -26,6 +26,7 @@ resource "google_bigtable_instance" "instance" {
   cluster {
     cluster_id = "${var.bigtable_instance_name}-cluster"
     zone = "${var.zone}"
+    num_nodes    = 2
     storage_type = "HDD"
   }
 }

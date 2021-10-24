@@ -20,4 +20,4 @@ variable "bigtable_table_name" {}
 variable "bigtable_family_name" {}
 variable "project_id" {}
 variable "region" {}
-variable "credsfile" {}
+#variable "credsfile" {}
