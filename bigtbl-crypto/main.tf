@@ -57,8 +57,9 @@ resource "google_compute_instance" "default" {
       size = "20"
     }
   }
-  metadata = {
-    startup_script = templatefile("${path.module}/startup.tpl", {
+
+
+  metadata_startup_script = templatefile("${path.module}/startup.tpl", {
     project_id = "${var.project_id}",
     region = "${var.region}",
     zone = "${var.zone}",
@@ -67,8 +68,7 @@ resource "google_compute_instance" "default" {
     bigtable_instance_name = "${var.bigtable_instance_name}",
     bigtable_table_name = "${var.bigtable_table_name}",
     bigtable_family_name = "${var.bigtable_family_name}"
-    })
-  }
+  })
 
   network_interface {
     network = "default"
