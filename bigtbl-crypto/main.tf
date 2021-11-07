@@ -58,7 +58,16 @@ resource "google_compute_instance" "default" {
     }
   }
   metadata = {
-    user_data = "${data.template_cloudinit_config.config.rendered}"
+    startup_script = templatefile("${path.module}/startup.tpl", {
+    project_id = "${var.project_id}",
+    region = "${var.region}",
+    zone = "${var.zone}",
+    bucket_name ="${var.bucket_name}",
+    bucket_folder = "${var.bucket_folder}",
+    bigtable_instance_name = "${var.bigtable_instance_name}",
+    bigtable_table_name = "${var.bigtable_table_name}",
+    bigtable_family_name = "${var.bigtable_family_name}"
+    })
   }
 
   network_interface {
