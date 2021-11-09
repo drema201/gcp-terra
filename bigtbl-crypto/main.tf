@@ -53,7 +53,7 @@ resource "google_compute_instance" "default" {
   machine_type = "n1-standard-1"
   boot_disk {
     initialize_params {
-      image = "debian-9"
+      image = "centos-7"
       size = "20"
     }
   }
