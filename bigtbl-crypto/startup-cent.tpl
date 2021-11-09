@@ -20,6 +20,7 @@ sudo yum install google-cloud-sdk google-cloud-sdk-cbt -y --quiet
 sudo yum install kubectl google-cloud-sdk=271.0.0-0 google-cloud-sdk-app-engine-grpc google-cloud-sdk-app-engine-go google-cloud-sdk-cloud-build-local google-cloud-sdk-datastore-emulator google-cloud-sdk-app-engine-python google-cloud-sdk-cbt=271.0.0-0 google-cloud-sdk-bigtable-emulator google-cloud-sdk-app-engine-python-extras google-cloud-sdk-datalab google-cloud-sdk-app-engine-java -y
 
 sudo yum install python3 -y --quiet
+sudo yum install gcc gcc-c++ python3-devel -y --quiet
 
 sudo pip3 install virtualenv
 virtualenv -p python3 venv
@@ -40,5 +41,5 @@ echo "export BIGTABLE_TABLE_NAME=${bigtable_table_name}" >> ~/.bashrc
 echo "export BIGTABLE_FAMILY_NAME=${bigtable_family_name}" >> ~/.bashrc
 cbt -instance=$BIGTABLE_INSTANCE_NAME createtable $BIGTABLE_TABLE_NAME families=$BIGTABLE_FAMILY_NAME
 cd frontend
-pip install -r requirements.txt --user
-python app.py $PROJECT_ID $BIGTABLE_INSTANCE_NAME $BIGTABLE_TABLE_NAME $BIGTABLE_FAMILY_NAME
+pip3 install -r requirements.txt --user
+python3 app.py $PROJECT_ID $BIGTABLE_INSTANCE_NAME $BIGTABLE_TABLE_NAME $BIGTABLE_FAMILY_NAME
