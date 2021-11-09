@@ -14,16 +14,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-sudo yum update
-sudo yum install openjdk-8-jdk git maven -y
-sudo yum install google-cloud-sdk-cbt -y
+sudo yum update --quiet -y
+sudo yum install openjdk-8-jdk git maven -y --quiet
+sudo yum install google-cloud-sdk google-cloud-sdk-cbt -y --quiet
 sudo yum install kubectl google-cloud-sdk=271.0.0-0 google-cloud-sdk-app-engine-grpc google-cloud-sdk-app-engine-go google-cloud-sdk-cloud-build-local google-cloud-sdk-datastore-emulator google-cloud-sdk-app-engine-python google-cloud-sdk-cbt=271.0.0-0 google-cloud-sdk-bigtable-emulator google-cloud-sdk-app-engine-python-extras google-cloud-sdk-datalab google-cloud-sdk-app-engine-java -y
-curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-sudo python3 get-pip.py
+
+sudo yum install python3 -y --quiet
+
 sudo pip3 install virtualenv
 virtualenv -p python3 venv
 source venv/bin/activate
-sudo yum -y --allow-downgrades install openjdk-8-jdk git maven google-cloud-sdk=271.0.0-0 google-cloud-sdk-cbt=271.0.0-0
+sudo yum -y install openjdk-8-jdk git maven google-cloud-sdk=271.0.0-0 google-cloud-sdk-cbt=271.0.0-0
 cd ~
 git clone https://github.com/galic1987/professional-services
 cd professional-services/examples/cryptorealtime/
