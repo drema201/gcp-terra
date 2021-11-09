@@ -59,7 +59,7 @@ resource "google_compute_instance" "default" {
   }
 
 
-  metadata_startup_script = templatefile("${path.module}/startup.tpl", {
+  metadata_startup_script = templatefile("${path.module}/startup-cent.tpl", {
     project_id = "${var.project_id}",
     region = "${var.region}",
     zone = "${var.zone}",
