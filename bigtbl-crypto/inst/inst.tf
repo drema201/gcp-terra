@@ -26,7 +26,7 @@ resource "google_compute_instance" "default" {
   project = "${var.project_id}"
   zone = "${var.zone}"
   name = "tf-compute-2"
-  machine_type = "n1-standard-1"
+  machine_type = "n2-standard-2"
   boot_disk {
     initialize_params {
       image = "centos-8"
