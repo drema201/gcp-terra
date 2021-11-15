@@ -26,9 +26,7 @@ virtualenv -p python3 venv
 source venv/bin/activate
 sudo yum -y install java-1.8.0-openjdk git maven google-cloud-sdk-0:290.0.0-1 google-cloud-sdk-cbt-0:290.0.0-1
 cd ~
-git clone https://github.com/galic1987/professional-services
-cd professional-services/examples/cryptorealtime/
-mvn clean install
+echo "-------------------------------------Export VARs into bashrc--------------------------------------------------"
 echo "export PROJECT_ID=${project_id}" >> ~/.bashrc
 echo "export REGION=${region}" >> ~/.bashrc
 echo "export ZONE=${zone}" >> ~/.bashrc
@@ -37,6 +35,10 @@ echo "export BUCKET_FOLDER=${bucket_folder}" >> ~/.bashrc
 echo "export BIGTABLE_INSTANCE_NAME=${bigtable_instance_name}" >> ~/.bashrc
 echo "export BIGTABLE_TABLE_NAME=${bigtable_table_name}" >> ~/.bashrc
 echo "export BIGTABLE_FAMILY_NAME=${bigtable_family_name}" >> ~/.bashrc
+
+git clone https://github.com/galic1987/professional-services
+cd professional-services/examples/cryptorealtime/
+mvn clean install
 cd frontend
 pip3 install -r requirements.txt --user
 gsutil cp README.md ${bucket_name}${bucket_folder}
