@@ -28,7 +28,6 @@ sudo yum -y install java-1.8.0-openjdk git maven google-cloud-sdk-0:290.0.0-1 go
 cd ~
 git clone https://github.com/galic1987/professional-services
 cd professional-services/examples/cryptorealtime/
-gsutil cp README.md ${bucket_name}${bucket_folder}
 mvn clean install
 echo "export PROJECT_ID=${project_id}" >> ~/.bashrc
 echo "export REGION=${region}" >> ~/.bashrc
@@ -40,4 +39,5 @@ echo "export BIGTABLE_TABLE_NAME=${bigtable_table_name}" >> ~/.bashrc
 echo "export BIGTABLE_FAMILY_NAME=${bigtable_family_name}" >> ~/.bashrc
 cd frontend
 pip3 install -r requirements.txt --user
+gsutil cp README.md ${bucket_name}${bucket_folder}
 python3 app.py $PROJECT_ID $BIGTABLE_INSTANCE_NAME $BIGTABLE_TABLE_NAME $BIGTABLE_FAMILY_NAME
