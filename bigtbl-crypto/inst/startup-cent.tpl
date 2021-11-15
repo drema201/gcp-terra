@@ -25,7 +25,7 @@ sudo yum install gcc gcc-c++ python3-devel -y --quiet
 sudo pip3 install virtualenv
 virtualenv -p python3 venv
 source venv/bin/activate
-sudo yum -y install openjdk-8-jdk git maven google-cloud-sdk=271.0.0-0 google-cloud-sdk-cbt=271.0.0-0
+sudo yum -y install java-1.8.0-openjdk git maven google-cloud-sdk-0:290.0.0-1 google-cloud-sdk-cbt-0:290.0.0-1
 cd ~
 git clone https://github.com/galic1987/professional-services
 cd professional-services/examples/cryptorealtime/
