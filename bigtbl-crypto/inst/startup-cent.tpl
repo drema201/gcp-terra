@@ -15,9 +15,8 @@
 # limitations under the License.
 
 sudo yum update --quiet -y
-sudo yum install openjdk-8-jdk git maven -y --quiet
-sudo yum install google-cloud-sdk google-cloud-sdk-cbt -y --quiet
-sudo yum install kubectl google-cloud-sdk=271.0.0-0 google-cloud-sdk-app-engine-grpc google-cloud-sdk-app-engine-go google-cloud-sdk-cloud-build-local google-cloud-sdk-datastore-emulator google-cloud-sdk-app-engine-python google-cloud-sdk-cbt=271.0.0-0 google-cloud-sdk-bigtable-emulator google-cloud-sdk-app-engine-python-extras google-cloud-sdk-datalab google-cloud-sdk-app-engine-java -y
+
+sudo yum install kubectl  google-cloud-sdk-app-engine-grpc google-cloud-sdk-app-engine-go google-cloud-sdk-cloud-build-local google-cloud-sdk-datastore-emulator google-cloud-sdk-app-engine-python google-cloud-sdk-cbt=271.0.0-0 google-cloud-sdk-bigtable-emulator google-cloud-sdk-app-engine-python-extras google-cloud-sdk-datalab google-cloud-sdk-app-engine-java -y
 
 sudo yum install python3 -y --quiet
 sudo yum install gcc gcc-c++ python3-devel -y --quiet
