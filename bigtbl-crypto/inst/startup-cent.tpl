@@ -30,8 +30,8 @@ echo "-------------------------------------Export VARs into bashrc--------------
 echo "export PROJECT_ID=${project_id}" >> ~/.bashrc
 echo "export REGION=${region}" >> ~/.bashrc
 echo "export ZONE=${zone}" >> ~/.bashrc
-echo "export BUCKET_NAME=gs://${bucket_name}" >> ~/.bashrc
-echo "export BUCKET_FOLDER=${bucket_folder}" >> ~/.bashrc
+echo "export BUCKET_NAME=gs://${BUCKET_NAME}" >> ~/.bashrc
+echo "export BUCKET_FOLDER=${BUCKET_FOLDER}" >> ~/.bashrc
 echo "export BIGTABLE_INSTANCE_NAME=${bigtable_instance_name}" >> ~/.bashrc
 echo "export BIGTABLE_TABLE_NAME=${bigtable_table_name}" >> ~/.bashrc
 echo "export BIGTABLE_FAMILY_NAME=${bigtable_family_name}" >> ~/.bashrc

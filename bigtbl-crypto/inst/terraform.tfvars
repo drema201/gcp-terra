@@ -13,12 +13,12 @@
 # limitations under the License.
 
 project_id = "postgretrial" // ***CHANGE THIS***
-bucket_name = "postgretrial-cryptorealtime-demo-stg" // ***CHANGE THIS*** make this unique
+BUCKET_NAME = "postgretrial-cryptorealtime-demo-stg" // ***CHANGE THIS*** make this unique
 
 // OPTIONAL
 region = "us-central1"
 zone = "us-central1-a"
-bucket_folder = "/temp" // temporary folder
+BUCKET_FOLDER = "/temp" // temporary folder
 bigtable_instance_name = "cryptorealtime"
 bigtable_table_name = "cryptorealtime"
 bigtable_family_name = "market" // Note: If you change this you will have to update the RunThePipeline.java file
