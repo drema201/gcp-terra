@@ -13,8 +13,8 @@
 # limitations under the License.
 
 variable "zone" {}
-variable "bucket_name" {}
-variable "bucket_folder" {}
+variable "BUCKET_NAME" {}
+variable "BUCKET_FOLDER" {}
 variable "bigtable_instance_name" {}
 variable "bigtable_table_name" {}
 variable "bigtable_family_name" {}
