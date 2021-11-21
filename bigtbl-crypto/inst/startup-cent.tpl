@@ -38,8 +38,8 @@ echo "export BIGTABLE_FAMILY_NAME=${bigtable_family_name}" >> ~/.bashrc
 
 git clone https://github.com/galic1987/professional-services
 cd professional-services/examples/cryptorealtime/
-mvn clean install
+mvn clean install -X
 cd frontend
 pip3 install -r requirements.txt --user
-gsutil cp README.md ${bucket_name}${bucket_folder}
+gsutil cp README.md ${BUCKET_NAME}${BUCKET_FOLDER}
 python3 app.py $PROJECT_ID $BIGTABLE_INSTANCE_NAME $BIGTABLE_TABLE_NAME $BIGTABLE_FAMILY_NAME
