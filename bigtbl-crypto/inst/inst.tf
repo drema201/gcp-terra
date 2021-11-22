@@ -39,8 +39,8 @@ resource "google_compute_instance" "default" {
     project_id = "${var.project_id}",
     region = "${var.region}",
     zone = "${var.zone}",
-    bucket_name ="${var.BUCKET_NAME}",
-    bucket_folder = "${var.BUCKET_FOLDER}",
+    BUCKET_NAME ="${var.BUCKET_NAME}",
+    BUCKET_FOLDER = "${var.BUCKET_FOLDER}",
     bigtable_instance_name = "${var.bigtable_instance_name}",
     bigtable_table_name = "${var.bigtable_table_name}",
     bigtable_family_name = "${var.bigtable_family_name}"
