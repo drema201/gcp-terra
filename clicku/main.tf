@@ -9,8 +9,8 @@ data "google_compute_default_service_account" "default" {
     
 data "google_compute_image" "image-terra-click" {
   provider = google-beta    
-  family  = " ubuntu-20"
-  project = "ubuntu-cloud"
+  family  = "ubuntu-2004-lts"
+  project = "ubuntu-os-cloud"
 }    
     
 resource "google_compute_instance" "terra-click-1" {
