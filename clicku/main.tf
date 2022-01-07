@@ -46,7 +46,7 @@ sudo apt update
 echo -e "--======================================================================\n"
 echo "install clickhouse"
 echo -e "--======================================================================\n"
-sudo apt-get install -y clickhouse-server clickhouse-client
+sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install  clickhouse-server clickhouse-client
 sleep 1
 echo -e "--======================================================================\n"
 echo "starting service"
