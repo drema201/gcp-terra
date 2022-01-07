@@ -39,7 +39,18 @@ resource "google_compute_instance" "terra-click-1" {
     
   metadata_startup_script = <<EOF
 sleep 10
-##sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
+sleep 1
+echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee /etc/apt/sources.list.d/clickhouse.list
+sudo apt update
+
+echo "install clickhouse"
+sudo apt install -y clickhouse-server clickhouse-client
+sleep 1
+echo "starting service"
+sudo service clickhouse-server start
+sudo service clickhouse-server status
+
 
 sleep 3
 
