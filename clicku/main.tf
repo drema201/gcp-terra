@@ -43,11 +43,14 @@ sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 sleep 1
 echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee /etc/apt/sources.list.d/clickhouse.list
 sudo apt update
-
+echo -e "--======================================================================\n"
 echo "install clickhouse"
+echo -e "--======================================================================\n"
 sudo apt install -y clickhouse-server clickhouse-client
 sleep 1
+echo -e "--======================================================================\n"
 echo "starting service"
+echo -e "--======================================================================\n"
 sudo service clickhouse-server start
 sudo service clickhouse-server status
 
