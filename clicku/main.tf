@@ -39,7 +39,7 @@ resource "google_compute_instance" "terra-click-1" {
     
   metadata_startup_script = <<EOF
 sleep 10
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
+##sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 
 sleep 3
 
