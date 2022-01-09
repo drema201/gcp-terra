@@ -16,7 +16,6 @@ resource "google_compute_firewall" "default" {
     ports    = ["8123"]
   }
 
-  source_tags = ["clickout"]
   target_tags = ["clickout"]
 }
     
