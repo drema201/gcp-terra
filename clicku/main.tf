@@ -18,6 +18,11 @@ resource "google_compute_firewall" "default" {
 
   target_tags = ["clickout"]
   source_ranges = ["0.0.0.0/0"]
+
+  enable_logging = true
+  log_config {
+    metadata="EXCLUDE_ALL_METADATA"
+  }
 }
     
 data "google_compute_image" "image-terra-click" {
