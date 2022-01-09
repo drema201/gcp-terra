@@ -32,7 +32,7 @@ resource "google_compute_instance" "terra-click-1" {
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false
-  tags = ['clickout']
+  tags = ["clickout"]
 
   service_account {    
      email = data.google_compute_default_service_account.default.email    
