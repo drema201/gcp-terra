@@ -69,7 +69,7 @@ echo "install clickhouse"
 echo -e "--======================================================================\n"
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install  clickhouse-server clickhouse-client
 sleep 1
-sed -e 's@ <!-- <listen_host>0.0.0.0</listen_host> -->@<listen_host>0.0.0.0</listen_host>@g' "/etc/clickhouse-server/config.xml"
+sudo sed -i 's@ <!-- <listen_host>0.0.0.0</listen_host> -->@<listen_host>0.0.0.0</listen_host>@g' /etc/clickhouse-server/config.xml
 echo -e "--======================================================================\n"
 echo "starting service"
 echo -e "--======================================================================\n"
@@ -121,7 +121,7 @@ echo -e "--=====================================================================
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install  clickhouse-server clickhouse-client
 sleep 1
 sed /
-sed -e 's@ <!-- <listen_host>0.0.0.0</listen_host> -->@<listen_host>0.0.0.0</listen_host>@g' "/etc/clickhouse-server/config.xml"
+sudo sed -i 's@ <!-- <listen_host>0.0.0.0</listen_host> -->@<listen_host>0.0.0.0</listen_host>@g' /etc/clickhouse-server/config.xml
 echo -e "--======================================================================\n"
 echo "starting service"
 echo -e "--======================================================================\n"
