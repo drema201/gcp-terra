@@ -5,7 +5,20 @@ provider "google" {
 }    
 
 data "google_compute_default_service_account" "default" {    
-}    
+}
+
+resource "google_compute_firewall" "default" {
+  name    = "test-firewall"
+  network     = "default"
+
+  allow {
+    protocol = "tcp"
+    ports    = ["8123"]
+  }
+
+  source_tags = ["clickout"]
+  target_tags = ["clickout"]
+}
     
 data "google_compute_image" "image-terra-click" {
   provider = google-beta    
@@ -18,7 +31,9 @@ resource "google_compute_instance" "terra-click-1" {
   name           = "terra-inst-click-01"
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
-  can_ip_forward = false    
+  can_ip_forward = false
+  tags = ['clickout']
+
   service_account {    
      email = data.google_compute_default_service_account.default.email    
      scopes = ["cloud-platform"]    
