@@ -109,7 +109,7 @@ resource "google_compute_instance" "terra-click-2" {
   }
 
   metadata_startup_script = <<EOF
-sudo apt-get install zookeeperd
+sudo apt-get -yq install zookeeperd
 sleep 10
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 sleep 1
