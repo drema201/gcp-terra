@@ -17,7 +17,7 @@ resource "google_compute_firewall" "default" {
   }
 
   target_tags = ["clickout"]
-  source_ranges = ["0.0.0.0"]
+  source_ranges = ["0.0.0.0/0"]
 }
     
 data "google_compute_image" "image-terra-click" {
