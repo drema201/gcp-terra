@@ -2,7 +2,11 @@ provider "google" {
   project     = "postgretrial"    
   region      = "us-central1"    
   zone        = "us-central1-b"    
-}    
+}
+
+provider "null" {
+
+}
 
 data "google_compute_default_service_account" "default" {    
 }
@@ -81,16 +85,6 @@ sleep 3
 
 EOF
 
-  provisioner "file" {
-    source      = "config.xml"
-    destination = "/tmp/config.xml"
-  }
-
-  provisioner "file" {
-    source      = "1.sql"
-    destination = "/tmp/1.sql"
-  }
-
 }
 
 resource "google_compute_instance" "terra-click-2" {
@@ -145,3 +139,15 @@ sleep 3
 EOF
 }
 
+resource "null_resource" "localcp" {
+  provisioner "file" {
+    source      = "config.xml"
+    destination = "/tmp/config.xml"
+  }
+
+  provisioner "file" {
+    source      = "1.sql"
+    destination = "/tmp/1.sql"
+  }
+
+}
