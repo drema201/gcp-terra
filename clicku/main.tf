@@ -137,9 +137,7 @@ sudo service clickhouse-server status
 sleep 3
 
 EOF
-}
 
-resource "null_resource" "copyfile" {
   provisioner "file" {
     source      = "config.xml"
     destination = "/tmp/config.xml"
@@ -161,3 +159,7 @@ resource "null_resource" "copyfile" {
   }
 
 }
+
+//resource "null_resource" "copyfile" {
+//
+//}
