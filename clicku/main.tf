@@ -142,7 +142,7 @@ EOF
     source      = "config.xml"
     destination = "/tmp/config.xml"
     connection {
-      host = "terra-inst-click-02"
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
       user = "daviabidavi"
       private_key = "${file("~/.ssh/terra-davi")}"
@@ -153,7 +153,7 @@ EOF
     source      = "1.sql"
     destination = "/tmp/1.sql"
     connection {
-      host = "terra-inst-click-02"
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
       user = "daviabidavi"
       private_key = "${file("~/.ssh/terra-davi")}"
