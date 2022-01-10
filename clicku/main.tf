@@ -80,6 +80,17 @@ sudo service clickhouse-server status
 sleep 3
 
 EOF
+
+  provisioner "file" {
+    source      = "config.xml"
+    destination = "/tmp/config.xml"
+  }
+
+  provisioner "file" {
+    source      = "1.sql"
+    destination = "/tmp/1.sql"
+  }
+
 }
 
 resource "google_compute_instance" "terra-click-2" {
