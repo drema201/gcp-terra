@@ -142,6 +142,7 @@ EOF
     source      = "config.xml"
     destination = "/tmp/config.xml"
     connection {
+      host = "terra-inst-click-02"
       type = "ssh"
       user = "daviabidavi"
       private_key = "${file("~/.ssh/google_compute_engine")}"
@@ -152,6 +153,7 @@ EOF
     source      = "1.sql"
     destination = "/tmp/1.sql"
     connection {
+      host = "terra-inst-click-02"
       type = "ssh"
       user = "daviabidavi"
       private_key = "${file("~/.ssh/google_compute_engine")}"
