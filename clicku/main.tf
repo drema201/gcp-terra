@@ -145,7 +145,7 @@ EOF
       host = "terra-inst-click-02"
       type = "ssh"
       user = "daviabidavi"
-      private_key = "${file("~/.ssh/id_rsa")}"
+      private_key = "${file("~/.ssh/terra-davi")}"
     }    //connection_type         = "ssh"
   }
 
@@ -156,7 +156,7 @@ EOF
       host = "terra-inst-click-02"
       type = "ssh"
       user = "daviabidavi"
-      private_key = "${file("~/.ssh/id_rsa")}"
+      private_key = "${file("~/.ssh/terra-davi")}"
     }    //connection_type         = "ssh"
   }
 
