@@ -143,12 +143,11 @@ resource "null_resource" "copyfile" {
   provisioner "file" {
     source      = "config.xml"
     destination = "/tmp/config.xml"
-
     connection {
       type = "ssh"
-      user = "root"
-      password = ""
-    }
+      user = "daviabidavi"
+      private_key = "${file("~/.ssh/google_compute_engine")}"
+    }    //connection_type         = "ssh"
   }
 
   provisioner "file" {
@@ -156,10 +155,9 @@ resource "null_resource" "copyfile" {
     destination = "/tmp/1.sql"
     connection {
       type = "ssh"
-      user = "root"
-      password = ""
-    }
-    //connection_type         = "ssh"
+      user = "daviabidavi"
+      private_key = "${file("~/.ssh/google_compute_engine")}"
+    }    //connection_type         = "ssh"
   }
 
 }
