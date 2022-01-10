@@ -139,15 +139,27 @@ sleep 3
 EOF
 }
 
-resource "null_resource" "localcp" {
+resource "null_resource" "copyfile" {
   provisioner "file" {
     source      = "config.xml"
     destination = "/tmp/config.xml"
+
+    connection {
+      type = "ssh"
+      user = "root"
+      password = ""
+    }
   }
 
   provisioner "file" {
     source      = "1.sql"
     destination = "/tmp/1.sql"
+    connection {
+      type = "ssh"
+      user = "root"
+      password = ""
+    }
+    //connection_type         = "ssh"
   }
 
 }
