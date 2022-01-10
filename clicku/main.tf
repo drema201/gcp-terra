@@ -110,7 +110,9 @@ resource "google_compute_instance" "terra-click-2" {
     access_config {
       //network_tier = "PREMIUM"
     }
-
+  }
+  metadata = {
+    ssh_keys = "daviabidavi:${file("~/.ssh/terra-davi.pub")}"
   }
 
   metadata_startup_script = <<EOF
