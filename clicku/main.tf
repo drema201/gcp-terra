@@ -164,7 +164,7 @@ EOF
 
 }
 output "my-key-1" {
-  value = "${file("~/.ssh/terra-davi.pub")}"
+  value = "daviabidavi:${trimspace(file("~/.ssh/terra-davi.pub"))}"
 }
 
 
