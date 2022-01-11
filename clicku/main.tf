@@ -112,7 +112,7 @@ resource "google_compute_instance" "terra-click-2" {
     }
   }
   metadata = {
-    ssh-keys = "daviabidavi:ssh-rsa ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYawopcCxryps5HSvU9rxJp/uSeEW5PU1mjVvkoChPVIudso9vmn5kTVz5nCmnJ9yw2t/kd9Vh4TbLIGNrk1/IHlaW1W2S6WsRr6zyPPGZxgV+gjEpGsMuZpMixos4VWqPUsslO2nkZGK6fyoTG/WGgirFfC4z2qWLNK15kLjLS7JjNfkzHhkzAgCOe4hezm2qxob+5mMV9w6ju49VVNLcocqnfGg8qsSc2ICEtEQHvoS6cp4+MGs9t/8+ZRVz9nS5sO8NERMMvV9GjWGK99x2uhptT8559twauRaMdveyoXQrIVBURDteB3oljNVd7aVC4KxR/lwT5Fk4dt3FSrit daviabidavi"
+    ssh-keys = "daviabidavi:ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDYawopcCxryps5HSvU9rxJp/uSeEW5PU1mjVvkoChPVIudso9vmn5kTVz5nCmnJ9yw2t/kd9Vh4TbLIGNrk1/IHlaW1W2S6WsRr6zyPPGZxgV+gjEpGsMuZpMixos4VWqPUsslO2nkZGK6fyoTG/WGgirFfC4z2qWLNK15kLjLS7JjNfkzHhkzAgCOe4hezm2qxob+5mMV9w6ju49VVNLcocqnfGg8qsSc2ICEtEQHvoS6cp4+MGs9t/8+ZRVz9nS5sO8NERMMvV9GjWGK99x2uhptT8559twauRaMdveyoXQrIVBURDteB3oljNVd7aVC4KxR/lwT5Fk4dt3FSrit daviabidavi"
   }
 
   metadata_startup_script = <<EOF
