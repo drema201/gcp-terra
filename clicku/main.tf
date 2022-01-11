@@ -151,6 +151,24 @@ EOF
     }
   }
 
+  provisioner "file" {
+    source      = "1.sql"
+    destination = "/tmp/1.sql"
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = "daviabidavi"
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chown root:root /tmp/config.xml",
+      "sudo cp /tmp/config.xml /etc/clickhouse-client/ ",
+    ]
+  }
+
 //  provisioner "file" {
 //    source      = "1.sql"
 //    destination = "/tmp/1.sql"
