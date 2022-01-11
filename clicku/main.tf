@@ -23,7 +23,6 @@ resource "google_compute_firewall" "default" {
   target_tags = ["clickout"]
   source_ranges = ["0.0.0.0/0"]
 
-  enable_logging = true
   log_config {
     metadata="EXCLUDE_ALL_METADATA"
   }
@@ -59,8 +58,12 @@ resource "google_compute_instance" "terra-click-1" {
    //network_tier = "PREMIUM"    
     }    
     
-  }    
-    
+  }
+  metadata = {
+    ssh-keys = "daviabidavi:${trimspace(file("~/.ssh/terra-davi.pub"))}"
+  }
+
+
   metadata_startup_script = <<EOF
 sudo apt-get install zookeeperd
 sleep 10
@@ -84,6 +87,40 @@ sudo service clickhouse-server status
 sleep 3
 
 EOF
+
+  provisioner "file" {
+    source      = "config.xml"
+    destination = "/tmp/config.xml"
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = "daviabidavi"
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+  provisioner "file" {
+    source      = "1.sql"
+    destination = "/tmp/1.sql"
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = "daviabidavi"
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo chown root:root /tmp/config.xml",
+      "sudo cp /tmp/config.xml /etc/clickhouse-client/config.xml",
+    ]
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = "daviabidavi"
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
 
 }
 
@@ -165,7 +202,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "sudo chown root:root /tmp/config.xml",
-      "sudo cp /tmp/config.xml /etc/clickhouse-client/ ",
+      "sudo cp /tmp/config.xml /etc/clickhouse-client/config.xml",
     ]
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
