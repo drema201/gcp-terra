@@ -148,7 +148,7 @@ EOF
       type = "ssh"
       user = "daviabidavi"
       private_key = "${file("~/.ssh/terra-davi")}"
-    }    //connection_type         = "ssh"
+    }
   }
 
 //  provisioner "file" {
@@ -163,10 +163,17 @@ EOF
 //  }
 
 }
+
+data "google_project" "project" {
+}
+
 output "my-key-1" {
   value = "daviabidavi:${trimspace(file("~/.ssh/terra-davi.pub"))}"
 }
 
+output "my-proj" {
+  value = data.google_project.project
+}
 
 //resource "null_resource" "copyfile" {
 //
