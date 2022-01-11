@@ -112,7 +112,7 @@ resource "google_compute_instance" "terra-click-2" {
     }
   }
   metadata = {
-    ssh_keys = "daviabidavi@gmail.com:${file("~/.ssh/terra-davi.pub")}"
+    ssh_keys = "daviabidavi:${file("~/.ssh/terra-davi.pub")}"
   }
 
   metadata_startup_script = <<EOF
@@ -163,6 +163,10 @@ EOF
 //  }
 
 }
+output "my-key-1" {
+  value = "${file("~/.ssh/terra-davi.pub")}"
+}
+
 
 //resource "null_resource" "copyfile" {
 //
