@@ -184,31 +184,31 @@ sleep 3
 
 EOF
 
-    provisioner "file" {
-      source = "config.xml"
-      destination = "/tmp/config.xml"
-      connection {
-        host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-        type = "ssh"
-        user = var.mytfuser
-        private_key = "${file("~/.ssh/terra-davi")}"
-      }
+  provisioner "file" {
+    source = "config.xml"
+    destination = "/tmp/config.xml"
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
     }
+  }
 
-    provisioner "file" {
-      source = "1.sql"
-      destination = "/tmp/1.sql"
-      connection {
-        host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-        type = "ssh"
-        user = var.mytfuser
-        private_key = "${file("~/.ssh/terra-davi")}"
-      }
+  provisioner "file" {
+    source = "1.sql"
+    destination = "/tmp/1.sql"
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
     }
+  }
 
-    provisioner "remote-exec" {
+  provisioner "remote-exec" {
     inline = [
-      "sleep 10",
+      "sleep 20",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
@@ -219,10 +219,28 @@ EOF
       user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
     }
-
   }
 
+}
+
+resource "null_resource" "rexec2" {
+  provisioner "remote-exec" {
+    inline = [
+      "sleep 100",
+      "sudo chown clickhouse:clickhouse /tmp/config.xml",
+      "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
+      "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
+    ]
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
   }
+  depends_on = [google_compute_instance.terra-click-2]
+}
+
 
 data "google_project" "project" {
 }
