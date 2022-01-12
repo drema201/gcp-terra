@@ -115,7 +115,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "sudo chown root:root /tmp/config.xml",
-      "sudo cp /tmp/config.xml /etc/clickhouse-client/config.xml",
+      "sudo cp /tmp/config.xml /etc/clickhouse-server/config.xml",
     ]
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
@@ -207,7 +207,7 @@ EOF
     provisioner "remote-exec" {
       inline = [
         "sudo chown root:root /tmp/config.xml",
-        "sudo cp /tmp/config.xml /etc/clickhouse-client/config.xml",
+        "sudo cp /tmp/config.xml /etc/clickhouse-server/config.xml",
       ]
       connection {
         host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
