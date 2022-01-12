@@ -114,8 +114,10 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      "sudo chown root:root /tmp/config.xml",
-      "sudo cp /tmp/config.xml /etc/clickhouse-server/config.xml",
+      "sleep 10",
+      "sudo chown clickhouse:clickhouse /tmp/config.xml",
+      "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
+      "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
     ]
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
@@ -205,17 +207,20 @@ EOF
     }
 
     provisioner "remote-exec" {
-      inline = [
-        "sudo chown root:root /tmp/config.xml",
-        "sudo cp /tmp/config.xml /etc/clickhouse-server/config.xml",
-      ]
-      connection {
-        host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-        type = "ssh"
-        user = var.mytfuser
-        private_key = "${file("~/.ssh/terra-davi")}"
-      }
+    inline = [
+      "sleep 10",
+      "sudo chown clickhouse:clickhouse /tmp/config.xml",
+      "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
+      "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
+    ]
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
     }
+
+  }
 
   }
 
