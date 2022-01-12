@@ -94,7 +94,7 @@ EOF
     source = "config.xml"
     destination = "/tmp/config.xml"
     connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
       user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
@@ -105,7 +105,7 @@ EOF
     source = "1.sql"
     destination = "/tmp/1.sql"
     connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
       user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
