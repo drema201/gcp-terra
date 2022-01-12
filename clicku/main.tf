@@ -149,7 +149,7 @@ resource "google_compute_instance" "terra-click-2" {
     }
   }
   metadata = {
-    ssh-keys = "daviabidavi:${trimspace(file("~/.ssh/terra-davi.pub"))}"
+    ssh-keys = "${var.mytfuser}:${trimspace(file("~/.ssh/terra-davi.pub"))}"
   }
 
   metadata_startup_script = <<EOF
@@ -183,7 +183,7 @@ EOF
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
-      user = "daviabidavi"
+      user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
@@ -194,7 +194,7 @@ EOF
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
-      user = "daviabidavi"
+      user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
@@ -207,7 +207,7 @@ EOF
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
-      user = "daviabidavi"
+      user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
