@@ -67,7 +67,7 @@ resource "google_compute_instance" "terra-click-1" {
 
 
   metadata_startup_script = <<EOF
-sudo apt-get install zookeeperd
+sudo apt-get -yq install zookeeperd
 sleep 10
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 sleep 1
@@ -223,6 +223,7 @@ resource "null_resource" "rexec_all" {
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
       "sudo service clickhouse-server restart",
+      "clickhouse-client --queries-file /tmp/1.sql",
     ]
     connection {
       host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
