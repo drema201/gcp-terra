@@ -194,7 +194,7 @@ EOF
 }
 
 resource "null_resource" "rexec_all" {
-  provisioner "remote-exec-1" {
+  provisioner "remote-exec" {
     inline = [
       "sleep 100",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
@@ -209,7 +209,7 @@ resource "null_resource" "rexec_all" {
     }
   }
 
-  provisioner "remote-exec-2" {
+  provisioner "remote-exec" {
     inline = [
       "sleep 100",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
