@@ -221,7 +221,7 @@ resource "null_resource" "rexec_all" {
       "/tmp/wait.sh",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
-      "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
+      "sudo cp -f /tmp/config.xml /etc/clickhouse-server/config.xml",
       "sudo service clickhouse-server restart",
       "clickhouse-client --queries-file /tmp/1.sql",
     ]
@@ -240,7 +240,7 @@ resource "null_resource" "rexec_all" {
       "/tmp/wait.sh",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
-      "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
+      "sudo cp -f /tmp/config.xml /etc/clickhouse-server/config.xml",
       "sudo service clickhouse-server restart",
     ]
     connection {
