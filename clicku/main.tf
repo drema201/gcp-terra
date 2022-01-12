@@ -196,7 +196,7 @@ EOF
 resource "null_resource" "rexec_all" {
   provisioner "remote-exec" {
     inline = [
-      "sleep 100",
+      "sleep 30",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
@@ -211,7 +211,7 @@ resource "null_resource" "rexec_all" {
 
   provisioner "remote-exec" {
     inline = [
-      "sleep 100",
+      "sleep 30",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
