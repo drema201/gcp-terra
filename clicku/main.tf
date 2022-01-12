@@ -62,7 +62,7 @@ resource "google_compute_instance" "terra-click-1" {
 
   }
   metadata = {
-    ssh-keys = "daviabidavi:${trimspace(file("~/.ssh/terra-davi.pub"))}"
+    ssh-keys = "${var.mytfuser}:${trimspace(file("~/.ssh/terra-davi.pub"))}"
   }
 
 
@@ -96,7 +96,7 @@ EOF
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
-      user = "daviabidavi"
+      user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
@@ -107,26 +107,11 @@ EOF
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
-      user = "daviabidavi"
+      user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sleep 10",
-      "sudo chown clickhouse:clickhouse /tmp/config.xml",
-      "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
-      "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
-    ]
-    connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-      type = "ssh"
-      user = "daviabidavi"
-      private_key = "${file("~/.ssh/terra-davi")}"
-    }
-
-  }
 }
 
 resource "google_compute_instance" "terra-click-2" {
@@ -208,8 +193,23 @@ EOF
 
 }
 
-resource "null_resource" "rexec2" {
-  provisioner "remote-exec" {
+resource "null_resource" "rexec_all" {
+  provisioner "remote-exec-1" {
+    inline = [
+      "sleep 100",
+      "sudo chown clickhouse:clickhouse /tmp/config.xml",
+      "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
+      "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
+    ]
+    connection {
+      host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+  provisioner "remote-exec-2" {
     inline = [
       "sleep 100",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
@@ -223,7 +223,7 @@ resource "null_resource" "rexec2" {
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
-  depends_on = [google_compute_instance.terra-click-2]
+  depends_on = [google_compute_instance.terra-click-2,google_compute_instance.terra-click-1]
 }
 
 
