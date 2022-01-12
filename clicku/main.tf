@@ -178,6 +178,16 @@ sudo service clickhouse-server status
 sleep 3
 
 EOF
+  provisioner "file" {
+    source = "wait.sh"
+    destination = "/tmp/wait.sh"
+    connection {
+      host = self.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
 
   provisioner "file" {
     source = "config.xml"
@@ -225,7 +235,8 @@ resource "null_resource" "rexec_all" {
   provisioner "remote-exec" {
     inline = [
       "sleep 30",
-      "while [ ! -f /etc/clickhouse-server/config.xml ]; do sleep 5; done",
+      "sudo chmod u+x /tmp/wait.sh",
+      "/tmp/wait.sh",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
