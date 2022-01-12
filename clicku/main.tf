@@ -94,7 +94,7 @@ EOF
     source = "config.xml"
     destination = "/tmp/config.xml"
     connection {
-      host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
+      host = self.network_interface.0.access_config.0.nat_ip
       type = "ssh"
       user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
@@ -173,7 +173,7 @@ EOF
     source = "config.xml"
     destination = "/tmp/config.xml"
     connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      host = self.network_interface.0.access_config.0.nat_ip
       type = "ssh"
       user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
@@ -184,7 +184,7 @@ EOF
     source = "1.sql"
     destination = "/tmp/1.sql"
     connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      host = self.network_interface.0.access_config.0.nat_ip
       type = "ssh"
       user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
@@ -200,6 +200,7 @@ resource "null_resource" "rexec_all" {
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
+      "sudo service clickhouse-server restart",
     ]
     connection {
       host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
@@ -215,6 +216,7 @@ resource "null_resource" "rexec_all" {
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo mv /tmp/config.xml /etc/clickhouse-server/config.xml",
+      "sudo service clickhouse-server restart",
     ]
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
@@ -231,13 +233,10 @@ data "google_project" "project" {
 }
 
 output "my-key-1" {
-  value = "daviabidavi:${trimspace(file("~/.ssh/terra-davi.pub"))}"
+  value = "${var.mytfuser}:${trimspace(file("~/.ssh/terra-davi.pub"))}"
 }
 
 output "my-proj" {
   value = data.google_project.project
 }
 
-//resource "null_resource" "copyfile" {
-//
-//}
