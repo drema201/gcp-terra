@@ -207,7 +207,7 @@ resource "null_resource" "rexec_all" {
   provisioner "remote-exec" {
     inline = [
       "sleep 30",
-      "sudo chmod u+x /tmp/wait.sh"
+      "sudo chmod u+x /tmp/wait.sh",
       "/tmp/wait.sh",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
