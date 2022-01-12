@@ -35,29 +35,31 @@ data "google_compute_image" "image-terra-click" {
 }    
     
 resource "google_compute_instance" "terra-click-1" {
-  provider = google-beta    
-  name           = "terra-inst-click-01"
-  machine_type   = "e2-standard-2"    
-  zone           = "us-central1-b"    
+  provider = google-beta
+  name = "terra-inst-click-01"
+  machine_type = "e2-standard-2"
+  zone = "us-central1-b"
   can_ip_forward = false
-  tags = ["clickout"]
+  tags = [
+    "clickout"]
 
-  service_account {    
-     email = data.google_compute_default_service_account.default.email    
-     scopes = ["cloud-platform"]    
-     }    
-    
-  boot_disk {    
-    initialize_params {    
+  service_account {
+    email = data.google_compute_default_service_account.default.email
+    scopes = [
+      "cloud-platform"]
+  }
+
+  boot_disk {
+    initialize_params {
       image = data.google_compute_image.image-terra-click.self_link
-    }    
-  }    
-  network_interface {    
-    network = "default"    
-    access_config {    
-   //network_tier = "PREMIUM"    
-    }    
-    
+    }
+  }
+  network_interface {
+    network = "default"
+    access_config {
+      //network_tier = "PREMIUM"
+    }
+
   }
   metadata = {
     ssh-keys = "daviabidavi:${trimspace(file("~/.ssh/terra-davi.pub"))}"
@@ -89,7 +91,7 @@ sleep 3
 EOF
 
   provisioner "file" {
-    source      = "config.xml"
+    source = "config.xml"
     destination = "/tmp/config.xml"
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
@@ -100,7 +102,7 @@ EOF
   }
 
   provisioner "file" {
-    source      = "1.sql"
+    source = "1.sql"
     destination = "/tmp/1.sql"
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
@@ -122,37 +124,40 @@ EOF
       private_key = "${file("~/.ssh/terra-davi")}"
     }
 
+  }
 }
 
 resource "google_compute_instance" "terra-click-2" {
-  provider = google-beta
-  name           = "terra-inst-click-02"
-  machine_type   = "e2-standard-2"
-  zone           = "us-central1-b"
-  can_ip_forward = false
-  tags = ["clickout"]
+    provider = google-beta
+    name = "terra-inst-click-02"
+    machine_type = "e2-standard-2"
+    zone = "us-central1-b"
+    can_ip_forward = false
+    tags = [
+      "clickout"]
 
-  service_account {
-    email = data.google_compute_default_service_account.default.email
-    scopes = ["cloud-platform"]
-  }
-
-  boot_disk {
-    initialize_params {
-      image = data.google_compute_image.image-terra-click.self_link
+    service_account {
+      email = data.google_compute_default_service_account.default.email
+      scopes = [
+        "cloud-platform"]
     }
-  }
-  network_interface {
-    network = "default"
-    access_config {
-      //network_tier = "PREMIUM"
-    }
-  }
-  metadata = {
-    ssh-keys = "${var.mytfuser}:${trimspace(file("~/.ssh/terra-davi.pub"))}"
-  }
 
-  metadata_startup_script = <<EOF
+    boot_disk {
+      initialize_params {
+        image = data.google_compute_image.image-terra-click.self_link
+      }
+    }
+    network_interface {
+      network = "default"
+      access_config {
+        //network_tier = "PREMIUM"
+      }
+    }
+    metadata = {
+      ssh-keys = "${var.mytfuser}:${trimspace(file("~/.ssh/terra-davi.pub"))}"
+    }
+
+    metadata_startup_script = <<EOF
 sudo apt-get -yq install zookeeperd
 sleep 10
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
@@ -177,53 +182,42 @@ sleep 3
 
 EOF
 
-  provisioner "file" {
-    source      = "config.xml"
-    destination = "/tmp/config.xml"
-    connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-      type = "ssh"
-      user = var.mytfuser
-      private_key = "${file("~/.ssh/terra-davi")}"
+    provisioner "file" {
+      source = "config.xml"
+      destination = "/tmp/config.xml"
+      connection {
+        host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+        type = "ssh"
+        user = var.mytfuser
+        private_key = "${file("~/.ssh/terra-davi")}"
+      }
     }
-  }
 
-  provisioner "file" {
-    source      = "1.sql"
-    destination = "/tmp/1.sql"
-    connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-      type = "ssh"
-      user = var.mytfuser
-      private_key = "${file("~/.ssh/terra-davi")}"
+    provisioner "file" {
+      source = "1.sql"
+      destination = "/tmp/1.sql"
+      connection {
+        host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+        type = "ssh"
+        user = var.mytfuser
+        private_key = "${file("~/.ssh/terra-davi")}"
+      }
     }
-  }
 
-  provisioner "remote-exec" {
-    inline = [
-      "sudo chown root:root /tmp/config.xml",
-      "sudo cp /tmp/config.xml /etc/clickhouse-client/config.xml",
-    ]
-    connection {
-      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-      type = "ssh"
-      user = var.mytfuser
-      private_key = "${file("~/.ssh/terra-davi")}"
+    provisioner "remote-exec" {
+      inline = [
+        "sudo chown root:root /tmp/config.xml",
+        "sudo cp /tmp/config.xml /etc/clickhouse-client/config.xml",
+      ]
+      connection {
+        host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+        type = "ssh"
+        user = var.mytfuser
+        private_key = "${file("~/.ssh/terra-davi")}"
+      }
     }
+
   }
-
-//  provisioner "file" {
-//    source      = "1.sql"
-//    destination = "/tmp/1.sql"
-//    connection {
-//      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
-//      type = "ssh"
-//      user = "daviabidavi"
-//      private_key = "${file("~/.ssh/terra-davi")}"
-//    }
-//  }
-
-}
 
 data "google_project" "project" {
 }
