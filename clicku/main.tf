@@ -67,9 +67,7 @@ resource "google_compute_instance" "terra-click-1" {
 
 
   metadata_startup_script = <<EOF
-sleep 5
-sudo apt-get -yq install zookeeperd
-sleep 10
+sleep 2
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 sleep 1
 echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee /etc/apt/sources.list.d/clickhouse.list
@@ -80,6 +78,14 @@ echo -e "--=====================================================================
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install  clickhouse-server clickhouse-client
 sleep 1
 sudo sed -i 's@ <!-- <listen_host>0.0.0.0</listen_host> -->@<listen_host>0.0.0.0</listen_host>@g' /etc/clickhouse-server/config.xml
+
+sleep 5
+echo -e "--======================================================================\n"
+echo "install zookeeper"
+echo -e "--======================================================================\n"
+
+sudo apt-get -yq install zookeeperd
+
 echo -e "--======================================================================\n"
 echo "starting service"
 echo -e "--======================================================================\n"
@@ -156,8 +162,7 @@ resource "google_compute_instance" "terra-click-2" {
     }
 
     metadata_startup_script = <<EOF
-sudo apt-get -yq install zookeeperd
-sleep 10
+sleep 2
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 sleep 1
 echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee /etc/apt/sources.list.d/clickhouse.list
@@ -165,10 +170,19 @@ sudo apt update
 echo -e "--======================================================================\n"
 echo "install clickhouse"
 echo -e "--======================================================================\n"
+
 sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install  clickhouse-server clickhouse-client
 sleep 1
 sed /
 sudo sed -i 's@ <!-- <listen_host>0.0.0.0</listen_host> -->@<listen_host>0.0.0.0</listen_host>@g' /etc/clickhouse-server/config.xml
+
+sleep 5
+echo -e "--======================================================================\n"
+echo "install zookeeper"
+echo -e "--======================================================================\n"
+
+sudo apt-get -yq install zookeeperd
+
 echo -e "--======================================================================\n"
 echo "starting service"
 echo -e "--======================================================================\n"
