@@ -223,7 +223,6 @@ resource "null_resource" "rexec_all" {
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo cp -f /tmp/config.xml /etc/clickhouse-server/config.xml",
       "sudo service clickhouse-server restart",
-      "clickhouse-client --queries-file /tmp/1.sql",
     ]
     connection {
       host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
