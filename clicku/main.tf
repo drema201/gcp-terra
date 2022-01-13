@@ -67,6 +67,7 @@ resource "google_compute_instance" "terra-click-1" {
 
 
   metadata_startup_script = <<EOF
+sleep 5
 sudo apt-get -yq install zookeeperd
 sleep 10
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
@@ -252,13 +253,24 @@ resource "null_resource" "rexec_all" {
   depends_on = [google_compute_instance.terra-click-2,google_compute_instance.terra-click-1]
 }
 
+resource "null_resource" "rexec_sql_1" {
+  provisioner "remote-exec" {
+    inline = [
+      "echo start sql apply",
+      "clickhouse-client --queries-file /tmp/1.sql",    ]
+    connection {
+      host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+  depends_on = [null_resource.rexec_all]
+}
 
 data "google_project" "project" {
 }
 
-output "my-key-1" {
-  value = "${var.mytfuser}:${trimspace(file("~/.ssh/terra-davi.pub"))}"
-}
 
 output "my-proj" {
   value = data.google_project.project
