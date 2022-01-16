@@ -215,6 +215,16 @@ EOF
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
+  provisioner "file" {
+    source = "sql/"
+    destination = "/tmp"
+    connection {
+      host = self.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
 
   provisioner "file" {
     source = "1.sql"
@@ -272,7 +282,7 @@ resource "null_resource" "rexec_sql_1" {
   provisioner "remote-exec" {
     inline = [
       "echo start sql apply [database]",
-      "/usr/bin/clickhouse-client --queries-file /tmp/00-create-databases.sql",    ]
+      "/usr/bin/clickhouse-client --queries-file /tmp/sql/00-create-databases.sql",    ]
     connection {
       host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
@@ -283,7 +293,7 @@ resource "null_resource" "rexec_sql_1" {
   provisioner "remote-exec" {
     inline = [
       "echo start sql apply \\(database\\)",
-      "/usr/bin/clickhouse-client --queries-file /tmp/00-create-databases.sql",    ]
+      "/usr/bin/clickhouse-client --queries-file /tmp/sql/00-create-databases.sql",    ]
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
       type = "ssh"
