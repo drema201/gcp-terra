@@ -119,6 +119,18 @@ EOF
   }
 
   provisioner "file" {
+    source = "sql/"
+    destination = "/tmp/sql/"
+    connection {
+      host = self.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+
+  provisioner "file" {
     source = "1.sql"
     destination = "/tmp/1.sql"
     connection {
