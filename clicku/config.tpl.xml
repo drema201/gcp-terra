@@ -426,7 +426,7 @@
       -->
     <macros>
         <shard>gcp_2shards</shard>
-        <replica>${replace}</replica>
+        <replica>${replica}</replica>
     </macros>
 
 
