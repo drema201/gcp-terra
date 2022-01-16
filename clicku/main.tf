@@ -271,7 +271,7 @@ resource "null_resource" "rexec_all" {
 resource "null_resource" "rexec_sql_1" {
   provisioner "remote-exec" {
     inline = [
-      "echo start sql apply (database)",
+      "echo start sql apply [database]",
       "/usr/bin/clickhouse-client --queries-file /tmp/00-create-databases.sql",    ]
     connection {
       host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
@@ -282,7 +282,7 @@ resource "null_resource" "rexec_sql_1" {
   }
   provisioner "remote-exec" {
     inline = [
-      "echo start sql apply (database)",
+      "echo start sql apply \\(database\\)",
       "/usr/bin/clickhouse-client --queries-file /tmp/00-create-databases.sql",    ]
     connection {
       host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
