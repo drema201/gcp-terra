@@ -314,6 +314,17 @@ resource "null_resource" "rexec_sql_1" {
     }
   }
 
+  provisioner "file" {
+    source = "sql/"
+    destination = "/tmp"
+    connection {
+      host = google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
   provisioner "remote-exec" {
     inline = [
       "echo start sql apply \\(1\\)",
