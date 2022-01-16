@@ -411,8 +411,6 @@
 
          See https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replication/
       -->
-
-
     <zookeeper>
         <node>
             <host>${zooinst}</host>
@@ -426,12 +424,10 @@
 
          See https://clickhouse.com/docs/en/engines/table-engines/mergetree-family/replication/#creating-replicated-tables
       -->
-    <!--
     <macros>
-        <shard>01</shard>
-        <replica>example01-01-1</replica>
+        <shard>gcp_2shards</shard>
+        <replica>${replace}</replica>
     </macros>
-    -->
 
 
     <!-- Reloading interval for embedded dictionaries, in seconds. Default: 3600. -->
