@@ -206,7 +206,7 @@ EOF
 
   provisioner "file" {
 //    source = "config.xml"
-    content = templatefile("${path.module}/config.tpl.xml",{inst1 = "terra-inst-click-01", inst2 = "terra-inst-click-02", zooinst= "terra-inst-click-01"} )
+    content = templatefile("${path.module}/config.tpl.xml",{click_hosts = ["terra-inst-click-01", "terra-inst-click-02"], zooinst= "terra-inst-click-01"} )
     destination = "/tmp/config.xml"
     connection {
       host = self.network_interface.0.access_config.0.nat_ip

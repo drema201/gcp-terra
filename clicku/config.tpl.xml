@@ -394,18 +394,14 @@
         </test_cluster_two_shards_localhost>
 
         <gcp_2shards>
+            %{ for inst in click_hosts ~}
             <shard>
                 <replica>
-                    <host>${inst1}</host>
+                    <host>${inst}</host>
                     <port>9000</port>
                 </replica>
             </shard>
-            <shard>
-                <replica>
-                    <host>${inst2}</host>
-                    <port>9000</port>
-                </replica>
-            </shard>
+            %{ endfor ~}
         </gcp_2shards>
     </remote_servers>
 
