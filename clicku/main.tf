@@ -120,7 +120,7 @@ EOF
 
   provisioner "file" {
     source = "sql/"
-    destination = "/tmp/sql/"
+    destination = "/tmp"
     connection {
       host = self.network_interface.0.access_config.0.nat_ip
       type = "ssh"
