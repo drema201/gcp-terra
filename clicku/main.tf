@@ -271,7 +271,30 @@ resource "null_resource" "rexec_all" {
 resource "null_resource" "rexec_sql_1" {
   provisioner "remote-exec" {
     inline = [
-      "echo start sql apply",
+      "echo start sql apply (database)",
+      "/usr/bin/clickhouse-client --queries-file /tmp/00-create-databases.sql",    ]
+    connection {
+      host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "echo start sql apply (database)",
+      "/usr/bin/clickhouse-client --queries-file /tmp/00-create-databases.sql",    ]
+    connection {
+      host = "${google_compute_instance.terra-click-2.network_interface.0.access_config.0.nat_ip}"
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "echo start sql apply (1)",
       "/usr/bin/clickhouse-client --queries-file /tmp/1.sql",    ]
     connection {
       host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
@@ -280,6 +303,7 @@ resource "null_resource" "rexec_sql_1" {
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
+
   depends_on = [null_resource.rexec_all]
 }
 
