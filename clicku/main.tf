@@ -317,6 +317,7 @@ resource "null_resource" "rexec_sql_1" {
   provisioner "remote-exec" {
     inline = [
       "echo start sql apply \\(1\\)",
+      "echo start sql distributed ",
       "/usr/bin/clickhouse-client --queries-file /tmp/sql/1.sql",    ]
     connection {
       host = "${google_compute_instance.terra-click-1.network_interface.0.access_config.0.nat_ip}"
