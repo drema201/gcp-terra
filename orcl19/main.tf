@@ -49,7 +49,27 @@ default="postgretrial-orcl"
 
     
 data "google_compute_default_service_account" "default" {    
-}    
+}
+
+resource "google_compute_network" "priv_asm_net" {
+  name = "my-asm-priv-network"
+  auto_create_subnetworks = false
+}
+
+resource "google_compute_subnetwork" "priv_asm_subnet" {
+  name          = "my-asm-priv-subnet"
+  region        = "us-central1"
+  ip_cidr_range = "10.4.0.0/14"
+  network       = google_compute_network.priv_asm_net.id
+}
+
+resource "google_compute_address" "addr1" {
+  name         = "my-internal-address"
+  subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
+  address_type = "INTERNAL"
+  region       = "us-central1"
+}
+
     
 data "google_compute_image" "image-terra-ora" {    
   provider = google-beta    
@@ -88,10 +108,19 @@ sleep 3
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
 yum -y --nogpgcheck install  oracle-database-preinstall-19c openssl
-groupadd -g 54321 oinstall
-groupadd -g 54322 dba
-groupadd -g 54323 oper
-useradd -u 54321 -g oinstall -G dba,oper oracle
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Setup oracle and grid user"
+echo "-----------------------------------------------------------------"
+userdel -fr oracle
+groupdel oinstall
+groupdel dba
+
+groupadd oinstall
+groupadd dbaoper
+groupadd dba
+useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba
+
 mkdir -p /u01/app/oracle/product/19.0.0/dbhome_1
 mkdir -p /u02/oradata
 chown -R oracle:oinstall /u01 /u02
