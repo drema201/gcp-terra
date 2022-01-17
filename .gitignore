@@ -135,3 +135,13 @@ dmypy.json
 /.idea/misc.xml
 /.idea/modules.xml
 /.idea/vcs.xml
+/out/production/gcp-terra/tbl-big/1.json
+/tbl-big/1.json
+/out/production/gcp-terra/tbl-big/code/CONTRIBUTING.md
+/out/production/gcp-terra/tbl-big/code/LICENSE
+/out/production/gcp-terra/tbl-big/code/src/main/resources/log4j.properties
+/out/production/gcp-terra/tbl-big/main.tf
+/out/production/gcp-terra/tbl-big/code/pom.xml
+/out/production/gcp-terra/tbl-big/code/README.md
+/out/production/gcp-terra/tbl-big/templ.json
+/tbl-big/templ.json
