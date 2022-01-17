@@ -28,6 +28,9 @@ resource "google_compute_firewall" "priv-asm-firewall" {
     protocol = "tcp"
     ports    = ["22"]
   }
+
+  source_ranges = ["0.0.0.0/0"]
+
 }
 
 resource "google_compute_subnetwork" "priv_asm_subnet" {
