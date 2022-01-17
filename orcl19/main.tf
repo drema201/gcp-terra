@@ -129,6 +129,10 @@ chmod -R 775 /u01 /u02
 ##copy binaries zip
 gsutil cp  gs://${var.VAR_ORA_BUCKET}/* /tmp
 
+echo "-----------------------------------------------------------------"
+echo 'INSTALLER: START Environment variables '
+echo "-----------------------------------------------------------------"
+
 export "ORACLE_BASE"="${var.VAR_ORA_BASE}"
 export "ORACLE_HOME"="${var.VAR_ORA_HOME}"
 export "ORACLE_SID"="${var.VAR_ORA_SID}"
@@ -141,7 +145,9 @@ echo "export ORACLE_HOME=$ORACLE_HOME" >> /home/oracle/.bashrc && \
 echo "export ORACLE_SID=$ORACLE_SID" >> /home/oracle/.bashrc   && \
 echo "export PATH=\$PATH:\$ORACLE_HOME/bin" >> /home/oracle/.bashrc
 
+echo "-----------------------------------------------------------------"
 echo 'INSTALLER: Environment variables set'
+echo "-----------------------------------------------------------------"
 
 unzip /tmp/LINUX.X64_193000_db_home.zip -d $ORACLE_HOME/
 chown oracle:oinstall -R $ORACLE_BASE
