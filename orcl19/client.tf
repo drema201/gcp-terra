@@ -11,7 +11,7 @@ resource "google_compute_subnetwork" "oraclient_subnet" {
 }
 
 resource "google_compute_address" "clnt_addr1" {
-  name         = "my-internal-address"
+  name         = "oraclnt-internal-address"
   subnetwork   = google_compute_subnetwork.oraclient_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
