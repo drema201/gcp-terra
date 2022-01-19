@@ -39,6 +39,10 @@ resource "google_compute_firewall" "oraclient_egress" {
   }
   destination_ranges = ["0.0.0.0/0"]
   target_tags = ["orcl"]
+  log_config {
+    metadata="EXCLUDE_ALL_METADATA"
+  }
+
 }
 
 resource "google_compute_firewall" "oraclient_egress_deny" {
@@ -51,26 +55,15 @@ resource "google_compute_firewall" "oraclient_egress_deny" {
     protocol = "tcp"
     ports    = ["0-65535"]
   }
-  destination_ranges = ["0.0.0.0/0"]
+//  destination_ranges = ["0.0.0.0/0"]
   target_tags = ["orcl"]
-}
-
-
-resource "google_compute_firewall" "oraclient_fw" {
-  name    = "oraclient-firewall"
-  network     = google_compute_network.oraclient_net.name
-
-  allow {
-    protocol = "tcp"
-    ports    = ["1521"]
-  }
-
-  source_ranges = ["0.0.0.0/0"]
-
+  source_tags = ["orcl"]
   log_config {
     metadata="EXCLUDE_ALL_METADATA"
   }
+
 }
+
 
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
