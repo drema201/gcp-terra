@@ -62,7 +62,7 @@ resource "google_compute_firewall" "oradb_fw" {
 
   allow {
     protocol = "tcp"
-    ports    = ["1521"]
+    ports    = ["1521-1529"]
   }
 
   source_ranges = ["0.0.0.0/0"]
