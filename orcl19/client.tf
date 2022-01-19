@@ -28,7 +28,7 @@ resource "google_compute_firewall" "oraclient_ssh_fw" {
 }
 
 resource "google_compute_firewall" "oraclient_egress" {
-  name    = "oraclient_egress"
+  name    = "oraclient-egress"
   network = google_compute_network.oraclient_net.name
   direction = "EGRESS"
   priority = 100
@@ -42,7 +42,7 @@ resource "google_compute_firewall" "oraclient_egress" {
 }
 
 resource "google_compute_firewall" "oraclient_egress_deny" {
-  name    = "oraclient_egress_deny"
+  name    = "oraclient-egress-deny"
   network = google_compute_network.oraclient_net.name
   direction = "EGRESS"
   priority = 100
