@@ -89,7 +89,7 @@ resource "google_compute_subnetwork" "oradb_subnet" {
 }
 
 resource "google_compute_address" "addr1" {
-  name         = "my-internal-address"
+  name         = "oradb-address"
   subnetwork   = google_compute_subnetwork.oradb_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
@@ -107,7 +107,9 @@ resource "google_compute_instance" "terra-ora-1" {
   name           = "terra-inst-ora-01"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
-  can_ip_forward = false    
+  can_ip_forward = false
+  tags = ["orcl"]
+
   service_account {    
      email = data.google_compute_default_service_account.default.email    
      scopes = ["cloud-platform"]    

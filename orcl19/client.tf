@@ -27,6 +27,35 @@ resource "google_compute_firewall" "oraclient_ssh_fw" {
   source_ranges = ["0.0.0.0/0"]
 }
 
+resource "google_compute_firewall" "oraclient_egress" {
+  name    = "oraclient_egress"
+  network = google_compute_network.oraclient_net.name
+  direction = "EGRESS"
+  priority = 100
+
+  allow {
+    protocol = "tcp"
+    ports    = ["1521"]
+  }
+  destination_ranges = ["0.0.0.0/0"]
+  target_tags = ["orcl"]
+}
+
+resource "google_compute_firewall" "oraclient_egress_deny" {
+  name    = "oraclient_egress_deny"
+  network = google_compute_network.oraclient_net.name
+  direction = "EGRESS"
+  priority = 100
+
+  deny {
+    protocol = "tcp"
+    ports    = ["0-65535"]
+  }
+  destination_ranges = ["0.0.0.0/0"]
+  target_tags = ["orcl"]
+}
+
+
 resource "google_compute_firewall" "oraclient_fw" {
   name    = "oraclient-firewall"
   network     = google_compute_network.oraclient_net.name
@@ -48,7 +77,9 @@ resource "google_compute_instance" "terra-oraclnt-1" {
   name           = "terra-oraclient-01"    
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
-  can_ip_forward = false    
+  can_ip_forward = false
+  tags = ["orcl"]
+
   service_account {    
      email = data.google_compute_default_service_account.default.email    
      scopes = ["cloud-platform"]    
@@ -73,6 +104,7 @@ resource "google_compute_instance" "terra-oraclnt-1" {
 sleep 5
 yum -y install wget
 yum -y install zip unzip
+yum - y install libaio
 sleep 3
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
@@ -105,8 +137,8 @@ echo "-----------------------------------------------------------------"
 export PATH="$PATH:/opt/oracle/instantclient_21_4"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4"
 
-echo "export PATH=\"$PATH:/opt/oracle/instantclient_21_4\"" >> /home/oracle/.profile
-echo "export LD_LIBRARY_PATH=\"$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4\"" >> /home/oracle/.profile
+su -l oracle -c echo 'export PATH=$PATH:/opt/oracle/instantclient_21_4' >> /home/oracle/.profile
+su -l oracle -c echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4' >> /home/oracle/.profile
 
 echo "-----------------------------------------------------------------"
 echo 'INSTALLER: Environment variables set'
