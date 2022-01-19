@@ -48,7 +48,7 @@ default="postgretrial-orcl"
 }
 
 resource "google_compute_firewall" "oradb" {
-  name    = "test-firewall"
+  name    = "oradb-firewall"
   network     = google_compute_network.priv_asm_net.name
 
   allow {
