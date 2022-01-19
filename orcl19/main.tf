@@ -47,7 +47,23 @@ type=string
 default="postgretrial-orcl"
 }
 
-    
+resource "google_compute_firewall" "oradb" {
+  name    = "test-firewall"
+  network     = google_compute_network.priv_asm_net.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["1521"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+
+  log_config {
+    metadata="EXCLUDE_ALL_METADATA"
+  }
+}
+
+
 data "google_compute_default_service_account" "default" {    
 }
 
@@ -92,13 +108,16 @@ resource "google_compute_instance" "terra-ora-1" {
     initialize_params {    
       image = data.google_compute_image.image-terra-ora.self_link    
     }    
-  }    
-  network_interface {    
-    network = "default"    
-    access_config {    
-   //network_tier = "PREMIUM"    
-    }    
-    
+  }
+  network_interface {
+    #network = "default"
+    subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
+    network_ip = google_compute_address.addr1.address
+    access_config {
+      //nat_ip = google_compute_address.pubnetwork.address
+    }
+  }
+
   }    
     
   metadata_startup_script = <<EOF
@@ -252,10 +271,16 @@ sed -i -e "s|###ORACLE_PDB###|$ORACLE_PDB|g" /tmp/dbca.rsp && \
 sed -i -e "s|###ORACLE_CHARACTERSET###|$ORACLE_CHARACTERSET|g" /tmp/dbca.rsp && \
 sed -i -e "s|###ORACLE_PWD###|$ORACLE_PWD|g" /tmp/dbca.rsp
 
+echo "-----------------------------------------------------------------"
+echo 'INSTALLER: START Create database'
+echo "-----------------------------------------------------------------"
+
 # Create DB
 su -l oracle -c "dbca -silent -createDatabase -responseFile /tmp/db.rsp"
 
+echo "-----------------------------------------------------------------"
 echo 'INSTALLER: Database created'
+echo "-----------------------------------------------------------------"
 
 sed '$s/N/Y/' /etc/oratab | sudo tee /etc/oratab > /dev/null
 echo 'INSTALLER: Oratab configured'
