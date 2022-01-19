@@ -118,7 +118,6 @@ resource "google_compute_instance" "terra-ora-1" {
     }
   }
 
-  }    
     
   metadata_startup_script = <<EOF
 sleep 10
