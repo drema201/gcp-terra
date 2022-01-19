@@ -35,7 +35,7 @@ resource "google_compute_firewall" "oraclient_egress" {
 
   allow {
     protocol = "tcp"
-    ports    = ["1521"]
+    ports    = ["1521","22"]
   }
   destination_ranges = ["0.0.0.0/0"]
   target_tags = ["orcl"]
