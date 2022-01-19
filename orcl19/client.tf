@@ -45,7 +45,7 @@ resource "google_compute_firewall" "oraclient_egress_deny" {
   name    = "oraclient-egress-deny"
   network = google_compute_network.oraclient_net.name
   direction = "EGRESS"
-  priority = 100
+  priority = 30000
 
   deny {
     protocol = "tcp"
