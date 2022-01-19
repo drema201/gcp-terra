@@ -74,7 +74,7 @@ resource "google_compute_firewall" "oraclient_fw" {
 
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
-  name           = "terra-oraclient-01"    
+  name           = "terra-oraclient-02"
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false
@@ -102,10 +102,12 @@ resource "google_compute_instance" "terra-oraclnt-1" {
     
   metadata_startup_script = <<EOF
 sleep 5
-yum -y install wget
-yum -y install zip unzip
-yum - y install libaio
-sleep 3
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Yum installations"
+echo "-----------------------------------------------------------------"
+
+sudo yum -y install wget zip unzip libaio
+
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
 
@@ -137,8 +139,8 @@ echo "-----------------------------------------------------------------"
 export PATH="$PATH:/opt/oracle/instantclient_21_4"
 export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4"
 
-su -l oracle -c echo 'export PATH=$PATH:/opt/oracle/instantclient_21_4' >> /home/oracle/.profile
-su -l oracle -c echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4' >> /home/oracle/.profile
+su -l oracle -c "echo 'export PATH=$PATH:/opt/oracle/instantclient_21_4' > /home/oracle/.profile"
+su -l oracle -c "echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4' >> /home/oracle/.profile"
 
 echo "-----------------------------------------------------------------"
 echo 'INSTALLER: Environment variables set'
