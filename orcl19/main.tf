@@ -46,10 +46,19 @@ description ="Storage bucket where I keep Oracle database binaries"
 type=string
 default="postgretrial-orcl"
 }
+resource "google_compute_firewall" "oradb_ssh_fw" {
+  name    = "oradb-ssh-firewall"
+  network = google_compute_network.oradb_net.name
+  allow {
+    protocol = "tcp"
+    ports    = ["22"]
+  }
+  source_ranges = ["0.0.0.0/0"]
+}
 
-resource "google_compute_firewall" "oradb" {
+resource "google_compute_firewall" "oradb_fw" {
   name    = "oradb-firewall"
-  network     = google_compute_network.priv_asm_net.name
+  network     = google_compute_network.oradb_net.name
 
   allow {
     protocol = "tcp"
@@ -67,21 +76,21 @@ resource "google_compute_firewall" "oradb" {
 data "google_compute_default_service_account" "default" {    
 }
 
-resource "google_compute_network" "priv_asm_net" {
-  name = "my-asm-priv-network"
+resource "google_compute_network" "oradb_net" {
+  name = "oradb-network"
   auto_create_subnetworks = false
 }
 
-resource "google_compute_subnetwork" "priv_asm_subnet" {
-  name          = "my-asm-priv-subnet"
+resource "google_compute_subnetwork" "oradb_subnet" {
+  name          = "oradb-subnetwork"
   region        = "us-central1"
   ip_cidr_range = "10.4.0.0/14"
-  network       = google_compute_network.priv_asm_net.id
+  network       = google_compute_network.oradb_net.id
 }
 
 resource "google_compute_address" "addr1" {
   name         = "my-internal-address"
-  subnetwork   = google_compute_subnetwork.priv_asm_subnet.id
+  subnetwork   = google_compute_subnetwork.oradb_subnet.id
   address_type = "INTERNAL"
   region       = "us-central1"
 }
@@ -111,7 +120,7 @@ resource "google_compute_instance" "terra-ora-1" {
   }
   network_interface {
     #network = "default"
-    subnetwork = google_compute_subnetwork.priv_asm_subnet.self_link
+    subnetwork = google_compute_subnetwork.oradb_subnet.self_link
     network_ip = google_compute_address.addr1.address
     access_config {
       //nat_ip = google_compute_address.pubnetwork.address
