@@ -43,9 +43,6 @@ resource "google_compute_firewall" "oraclient_fw" {
   }
 }
 
-data "google_compute_default_service_account" "default" {    
-}
-
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
   name           = "terra-oraclient-01"    
