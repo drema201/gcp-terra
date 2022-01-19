@@ -6,7 +6,7 @@ resource "google_compute_network" "oraclient_net" {
 resource "google_compute_subnetwork" "oraclient_subnet" {
   name          = "oraclient-subnetwork"
   region        = "us-central1"
-  ip_cidr_range = "10.6.0.0/14"
+  ip_cidr_range = "192.168.2.0/24"
   network       = google_compute_network.oraclient_net.id
 }
 
