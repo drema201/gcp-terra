@@ -38,7 +38,8 @@ resource "google_compute_firewall" "oraclient_egress" {
     ports    = ["1521","22", "80", "443"]
   }
   destination_ranges = ["0.0.0.0/0"]
-  target_tags = ["orcl"]
+//  target_tags = ["orcl"]
+  target_service_accounts = ["orclclient@postgretrial.iam.gserviceaccount.com"]
   log_config {
     metadata="EXCLUDE_ALL_METADATA"
   }
