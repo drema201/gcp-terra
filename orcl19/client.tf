@@ -73,7 +73,7 @@ data "google_service_account" "oraclient" {
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
   name           = "terra-oraclient-01"
-  machine_type   = "e1-standard-1"
+  machine_type   = "e2-standard-2"
   zone           = "us-central1-b"    
   can_ip_forward = false
   tags = ["orcl"]
