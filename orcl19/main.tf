@@ -76,6 +76,11 @@ resource "google_compute_firewall" "oradb_fw" {
 data "google_compute_default_service_account" "default" {    
 }
 
+data "google_compute_default_service_account" "oraclient" {
+  account_id = "object-viewer"
+}
+
+
 resource "google_compute_network" "oradb_net" {
   name = "oradb-network"
   auto_create_subnetworks = false
