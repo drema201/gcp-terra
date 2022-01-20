@@ -64,7 +64,7 @@ resource "google_compute_firewall" "oraclient_egress_deny" {
 
 }
 
-data "google_compute_service_account" "oraclient" {
+data "google_service_account" "oraclient" {
   account_id = "oraclient"
 }
 
@@ -78,7 +78,7 @@ resource "google_compute_instance" "terra-oraclnt-1" {
   tags = ["orcl"]
 
   service_account {    
-     email = data.google_compute_service_account.oraclient.account_id
+     email = data.google_service_account.oraclient.account_id
      scopes = ["cloud-platform"]    
      }    
     
