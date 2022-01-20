@@ -79,7 +79,7 @@ resource "google_compute_instance" "terra-oraclnt-1" {
   tags = ["orcl"]
 
   service_account {    
-     email = data.google_service_account.oraclient.account_id
+     email = "${data.google_service_account.oraclient.account_id}@postgretrial.iam.gserviceaccount.com"
      scopes = ["cloud-platform"]    
      }    
     
