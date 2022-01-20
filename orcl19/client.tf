@@ -64,7 +64,7 @@ resource "google_compute_firewall" "oraclient_egress_deny" {
 
 }
 
-data "google_compute_default_service_account" "oraclient" {
+data "google_compute_service_account" "oraclient" {
   account_id = "oraclient"
 }
 
