@@ -57,7 +57,7 @@ resource "google_compute_firewall" "oraclient_egress_deny" {
     ports    = ["0-65535"]
   }
   destination_ranges = ["0.0.0.0/0"]
-  target_tags = ["orcl"]
+//  target_tags = ["orcl"]
 
   log_config {
     metadata="EXCLUDE_ALL_METADATA"
