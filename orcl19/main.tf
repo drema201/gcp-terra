@@ -136,7 +136,7 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
 
 resource "google_compute_instance" "terra-ora-1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-02"
+  name           = "terra-inst-ora-01"
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false
