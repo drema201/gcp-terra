@@ -109,7 +109,7 @@ resource "google_service_account" "oradb" {
   display_name = "A service account for Oracle database"
 }
 
-resource "google_service_account_iam_binding" "oraclnt-account-iam" {
+resource "google_service_account_iam_binding" "oradb-account-iam" {
   service_account_id = google_service_account.oradb.name
   role               = "roles/iam.serviceAccountUser"
 
