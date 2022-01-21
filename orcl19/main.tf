@@ -123,7 +123,7 @@ resource "google_project_iam_binding" "project" {
   role    = "roles/editor"
 
   members = [
-    "ServiceAccount:${google_service_account.oradb.email}",
+    "serviceAccount:${google_service_account.oradb.email}",
   ]
 }
 
