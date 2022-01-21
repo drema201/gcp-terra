@@ -118,6 +118,15 @@ resource "google_service_account_iam_binding" "oradb-account-iam" {
   ]
 }
 
+resource "google_project_iam_binding" "project" {
+  project = "postgretrial"
+  role    = "roles/editor"
+
+  members = [
+    "ServiceAccount:${google_service_account.oradb.email}",
+  ]
+}
+
 # Allow SA service account use the default GCE account
 resource "google_service_account_iam_member" "gce-default-account-iam" {
   service_account_id = data.google_compute_default_service_account.default.name
@@ -127,7 +136,7 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
 
 resource "google_compute_instance" "terra-ora-1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-01"
+  name           = "terra-inst-ora-02"
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false
