@@ -118,9 +118,16 @@ resource "google_service_account_iam_binding" "oradb-account-iam" {
   ]
 }
 
+# Allow SA service account use the default GCE account
+resource "google_service_account_iam_member" "gce-default-account-iam" {
+  service_account_id = data.google_compute_default_service_account.default.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.oradb.email}"
+}
+
 resource "google_compute_instance" "terra-ora-1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-02"
+  name           = "terra-inst-ora-01"
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false
