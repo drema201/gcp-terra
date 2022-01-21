@@ -65,10 +65,6 @@ resource "google_compute_firewall" "oraclient_egress_deny" {
 
 }
 
-data "google_service_account" "oraclient" {
-  account_id = "orclclient"
-}
-
 resource "google_service_account" "oraclnt" {
   account_id   = "oraclient"
   display_name = "A service account for Oracle clients"

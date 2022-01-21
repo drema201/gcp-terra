@@ -102,26 +102,42 @@ data "google_compute_image" "image-terra-ora" {
   provider = google-beta    
   family  = "centos-7"    
   project = "centos-cloud"    
-}    
-    
+}
+
+resource "google_service_account" "oradb" {
+  account_id   = "orcldb"
+  display_name = "A service account for Oracle database"
+}
+
+resource "google_service_account_iam_binding" "oraclnt-account-iam" {
+  service_account_id = google_service_account.oradb.name
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "user:daviabidavi@gmail.com",
+  ]
+}
+
 resource "google_compute_instance" "terra-ora-1" {    
   provider = google-beta    
-  name           = "terra-inst-ora-01"    
+  name           = "terra-inst-ora-02"
   machine_type   = "e2-standard-2"    
   zone           = "us-central1-b"    
   can_ip_forward = false
   tags = ["orcl"]
 
   service_account {    
-     email = data.google_compute_default_service_account.default.email    
+     email = google_service_account.oradb.email
      scopes = ["cloud-platform"]    
      }    
     
   boot_disk {    
     initialize_params {    
-      image = data.google_compute_image.image-terra-ora.self_link    
+      image = data.google_compute_image.image-terra-ora.self_link
+      size = 30
     }    
   }
+
   network_interface {
     #network = "default"
     subnetwork = google_compute_subnetwork.oradb_subnet.self_link
@@ -139,6 +155,12 @@ sleep 3
 cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
 yum -y --nogpgcheck install  oracle-database-preinstall-19c openssl
+
+echo "-----------------------------------------------------------------"
+echo -e "`date +%F' '%T`: Install debug tools"
+echo "-----------------------------------------------------------------"
+
+yum -y --nogpgcheck install gdb perf
 
 echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Setup oracle and grid user"
