@@ -39,7 +39,7 @@ resource "google_compute_firewall" "oraclient_egress" {
   }
   destination_ranges = ["0.0.0.0/0"]
 //  target_tags = ["orcl"]
-  target_service_accounts = ["orclclient@postgretrial.iam.gserviceaccount.com"]
+  target_service_accounts = [google_service_account.oraclnt.email]
   log_config {
     metadata="EXCLUDE_ALL_METADATA"
   }
@@ -90,7 +90,7 @@ resource "google_compute_instance" "terra-oraclnt-1" {
   machine_type   = "e2-standard-2"
   zone           = "us-central1-b"    
   can_ip_forward = false
-  tags = ["orcl"]
+  tags = ["orcl-client"]
 
   service_account {
      email = google_service_account.oraclnt.email
