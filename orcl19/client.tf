@@ -69,17 +69,31 @@ data "google_service_account" "oraclient" {
   account_id = "orclclient"
 }
 
+resource "google_service_account" "oraclnt" {
+  account_id   = "oraclient"
+  display_name = "A service account for Oracle clients"
+}
+
+resource "google_service_account_iam_binding" "oraclnt-account-iam" {
+  service_account_id = google_service_account.oraclnt.name
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "user:daviabidavi@gmail.com",
+  ]
+}
+
 
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
-  name           = "terra-oraclient-01"
+  name           = "terra-oraclient-03"
   machine_type   = "e2-standard-2"
   zone           = "us-central1-b"    
   can_ip_forward = false
   tags = ["orcl"]
 
-  service_account {    
-     email = "${data.google_service_account.oraclient.account_id}@postgretrial.iam.gserviceaccount.com"
+  service_account {
+     email = google_service_account.oraclnt.email
      scopes = ["cloud-platform"]    
      }    
     
