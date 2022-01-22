@@ -82,7 +82,7 @@ resource "google_service_account_iam_binding" "oraclnt-account-iam" {
 
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
-  name           = "terra-oraclient-02"
+  name           = "terra-oraclient-01"
   machine_type   = "e2-standard-2"
   zone           = "us-central1-b"    
   can_ip_forward = false
@@ -120,10 +120,11 @@ cd /etc/yum.repos.d/
 wget http://yum.oracle.com/public-yum-ol7.repo
 
 echo "-----------------------------------------------------------------"
-echo -e "`date +%F' '%T`: Setup oracle and grid user"
+echo -e "`date +%F' '%T`: Setup oracle soft"
 echo "-----------------------------------------------------------------"
 
 sudo yum -y install oracle-release-el7
+sudo /usr/bin/ol_yum_configure.s
 sudo yum -y install oracle-instantclient19.10-basic
 
 echo "-----------------------------------------------------------------"
