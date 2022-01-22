@@ -82,7 +82,7 @@ resource "google_service_account_iam_binding" "oraclnt-account-iam" {
 
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
-  name           = "terra-oraclient-03"
+  name           = "terra-oraclient-02"
   machine_type   = "e2-standard-2"
   zone           = "us-central1-b"    
   can_ip_forward = false
@@ -123,37 +123,13 @@ echo "-----------------------------------------------------------------"
 echo -e "`date +%F' '%T`: Setup oracle and grid user"
 echo "-----------------------------------------------------------------"
 
-groupadd oinstall
-groupadd dbaoper
-groupadd dba
-useradd oracle -d /home/oracle -m -p $(echo "welcome1" | openssl passwd -1 -stdin) -g oinstall -G dbaoper,dba
-
-mkdir -p /opt/oracle
-chown -R oracle:oinstall /opt/oracle
-chmod -R 775 /opt/oracle
-
-##copy binaries zip
-cd /opt/oracle
-wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-basic-linux.x64-21.4.0.0.0dbru.zip
-wget https://download.oracle.com/otn_software/linux/instantclient/214000/instantclient-sqlplus-linux.x64-21.4.0.0.0dbru.zip
-unzip instantclient-basic-linux.x64-21.4.0.0.0dbru.zip
-unzip instantclient-sqlplus-linux.x64-21.4.0.0.0dbru.zip
-
-
-echo "-----------------------------------------------------------------"
-echo 'INSTALLER: START Environment variables '
-echo "-----------------------------------------------------------------"
-
-export PATH="$PATH:/opt/oracle/instantclient_21_4"
-export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4"
-
-su -l oracle -c "echo 'export PATH=$PATH:/opt/oracle/instantclient_21_4' > /home/oracle/.profile"
-su -l oracle -c "echo 'export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/oracle/instantclient_21_4' >> /home/oracle/.profile"
+sudo yum -y install oracle-release-el7
+sudo yum -y install oracle-instantclient19.10-basic
 
 echo "-----------------------------------------------------------------"
 echo 'INSTALLER: Environment variables set'
 echo "-----------------------------------------------------------------"
-. .profile
+. .bashrc
 
 EOF
     
