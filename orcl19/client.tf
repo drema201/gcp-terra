@@ -82,7 +82,7 @@ resource "google_service_account_iam_binding" "oraclnt-account-iam" {
 
 resource "google_compute_instance" "terra-oraclnt-1" {    
   provider = google-beta    
-  name           = "terra-oraclient-01"
+  name           = "terra-oraclient-02"
   machine_type   = "e2-standard-2"
   zone           = "us-central1-b"    
   can_ip_forward = false
@@ -126,6 +126,7 @@ echo "-----------------------------------------------------------------"
 sudo yum -y --nogpgcheck install oracle-release-el7
 sudo /usr/bin/ol_yum_configure.sh
 sudo yum -y --nogpgcheck install oracle-instantclient19.10-basic
+sudo yum -y --nogpgcheck install oracle-instantclient19.10-sqlplus
 
 echo "-----------------------------------------------------------------"
 echo 'INSTALLER: Environment variables set'
