@@ -1,0 +1,86 @@
+
+    
+data "google_compute_image" "image-terra-click" {
+  provider = google-beta    
+  family  = "ubuntu-2004-lts"
+  project = "ubuntu-os-cloud"
+}    
+    
+resource "google_compute_instance" "terra-postgr-1" {
+  provider = google-beta
+  name = "terra-inst-click-01"
+  machine_type = "e2-small"
+  zone = "us-central1-b"
+  can_ip_forward = false
+  tags = [
+    "clickout"]
+
+  service_account {
+    email = data.google_compute_default_service_account.default.email
+    scopes = [
+      "cloud-platform"]
+  }
+
+  boot_disk {
+    initialize_params {
+      image = data.google_compute_image.image-terra-click.self_link
+    }
+  }
+  network_interface {
+    network = "default"
+    access_config {
+      //network_tier = "PREMIUM"
+    }
+
+  }
+  metadata = {
+    ssh-keys = "${var.mytfuser}:${trimspace(file("~/.ssh/terra-davi.pub"))}"
+  }
+
+
+  metadata_startup_script = <<EOF
+sleep 2
+yum install -y https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+sleep 1
+echo -e "--======================================================================\n"
+echo "install postgresql"
+echo -e "--======================================================================\n"
+
+yum install -y postgresql13-server
+sleep 1
+/usr/pgsql-13/bin/postgresql-13-setup initdb
+
+echo -e "--======================================================================\n"
+echo "starting service"
+echo -e "--======================================================================\n"
+
+
+sleep 3
+
+EOF
+  provisioner "file" {
+    source = "wait.sh"
+    destination = "/tmp/wait.sh"
+    connection {
+      host = self.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+  provisioner "file" {
+    source = "sql/"
+    destination = "/tmp"
+    connection {
+      host = self.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+}
+
+
+
