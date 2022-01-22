@@ -1,11 +1,10 @@
 
-    
-data "google_compute_image" "image-terra-click" {
-  provider = google-beta    
-  family  = "ubuntu-2004-lts"
-  project = "ubuntu-os-cloud"
-}    
-    
+data "google_compute_image" "image-terra-postgr" {
+  provider = google-beta
+  family  = "centos-7"
+  project = "centos-cloud"
+}
+
 resource "google_compute_instance" "terra-postgr-1" {
   provider = google-beta
   name = "terra-postgr-01"
@@ -23,7 +22,7 @@ resource "google_compute_instance" "terra-postgr-1" {
 
   boot_disk {
     initialize_params {
-      image = data.google_compute_image.image-terra-click.self_link
+      image = data.google_compute_image.image-terra-postgr.self_link
     }
   }
   network_interface {
