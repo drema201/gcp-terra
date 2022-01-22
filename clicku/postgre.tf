@@ -8,7 +8,7 @@ data "google_compute_image" "image-terra-click" {
     
 resource "google_compute_instance" "terra-postgr-1" {
   provider = google-beta
-  name = "terra-inst-click-01"
+  name = "terra-postgr-01"
   machine_type = "e2-small"
   zone = "us-central1-b"
   can_ip_forward = false
@@ -53,8 +53,9 @@ sleep 1
 echo -e "--======================================================================\n"
 echo "starting service"
 echo -e "--======================================================================\n"
-
-
+sudo systemctl enable postgresql-13
+sudo systemctl start postgresql-13
+systemctl status postgresql-13
 sleep 3
 
 EOF
