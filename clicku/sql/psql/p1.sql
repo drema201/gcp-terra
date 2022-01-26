@@ -1,0 +1,1 @@
+psql --file=restore.sql
