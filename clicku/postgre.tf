@@ -59,8 +59,8 @@ sleep 3
 
 EOF
   provisioner "file" {
-    source = "wait.sh"
-    destination = "/tmp/wait.sh"
+    source = "wait-pg.sh"
+    destination = "/tmp/wait-pg.sh"
     connection {
       host = self.network_interface.0.access_config.0.nat_ip
       type = "ssh"
