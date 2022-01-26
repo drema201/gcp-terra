@@ -27,7 +27,7 @@ DROP DATABASE dvdrental;
 -- Name: dvdrental; Type: DATABASE; Schema: -; Owner: postgres
 --
 
-CREATE DATABASE dvdrental WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'English_United States.1252' LC_CTYPE = 'English_United States.1252';
+CREATE DATABASE dvdrental WITH TEMPLATE = template0 ENCODING = 'UTF8';
 
 
 ALTER DATABASE dvdrental OWNER TO postgres;

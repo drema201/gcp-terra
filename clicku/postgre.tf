@@ -84,7 +84,7 @@ EOF
     inline = [
       "sleep 30",
       "sudo chmod u+x /tmp/wait.sh",
-      "/tmp/wait.sh",
+      "/tmp/wait-pg.sh",
       "sudo su - postgres",
       "cd /tmp/psql",
       "psql --file=restore.sql",
