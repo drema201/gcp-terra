@@ -86,11 +86,11 @@ EOF
       "sudo chmod u+x /tmp/wait.sh",
       "/tmp/wait.sh",
       "sudo su - postgres",
-      "cd /tmp/sql/psql",
-      "--file=restore.sql",
+      "cd /tmp/psql",
+      "psql --file=restore.sql",
     ]
     connection {
-      host = "${google_compute_instance.terra-postgr-1.network_interface.0.access_config.0.nat_ip}"
+      host = self.network_interface.0.access_config.0.nat_ip
       type = "ssh"
       user = var.mytfuser
       private_key = "${file("~/.ssh/terra-davi")}"
