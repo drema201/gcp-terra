@@ -219,7 +219,7 @@ EOF
 
   provisioner "file" {
     //    source = "config.xml"
-    content = templatefile("${path.module}/postgr_dictionary.tpl.xml",{pghost= "${google_compute_instance.terra-postgr-1}"} )
+    content = templatefile("${path.module}/postgr_dictionary.tpl.xml",{pghost= google_compute_instance.terra-postgr-1} )
     destination = "/tmp/postgr_dictionary.xml"
     connection {
       host = self.network_interface.0.access_config.0.nat_ip
