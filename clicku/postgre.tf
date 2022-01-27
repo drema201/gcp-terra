@@ -87,11 +87,9 @@ EOF
       "/tmp/wait-pg.sh",
       "sudo systemctl start postgresql-13",
       "sudo systemctl status postgresql-13",
-      "sudo su - postgres",
-      "echo 'after su'",
-      "cd /tmp/psql",
-      "echo 'starting psql execution'",
-      "psql --file=restore.sql",
+      "echo 'start psql execution'",
+      "su -l oracle -c 'psql --file=restore.sql'",
+      "echo 'after psql execution'",
     ]
     connection {
       host = self.network_interface.0.access_config.0.nat_ip
