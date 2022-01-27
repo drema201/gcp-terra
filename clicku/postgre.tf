@@ -87,7 +87,9 @@ EOF
       "/tmp/wait-pg.sh",
       "systemctl status postgresql-13",
       "sudo su - postgres",
+      "echo 'after su'",
       "cd /tmp/psql",
+      "echo 'starting psql execution'",
       "psql --file=restore.sql",
     ]
     connection {
