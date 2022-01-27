@@ -1,5 +1,5 @@
 sudo -s <<EOF
-while [ ! -d /etc/sysconfig/pgsql ]
+while [ ! -f /var/lib/pgsql/13/data/postmaster.pid ]
 do
         sleep  5;
 done;
