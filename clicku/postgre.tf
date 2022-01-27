@@ -85,7 +85,7 @@ EOF
       "echo 'start remote'",
       "sudo chmod u+x /tmp/wait-pg.sh",
       "/tmp/wait-pg.sh",
-      "sudo systemctl start postgresql-13",
+      "sudo systemctl restart postgresql-13",
       "sudo systemctl status postgresql-13",
       "echo 'start psql execution'",
       "sudo su -l postgres -c 'psql --file=/tmp/psql/restore.sql'",
