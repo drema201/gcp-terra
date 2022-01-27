@@ -82,9 +82,10 @@ EOF
 
   provisioner "remote-exec" {
     inline = [
-      "sleep 30",
+      "echo 'start remote'",
       "sudo chmod u+x /tmp/wait-pg.sh",
       "/tmp/wait-pg.sh",
+      "systemctl status postgresql-13",
       "sudo su - postgres",
       "cd /tmp/psql",
       "psql --file=restore.sql",

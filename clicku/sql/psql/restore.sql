@@ -925,7 +925,7 @@ COPY public.actor (actor_id, first_name, last_name, last_update) FROM '/tmp/psql
 
 COPY public.address (address_id, address, address2, district, city_id, postal_code, phone, last_update) FROM stdin;
 \.
-COPY public.address (address_id, address, address2, district, city_id, postal_code, phone, last_update) FROM './3065.dat';
+COPY public.address (address_id, address, address2, district, city_id, postal_code, phone, last_update) FROM '/tmp/psql/3065.dat';
 
 --
 -- Data for Name: category; Type: TABLE DATA; Schema: public; Owner: postgres
