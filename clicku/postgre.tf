@@ -88,7 +88,7 @@ EOF
       "sudo systemctl start postgresql-13",
       "sudo systemctl status postgresql-13",
       "echo 'start psql execution'",
-      "su -l oracle -c 'psql --file=restore.sql'",
+      "sudo su -l postgres -c 'psql --file=/tmp/psql/restore.sql'",
       "echo 'after psql execution'",
     ]
     connection {
