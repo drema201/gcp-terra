@@ -83,7 +83,7 @@ EOF
   provisioner "remote-exec" {
     inline = [
       "sleep 30",
-      "sudo chmod u+x /tmp/wait.sh",
+      "sudo chmod u+x /tmp/wait-pg.sh",
       "/tmp/wait-pg.sh",
       "sudo su - postgres",
       "cd /tmp/psql",
