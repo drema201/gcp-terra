@@ -216,6 +216,19 @@ EOF
       private_key = "${file("~/.ssh/terra-davi")}"
     }
   }
+
+  provisioner "file" {
+    //    source = "config.xml"
+    content = templatefile("${path.module}/postgr_dictionary.tpl.xml",{pghost= "${google_compute_instance.terra-postgr-1}"} )
+    destination = "/tmp/postgr_dictionary.xml"
+    connection {
+      host = self.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
   provisioner "file" {
     source = "sql/"
     destination = "/tmp"
@@ -236,8 +249,10 @@ resource "null_resource" "rexec_all" {
       "sudo chmod u+x /tmp/wait.sh",
       "/tmp/wait.sh",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
+      "sudo chown clickhouse:clickhouse /tmp/postgr_dictionary.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo cp -f /tmp/config.xml /etc/clickhouse-server/config.xml",
+      "sudo cp -f /tmp/postgr_dictionary.xml /etc/clickhouse-server/postgr_dictionary.xml",
       "sudo service clickhouse-server restart",
     ]
     connection {

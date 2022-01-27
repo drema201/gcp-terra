@@ -1,0 +1,35 @@
+<dictionary>
+    <name>dict_name</name>
+
+    <structure>
+        <!-- Complex key configuration -->
+        <id>
+            <name>Id</name>
+        </id>
+        <attribute>
+            <name>country</name>
+        <!--            ClickHouse data type: UInt8, UInt16, UInt32, UInt64, Int8,          Int16, Int32, Int64, Float32, Float64, UUID, Decimal32, Decimal64, Decimal128, Decimal256,Date, Date32, DateTime, DateTime64, String, Array. -->
+            <type>String</type>
+            <null_value></null_value>
+        </attribute>
+    </structure>
+
+    <source>
+        <postgresql>
+            <port>5432</port>
+            <host>${pghost}</host>host>
+            <user>clickuser</user>
+            <password>click</password>
+            <db>dvdrental</db>
+            <query>SELECT country_id, country FROM public.country</query>
+        </postgresql>
+    </source>
+
+    <layout>
+        <!-- Memory layout configuration -->
+    </layout>
+
+    <lifetime>
+        <!-- Lifetime of dictionary in memory -->
+    </lifetime>
+</dictionary>

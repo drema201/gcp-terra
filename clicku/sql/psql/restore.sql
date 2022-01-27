@@ -29,6 +29,8 @@ DROP DATABASE dvdrental;
 
 CREATE DATABASE dvdrental WITH TEMPLATE = template0 ENCODING = 'UTF8';
 
+CREATE USER CLICKUSER password 'click';
+GRANT ALL PRIVILEGES ON DATABASE dvdrental TO clickuser;
 
 ALTER DATABASE dvdrental OWNER TO postgres;
 
