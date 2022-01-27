@@ -54,7 +54,7 @@ echo "starting service"
 echo -e "--======================================================================\n"
 sudo systemctl enable postgresql-13
 sudo systemctl start postgresql-13
-systemctl status postgresql-13
+sudo systemctl status postgresql-13
 sleep 3
 
 EOF
@@ -85,7 +85,8 @@ EOF
       "echo 'start remote'",
       "sudo chmod u+x /tmp/wait-pg.sh",
       "/tmp/wait-pg.sh",
-      "systemctl status postgresql-13",
+      "sudo systemctl start postgresql-13",
+      "sudo systemctl status postgresql-13",
       "sudo su - postgres",
       "echo 'after su'",
       "cd /tmp/psql",
