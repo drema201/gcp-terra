@@ -1,6 +1,6 @@
 <dictionaries>
     <dictionary>
-        <name>dict_name</name>
+        <name>post_dict_xml</name>
         <source>
             <postgresql>
                 <port>5432</port>
@@ -23,7 +23,7 @@
         <structure>
             <!-- Complex key configuration -->
             <id>
-                <name>Id</name>
+                <name>country_id</name>
             </id>
             <attribute>
                 <name>country</name>

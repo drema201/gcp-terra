@@ -465,6 +465,8 @@ CREATE TABLE public.film (
 
 ALTER TABLE public.film OWNER TO postgres;
 
+GRANT SELECT ON public.film TO clickuser;
+
 --
 -- Name: film_actor; Type: TABLE; Schema: public; Owner: postgres
 --
@@ -1616,3 +1618,4 @@ ALTER TABLE ONLY public.store
 -- PostgreSQL database dump complete
 --
 
+GRANT SELECT ON country TO clickuser;

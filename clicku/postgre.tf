@@ -70,6 +70,17 @@ EOF
   }
 
   provisioner "file" {
+    source = "pg_hba.conf"
+    destination = "/tmp/pg_hba.conf"
+    connection {
+      host = self.network_interface.0.access_config.0.nat_ip
+      type = "ssh"
+      user = var.mytfuser
+      private_key = "${file("~/.ssh/terra-davi")}"
+    }
+  }
+
+  provisioner "file" {
     source = "sql/"
     destination = "/tmp"
     connection {
@@ -85,6 +96,8 @@ EOF
       "echo 'start remote'",
       "sudo chmod u+x /tmp/wait-pg.sh",
       "/tmp/wait-pg.sh",
+      "sudo chown postgres:postgres  /tmp/pg_hba.conf",
+      "sudo cp -f /tmp/pg_hba.conf /var/lib/pgsql/13/data/pg_hba.conf",
       "sudo systemctl restart postgresql-13",
       "sudo systemctl status postgresql-13",
       "echo 'start psql execution'",
