@@ -86,7 +86,7 @@ echo -e "--=====================================================================
 
 sudo apt-get -yq install zookeeperd
 
-sudo apt-get install prometheus
+sudo apt-get -yq install prometheus
 
 echo -e "--======================================================================\n"
 echo "starting service"
