@@ -17,7 +17,7 @@ resource "google_compute_firewall" "default" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8123"]
+    ports    = ["8123","9090"]
   }
 
   target_tags = ["clickout"]
@@ -86,13 +86,20 @@ echo -e "--=====================================================================
 
 sudo apt-get -yq install zookeeperd
 
+sudo apt-get install prometheus
+
 echo -e "--======================================================================\n"
 echo "starting service"
 echo -e "--======================================================================\n"
 sudo service clickhouse-server start
 sudo service clickhouse-server status
 
+echo -e "--======================================================================\n"
+echo "other servicies"
+echo -e "--======================================================================\n"
 
+sudo service prometheus status
+echo stat | nc localhost 2181
 sleep 3
 
 EOF
