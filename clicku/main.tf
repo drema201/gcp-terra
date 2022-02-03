@@ -17,7 +17,7 @@ resource "google_compute_firewall" "default" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8123","9090"]
+    ports    = ["8123","9090","9363"]
   }
 
   target_tags = ["clickout"]
