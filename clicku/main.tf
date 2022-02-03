@@ -256,10 +256,8 @@ resource "null_resource" "rexec_all" {
       "sudo chmod u+x /tmp/wait.sh",
       "/tmp/wait.sh",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
-      "sudo chown clickhouse:clickhouse /tmp/postgr_dictionary.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo cp -f /tmp/config.xml /etc/clickhouse-server/config.xml",
-      "sudo cp -f /tmp/postgr_dictionary.xml /etc/clickhouse-server/postgr_dictionary.xml",
       "sudo service clickhouse-server restart",
     ]
     connection {
@@ -276,8 +274,10 @@ resource "null_resource" "rexec_all" {
       "sudo chmod u+x /tmp/wait.sh",
       "/tmp/wait.sh ",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
+      "sudo chown clickhouse:clickhouse /tmp/postgr_dictionary.xml",
       "sudo mv /etc/clickhouse-server/config.xml /etc/clickhouse-server/config.xml.sav",
       "sudo cp -f /tmp/config.xml /etc/clickhouse-server/config.xml",
+      "sudo cp -f /tmp/postgr_dictionary.xml /etc/clickhouse-server/postgr_dictionary.xml",
       "sudo service clickhouse-server restart",
     ]
     connection {
