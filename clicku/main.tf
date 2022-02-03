@@ -68,6 +68,8 @@ resource "google_compute_instance" "terra-click-1" {
 
   metadata_startup_script = <<EOF
 sleep 2
+sudo apt-get -yq install net-tools
+
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv E0C56BD4
 sleep 1
 echo "deb http://repo.yandex.ru/clickhouse/deb/stable/ main/" | sudo tee /etc/apt/sources.list.d/clickhouse.list
@@ -111,7 +113,7 @@ echo "deb https://packages.grafana.com/oss/deb stable main" \
 sudo apt -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true update
 sudo apt update
 
-sudo apt-get -yq install grafana
+sudo apt-get -yq --allow-unauthenticated install grafana
 sudo grafana-cli plugins install vertamedia-clickhouse-datasource
 sudo systemctl restart grafana-server
 
