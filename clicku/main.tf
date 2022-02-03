@@ -252,7 +252,8 @@ EOF
 resource "null_resource" "rexec_all" {
   provisioner "remote-exec" {
     inline = [
-      "sleep 30",
+      "sleep 5",
+      "echo start configure \\(1\\)",
       "sudo chmod u+x /tmp/wait.sh",
       "/tmp/wait.sh",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",
@@ -270,7 +271,7 @@ resource "null_resource" "rexec_all" {
 
   provisioner "remote-exec" {
     inline = [
-      "sleep 30",
+      "sleep 5",
       "sudo chmod u+x /tmp/wait.sh",
       "/tmp/wait.sh ",
       "sudo chown clickhouse:clickhouse /tmp/config.xml",

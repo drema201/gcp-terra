@@ -488,7 +488,7 @@
     -->
 
     <prometheus>
-        <endpoint>/metrics2</endpoint>
+        <endpoint>/metrics</endpoint>
         <port>9363</port>
 
         <metrics>true</metrics>
