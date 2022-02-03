@@ -17,7 +17,7 @@ resource "google_compute_firewall" "default" {
 
   allow {
     protocol = "tcp"
-    ports    = ["8123","9090","9363"]
+    ports    = ["8123","9090","9363", "3000"]
   }
 
   target_tags = ["clickout"]
@@ -100,6 +100,21 @@ echo -e "--=====================================================================
 
 sudo service prometheus status
 echo stat | nc localhost 2181
+
+echo -e "--======================================================================\n"
+echo "Grafana"
+echo -e "--======================================================================\n"
+
+echo "deb https://packages.grafana.com/oss/deb stable main" \
+    | sudo tee /etc/apt/sources.list.d/grafana.list
+
+sudo apt -o Acquire::AllowInsecureRepositories=true -o Acquire::AllowDowngradeToInsecureRepositories=true update
+sudo apt update
+
+sudo apt-get -yq install grafana
+sudo grafana-cli plugins install vertamedia-clickhouse-datasource
+sudo systemctl restart grafana-server
+
 sleep 3
 
 EOF
