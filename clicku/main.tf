@@ -88,7 +88,13 @@ echo -e "--=====================================================================
 
 sudo apt-get -yq install zookeeperd
 
+echo -e "--======================================================================\n"
+echo "install prometheus"
+echo -e "--======================================================================\n"
+
 sudo apt-get -yq install prometheus
+
+sudo sed -i "s@targets: ['localhost:9090']@targets: ['localhost:9090','localhost:9363']@g" /etc/prometheus/prometheus.yml
 
 echo -e "--======================================================================\n"
 echo "starting service"
