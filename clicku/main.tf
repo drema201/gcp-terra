@@ -94,7 +94,7 @@ echo -e "--=====================================================================
 
 sudo apt-get -yq install prometheus
 
-sudo sed -i "s@targets: ['localhost:9090']@targets: ['localhost:9090','localhost:9363']@g" /etc/prometheus/prometheus.yml
+sudo sed -i "s@targets: \['localhost:9090'\]@targets: \['localhost:9090','localhost:9363'\]@g" /etc/prometheus/prometheus.yml
 
 echo -e "--======================================================================\n"
 echo "starting service"
@@ -105,7 +105,7 @@ sudo service clickhouse-server status
 echo -e "--======================================================================\n"
 echo "other servicies"
 echo -e "--======================================================================\n"
-
+sudo service prometheus restart
 sudo service prometheus status
 echo stat | nc localhost 2181
 
