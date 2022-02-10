@@ -79,9 +79,6 @@ resource "google_container_cluster" "vpc_native_gke" {
 
   # other settings...
   service_account = google_service_account.gkecli.email
-  oauth_scopes    = [
-    "https://www.googleapis.com/auth/cloud-platform"
-  ]
 }
 
 
