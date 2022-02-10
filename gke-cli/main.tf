@@ -77,8 +77,14 @@ resource "google_container_cluster" "vpc_native_gke" {
     services_secondary_range_name = google_compute_subnetwork.gkesubnet.secondary_ip_range.1.range_name
   }
 
-  # other settings...
-  service_account = google_service_account.gkecli.email
+  node_config {
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    service_account = google_service_account.gkecli.email
+    oauth_scopes = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+
 }
 
 
