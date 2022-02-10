@@ -11,6 +11,37 @@ provider "null" {
 data "google_compute_default_service_account" "default" {    
 }
 
+resource "google_service_account" "gkecli" {
+  account_id   = "mygkecli"
+  display_name = "A service account for GKE"
+}
+
+resource "google_service_account_iam_binding" "oradb-account-iam" {
+  service_account_id = google_service_account.gkecli.name
+  role               = "roles/iam.serviceAccountUser"
+
+  members = [
+    "user:daviabidavi@gmail.com",
+  ]
+}
+
+resource "google_project_iam_binding" "project" {
+  project = "postgretrial"
+  role    = "roles/editor"
+
+  members = [
+    "serviceAccount:${google_service_account.gkecli.email}",
+  ]
+}
+
+# Allow SA service account use the default GCE account
+resource "google_service_account_iam_member" "gce-default-account-iam" {
+  service_account_id = data.google_compute_default_service_account.default.name
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.gkecli.email}"
+}
+
+
 resource "google_compute_subnetwork" "gkesubnet" {
   name          = "test-subnetwork"
   ip_cidr_range = "10.2.0.0/16"
@@ -60,7 +91,7 @@ resource "google_container_node_pool" "vpc_native_gke_nodes" {
     machine_type = "e2-medium"
 
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
-    service_account = data.google_compute_default_service_account.default.email
+    service_account = google_service_account.gkecli.email
     oauth_scopes    = [
       "https://www.googleapis.com/auth/cloud-platform"
     ]
