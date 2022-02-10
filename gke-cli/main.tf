@@ -48,3 +48,21 @@ resource "google_container_cluster" "vpc_native_gke" {
 
   # other settings...
 }
+
+resource "google_container_node_pool" "vpc_native_gke_nodes" {
+  name       = "vpc_native_gke-pool"
+  location   = "us-central1"
+  cluster    = google_container_cluster.vpc_native_gke.name
+  node_count = 1
+
+  node_config {
+    preemptible  = true
+    machine_type = "e2-medium"
+
+    # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
+    service_account = data.google_compute_default_service_account.default.email
+    oauth_scopes    = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+}
