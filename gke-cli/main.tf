@@ -41,6 +41,11 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
   member             = "serviceAccount:${google_service_account.gkecli.email}"
 }
 
+resource "google_service_account_iam_member" "gce-default-account-iam2" {
+  service_account_id = data.google_compute_default_service_account.default.name
+  role               = " roles/compute.instanceAdmin"
+  member             = "serviceAccount:${google_service_account.gkecli.email}"
+}
 
 resource "google_compute_subnetwork" "gkesubnet" {
   name          = "test-subnetwork"
