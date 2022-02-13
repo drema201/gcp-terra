@@ -34,6 +34,22 @@ data "google_iam_policy" "gkepolicy" {
     ]
   }
 
+  binding {
+    role = "roles/owner"
+
+    members = [
+      "serviceAccount:${google_service_account.gkecli.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/viewer"
+
+    members = [
+      "serviceAccount:${google_service_account.gkecli.email}",
+    ]
+  }
+
 }
 
 resource "google_service_account_iam_policy" "admin-account-iam" {
