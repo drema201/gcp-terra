@@ -116,26 +116,26 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
 }
 
 
-resource "google_compute_subnetwork" "gkesubnet" {
-  name          = "test-subnetwork"
-  ip_cidr_range = "10.2.0.0/16"
-  region        = "us-central1"
-  network       = google_compute_network.gkenet.id
-  secondary_ip_range {
-    range_name    = "services-range"
-    ip_cidr_range = "192.168.1.0/24"
-  }
-
-  secondary_ip_range {
-    range_name    = "pod-ranges"
-    ip_cidr_range = "192.168.64.0/24"
-  }
-}
-
-resource "google_compute_network" "gkenet" {
-  name                    = "gke-network"
-  auto_create_subnetworks = false
-}
+//resource "google_compute_subnetwork" "gkesubnet" {
+//  name          = "test-subnetwork"
+//  ip_cidr_range = "10.2.0.0/16"
+//  region        = "us-central1"
+//  network       = google_compute_network.gkenet.id
+//  secondary_ip_range {
+//    range_name    = "services-range"
+//    ip_cidr_range = "192.168.1.0/24"
+//  }
+//
+//  secondary_ip_range {
+//    range_name    = "pod-ranges"
+//    ip_cidr_range = "192.168.64.0/24"
+//  }
+//}
+//
+//resource "google_compute_network" "gkenet" {
+//  name                    = "gke-network"
+//  auto_create_subnetworks = false
+//}
 
 resource "google_container_cluster" "vpc_native_gke" {
   name               = "vpc-native-gke"
@@ -143,12 +143,14 @@ resource "google_container_cluster" "vpc_native_gke" {
   initial_node_count = 1
   remove_default_node_pool = true
 
-  network    = google_compute_network.gkenet.id
-  subnetwork = google_compute_subnetwork.gkesubnet.id
+//  network    = google_compute_network.gkenet.id
+//  subnetwork = google_compute_subnetwork.gkesubnet.id
 
   ip_allocation_policy {
-    cluster_secondary_range_name  = "services-range"
-    services_secondary_range_name = google_compute_subnetwork.gkesubnet.secondary_ip_range.1.range_name
+    cluster_ipv4_cidr_block = "/14"
+    services_ipv4_cidr_block = "/14"
+//    cluster_secondary_range_name  = "services-range"
+//    services_secondary_range_name = google_compute_subnetwork.gkesubnet.secondary_ip_range.1.range_name
   }
 
   node_config {
