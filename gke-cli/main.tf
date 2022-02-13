@@ -50,14 +50,6 @@ data "google_iam_policy" "gkepolicy" {
     ]
   }
 
-  binding {
-    role = "roles/compute.networkUser"
-
-    members = [
-      "serviceAccount:${google_service_account.gkecli.email}",
-    ]
-  }
-
 }
 
 data "google_iam_policy" "dfltpolicy" {
@@ -94,13 +86,6 @@ data "google_iam_policy" "dfltpolicy" {
     ]
   }
 
-  binding {
-    role = "roles/compute.networkUser"
-
-    members = [
-      "serviceAccount:${data.google_compute_default_service_account.default.email}",
-    ]
-  }
 
 }
 
