@@ -17,13 +17,6 @@ resource "google_service_account" "gkecli" {
 }
 
 data "google_iam_policy" "gkepolicy" {
-  binding {
-    role = "roles/compute.instanceAdmin"
-
-    members = [
-      "serviceAccount:${google_service_account.gkecli.email}",
-    ]
-  }
 
   binding {
     role = "roles/iam.serviceAccountUser"
