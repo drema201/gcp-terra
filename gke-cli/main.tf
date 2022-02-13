@@ -16,14 +16,33 @@ resource "google_service_account" "gkecli" {
   display_name = "A service account for GKE"
 }
 
-resource "google_service_account_iam_binding" "oradb-account-iam" {
-  service_account_id = google_service_account.gkecli.name
-  role               = "roles/iam.serviceAccountUser"
+data "google_iam_policy" "gkepolicy" {
+  binding {
+    role = "roles/compute.instanceAdmin"
 
-  members = [
-    "user:daviabidavi@gmail.com",
-  ]
+    members = [
+      "serviceAccount:${google_service_account.gkecli.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/iam.serviceAccountUser"
+
+    members = [
+      "serviceAccount:${google_service_account.gkecli.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/editor"
+
+    members = [
+      "serviceAccount:${google_service_account.gkecli.email}",
+    ]
+  }
+
 }
+
 
 resource "google_project_iam_binding" "project" {
   project = "postgretrial"
@@ -41,11 +60,6 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
   member             = "serviceAccount:${google_service_account.gkecli.email}"
 }
 
-resource "google_service_account_iam_member" "gce-default-account-iam2" {
-  service_account_id = data.google_compute_default_service_account.default.name
-  role               = " roles/compute.instanceAdmin"
-  member             = "serviceAccount:${google_service_account.gkecli.email}"
-}
 
 resource "google_compute_subnetwork" "gkesubnet" {
   name          = "test-subnetwork"
