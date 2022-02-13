@@ -147,8 +147,8 @@ resource "google_container_cluster" "vpc_native_gke" {
 //  subnetwork = google_compute_subnetwork.gkesubnet.id
 
   ip_allocation_policy {
-    cluster_ipv4_cidr_block = "/14"
-    services_ipv4_cidr_block = "/14"
+    cluster_ipv4_cidr_block = "/20"
+    services_ipv4_cidr_block = "/20"
 //    cluster_secondary_range_name  = "services-range"
 //    services_secondary_range_name = google_compute_subnetwork.gkesubnet.secondary_ip_range.1.range_name
   }
