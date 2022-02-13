@@ -50,11 +50,68 @@ data "google_iam_policy" "gkepolicy" {
     ]
   }
 
+  binding {
+    role = "roles/compute.networkUser"
+
+    members = [
+      "serviceAccount:${google_service_account.gkecli.email}",
+    ]
+  }
+
 }
 
-resource "google_service_account_iam_policy" "admin-account-iam" {
+data "google_iam_policy" "dfltpolicy" {
+
+  binding {
+    role = "roles/iam.serviceAccountUser"
+
+    members = [
+      "serviceAccount:${data.google_compute_default_service_account.default.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/editor"
+
+    members = [
+      "serviceAccount:${data.google_compute_default_service_account.default.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/owner"
+
+    members = [
+      "serviceAccount:${data.google_compute_default_service_account.default.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/viewer"
+
+    members = [
+      "serviceAccount:${data.google_compute_default_service_account.default.email}",
+    ]
+  }
+
+  binding {
+    role = "roles/compute.networkUser"
+
+    members = [
+      "serviceAccount:${data.google_compute_default_service_account.default.email}",
+    ]
+  }
+
+}
+
+resource "google_service_account_iam_policy" "gke-account-iam" {
   service_account_id = google_service_account.gkecli.name
   policy_data        = data.google_iam_policy.gkepolicy.policy_data
+}
+
+resource "google_service_account_iam_policy" "gke-dflt-iam" {
+  service_account_id = data.google_compute_default_service_account.default.name
+  policy_data        = data.google_iam_policy.dfltpolicy.policy_data
 }
 
 //resource "google_project_iam_binding" "project" {
