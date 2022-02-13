@@ -43,15 +43,19 @@ data "google_iam_policy" "gkepolicy" {
 
 }
 
-
-resource "google_project_iam_binding" "project" {
-  project = "postgretrial"
-  role    = "roles/editor"
-
-  members = [
-    "serviceAccount:${google_service_account.gkecli.email}",
-  ]
+resource "google_service_account_iam_policy" "admin-account-iam" {
+  service_account_id = google_service_account.gkecli.name
+  policy_data        = data.google_iam_policy.gkepolicy.policy_data
 }
+
+//resource "google_project_iam_binding" "project" {
+//  project = "postgretrial"
+//  role    = "roles/editor"
+//
+//  members = [
+//    "serviceAccount:${google_service_account.gkecli.email}",
+//  ]
+//}
 
 # Allow SA service account use the default GCE account
 resource "google_service_account_iam_member" "gce-default-account-iam" {
