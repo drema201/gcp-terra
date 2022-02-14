@@ -124,12 +124,12 @@ resource "google_compute_subnetwork" "gkesubnet" {
 
   secondary_ip_range {
     range_name    = "services-range"
-    ip_cidr_range = "10.22.48.0/20"
+    ip_cidr_range = "10.22.48.0/22"
   }
 
   secondary_ip_range {
     range_name    = "pod-ranges"
-    ip_cidr_range = "10.33.44.0/20"
+    ip_cidr_range = "10.33.44.0/22"
   }
 }
 
