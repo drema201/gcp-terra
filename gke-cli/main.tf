@@ -132,10 +132,10 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
 //  }
 //}
 //
-//resource "google_compute_network" "gkenet" {
-//  name                    = "gke-network"
-//  auto_create_subnetworks = false
-//}
+resource "google_compute_network" "gkenet" {
+  name                    = "gke-network"
+  auto_create_subnetworks = false
+}
 
 resource "google_container_cluster" "vpc_native_gke" {
   name               = "vpc-native-gke"
@@ -143,7 +143,7 @@ resource "google_container_cluster" "vpc_native_gke" {
   initial_node_count = 1
   remove_default_node_pool = true
 
-//  network    = google_compute_network.gkenet.id
+  network    = google_compute_network.gkenet.id
 //  subnetwork = google_compute_subnetwork.gkesubnet.id
 
   ip_allocation_policy {
@@ -152,6 +152,7 @@ resource "google_container_cluster" "vpc_native_gke" {
 //    cluster_secondary_range_name  = "services-range"
 //    services_secondary_range_name = google_compute_subnetwork.gkesubnet.secondary_ip_range.1.range_name
   }
+  networking_mode = "VPC_NATIVE"
 
   node_config {
     # Google recommends custom service accounts that have cloud-platform scope and permissions granted via IAM Roles.
