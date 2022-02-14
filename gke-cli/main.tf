@@ -116,27 +116,27 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
 }
 
 
-//resource "google_compute_subnetwork" "gkesubnet" {
-//  name          = "test-subnetwork"
-//  ip_cidr_range = "10.2.0.0/16"
-//  region        = "us-central1"
-//  network       = google_compute_network.gkenet.id
-//  secondary_ip_range {
-//    range_name    = "services-range"
-//    ip_cidr_range = "192.168.1.0/24"
-//  }
-//
-//  secondary_ip_range {
-//    range_name    = "pod-ranges"
-//    ip_cidr_range = "192.168.64.0/24"
-//  }
-//}
-//
+resource "google_compute_subnetwork" "gkesubnet" {
+  name          = "test-subnetwork"
+  ip_cidr_range = "10.2.0.0/20"
+  region        = "us-central1"
+  network       = google_compute_network.gkenet.id
+  secondary_ip_range {
+    range_name    = "services-range"
+    ip_cidr_range = "10.49.48.0/20"
+  }
+
+  secondary_ip_range {
+    range_name    = "pod-ranges"
+    ip_cidr_range = "10.33.44.0/20"
+  }
+}
+
 resource "google_compute_network" "gkenet" {
   name                    = "gke-network"
   routing_mode = "REGIONAL"
-//  auto_create_subnetworks = false
-  auto_create_subnetworks = true
+  auto_create_subnetworks = false
+//  auto_create_subnetworks = true
 }
 
 resource "google_container_cluster" "vpc_native_gke" {
@@ -146,13 +146,13 @@ resource "google_container_cluster" "vpc_native_gke" {
   remove_default_node_pool = true
 
   network    = google_compute_network.gkenet.id
-//  subnetwork = google_compute_subnetwork.gkesubnet.id
+  subnetwork = google_compute_subnetwork.gkesubnet.id
 
   ip_allocation_policy {
-    cluster_ipv4_cidr_block = "/20"
-    services_ipv4_cidr_block = "/20"
-//    cluster_secondary_range_name  = "services-range"
-//    services_secondary_range_name = google_compute_subnetwork.gkesubnet.secondary_ip_range.1.range_name
+//    cluster_ipv4_cidr_block = "/20"
+//    services_ipv4_cidr_block = "/20"
+    services_secondary_range_name = google_compute_subnetwork.gkesubnet.secondary_ip_range.0.range_name
+    cluster_secondary_range_name  = google_compute_subnetwork.gkesubnet.secondary_ip_range.1.range_name
   }
   networking_mode = "VPC_NATIVE"
 
