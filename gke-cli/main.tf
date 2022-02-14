@@ -145,7 +145,7 @@ resource "google_container_cluster" "vpc_native_gke" {
   location           = "us-central1"
   initial_node_count = 1
   remove_default_node_pool = true
-  default_max_pods_per_node = 2
+  default_max_pods_per_node = 8
 
   network    = google_compute_network.gkenet.id
   subnetwork = google_compute_subnetwork.gkesubnet.id
