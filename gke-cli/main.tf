@@ -174,7 +174,7 @@ resource "google_container_node_pool" "vpc_native_gke_nodes" {
   location   = "us-central1"
   cluster    = google_container_cluster.vpc_native_gke.name
   node_count = 1
-  zone = "us-central1-c"
+//  zone = "us-central1-c"
 
   node_config {
     preemptible  = true
