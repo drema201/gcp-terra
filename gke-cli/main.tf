@@ -165,7 +165,7 @@ resource "google_container_cluster" "vpc_native_gke" {
 
 
 resource "google_container_node_pool" "vpc_native_gke_nodes" {
-  name       = "vpc_native_gke-pool"
+  name       = "vpcnativegkepool"
   location   = "us-central1"
   cluster    = google_container_cluster.vpc_native_gke.name
   node_count = 1
