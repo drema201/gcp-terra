@@ -121,9 +121,10 @@ resource "google_compute_subnetwork" "gkesubnet" {
   ip_cidr_range = "10.2.0.0/20"
   region        = "us-central1"
   network       = google_compute_network.gkenet.id
+
   secondary_ip_range {
     range_name    = "services-range"
-    ip_cidr_range = "10.49.48.0/20"
+    ip_cidr_range = "10.22.48.0/20"
   }
 
   secondary_ip_range {
