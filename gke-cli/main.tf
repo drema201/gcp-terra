@@ -134,7 +134,9 @@ resource "google_service_account_iam_member" "gce-default-account-iam" {
 //
 resource "google_compute_network" "gkenet" {
   name                    = "gke-network"
-  auto_create_subnetworks = false
+  routing_mode = "REGIONAL"
+//  auto_create_subnetworks = false
+  auto_create_subnetworks = true
 }
 
 resource "google_container_cluster" "vpc_native_gke" {
