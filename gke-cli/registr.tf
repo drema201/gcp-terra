@@ -14,6 +14,6 @@ resource "google_artifact_registry_repository_iam_binding" "binding" {
   repository = google_artifact_registry_repository.click-repo.name
   role = "roles/viewer"
   members = [
-    "user:daviabidavi@google.com",
+    "serviceAccount:${google_service_account.gkecli.email}",
   ]
 }
